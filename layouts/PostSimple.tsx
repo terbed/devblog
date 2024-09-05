@@ -8,6 +8,7 @@ import PageTitle from '@/components/PageTitle'
 import SectionContainer from '@/components/SectionContainer'
 import siteMetadata from '@/data/siteMetadata'
 import ScrollTopAndComment from '@/components/ScrollTopAndComment'
+// import MarginNote from '@/components/MarginNote' // Import your MarginNote component
 
 interface LayoutProps {
   content: CoreContent<Blog>
