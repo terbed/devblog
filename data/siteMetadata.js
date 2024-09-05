@@ -1,6 +1,6 @@
 /** @type {import("pliny/config").PlinyConfig } */
 const siteMetadata = {
-  title: 'All rights reserved',
+  title: "t3rb3d's blog",
   author: 'Dániel Terbe',
   headerTitle: "t3rb3d's blog",
   description:
@@ -11,7 +11,7 @@ const siteMetadata = {
   siteRepo: 'https://github.com/terbed/devblog',
   siteLogo: `${process.env.BASE_PATH || ''}/static/images/logo.png`,
   socialBanner: `${process.env.BASE_PATH || ''}/static/images/twitter-card.png`,
-  mastodon: 'https://mastodon.social/@mastodonuser',
+  mastodon: '',
   email: 'terbed@gmail.com',
   github: 'https://github.com/terbed',
   x: 'https://x.com/t3rb3d4',
