@@ -94,7 +94,7 @@ export default function PostLayout({ content, authorDetails, next, prev, childre
                 </ul>
               </dd>
               {/* Add the "Support Me" section here */}
-              <div className="pt-6">
+              <div className="pt-6 text-sm font-medium leading-5">
                 <h2 className="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400">
                   Support Me
                 </h2>
