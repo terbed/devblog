@@ -1,20 +1,11 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid meet" viewBox="344.5639097744361 330.27819548872174 111.73684210526318 91.21804511278197" width="53.87" height="43.61">
+<svg xmlns="http://www.w3.org/2000/svg" width="53.87" height="43.61" viewBox="0 0 24 24" fill-rule="evenodd" clip-rule="evenodd">
     <defs>
-        <path d="M453.3 331.28L453.3 359.85L388.64 418.5L388.64 388.42L453.3 331.28Z" id="aFZf6T5ED"></path>
-        <linearGradient id="gradientb2ThqnP5Op" gradientUnits="userSpaceOnUse" x1="420.97" y1="331.28" x2="420.97" y2="418.5">
-            <stop style="stop-color: #9333ea;stop-opacity: 1" offset="0%"></stop>
-            <stop style="stop-color: #34d399;stop-opacity: 1" offset="100%"></stop>
-        </linearGradient>
-        <path d="M410.23 331.28L410.23 359.85L345.56 418.5L345.56 388.42L410.23 331.28Z" id="a9fehgwfM"></path>
-        <linearGradient id="gradientk1wNV9Ostb" gradientUnits="userSpaceOnUse" x1="377.89" y1="331.28" x2="377.89" y2="418.5">
-            <stop style="stop-color: #9333ea;stop-opacity: 1" offset="0%"></stop>
-            <stop style="stop-color: #34d399;stop-opacity: 1" offset="100%"></stop>
+        <linearGradient id="universalGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="20%" style="stop-color:#ec407a; stop-opacity:1" />
+            <stop offset="100%" style="stop-color:#00bfa5; stop-opacity:1" />
         </linearGradient>
     </defs>
-    <g>
-        <g><use xlink:href="#aFZf6T5ED" opacity="1" fill="url(#gradientb2ThqnP5Op)"></use></g>
-        <g><use xlink:href="#a9fehgwfM" opacity="1" fill="url(#gradientk1wNV9Ostb)"></use></g>
+    <g transform="translate(2,2)">
+        <path d="M16 3.383l-.924-.383-7.297 17.617.924.383 7.297-17.617zm.287 3.617l6.153 4.825-6.173 5.175.678.737 7.055-5.912-7.048-5.578-.665.753zm-8.478 0l-6.249 4.825 6.003 5.175-.679.737-6.884-5.912 7.144-5.578.665.753z" fill="url(#universalGradient)" />
     </g>
 </svg>
