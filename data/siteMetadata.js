@@ -21,6 +21,7 @@ const siteMetadata = {
   linkedin: 'https://www.linkedin.com/in/terbed/',
   threads: '',
   instagram: '',
+  kofi: 'https://ko-fi.com/t3rb3d',
   locale: 'en-US',
   // set to true if you want a navbar fixed to the top
   stickyNav: false,

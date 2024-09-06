@@ -9,6 +9,7 @@ import Image from '@/components/Image'
 import Tag from '@/components/Tag'
 import siteMetadata from '@/data/siteMetadata'
 import ScrollTopAndComment from '@/components/ScrollTopAndComment'
+import SocialIcon from '@/components/social-icons' // Import the social icon component
 
 const editUrl = (path) => `${siteMetadata.siteRepo}/blob/main/data/${path}`
 const discussUrl = (path) =>
@@ -92,6 +93,18 @@ export default function PostLayout({ content, authorDetails, next, prev, childre
                   ))}
                 </ul>
               </dd>
+              {/* Add the "Support Me" section here */}
+              <div className="pt-6">
+                <h2 className="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400">
+                  Support Me
+                </h2>
+                <div className="mt-1 flex items-center space-x-3">
+                  <SocialIcon kind="kofi" href={siteMetadata.kofi} size={6} /> {/* Ko-fi Icon */}
+                  <span className="text-sm text-gray-700 dark:text-gray-300">
+                    If you like my work, consider buying me a coffee! 🙏 :)
+                  </span>
+                </div>
+              </div>
             </dl>
             <div className="divide-y divide-gray-200 dark:divide-gray-700 xl:col-span-3 xl:row-span-2 xl:pb-0">
               <div className="prose max-w-none pb-8 pt-10 dark:prose-invert">{children}</div>

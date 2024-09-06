@@ -1,39 +1,39 @@
-// TODO: This is not working properly. We have to define a right margin outside the main panel somehow...
-'use client' // Ensures it's a client-side component
+'use client'
 
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 
-type MarginNoteProps = {
+interface MarginNoteProps {
   children: React.ReactNode
+  noteId: string
 }
 
-const MarginNote = ({ children }: MarginNoteProps) => {
-  const [isMobile, setIsMobile] = useState(false)
-
+const MarginNote = ({ children, noteId }: MarginNoteProps) => {
   useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth <= 768) // Adjust the breakpoint as needed
+    const marginNote = document.getElementById(`margin-note-${noteId}`)
+    const ref = document.getElementById(`ref-${noteId}`)
+
+    if (marginNote && ref) {
+      const refRect = ref.getBoundingClientRect()
+      const noteContainer = document.getElementById('notes-container')
+
+      if (noteContainer) {
+        const previousNote = marginNote.previousElementSibling as HTMLElement | null
+        const previousNoteBottom = previousNote ? previousNote.getBoundingClientRect().bottom : 0
+        const refTop = refRect.top + window.scrollY - noteContainer.getBoundingClientRect().top
+        const topOffset = Math.max(refTop, previousNoteBottom + 20)
+
+        marginNote.style.top = `${topOffset}px`
+      }
     }
-
-    handleResize()
-    window.addEventListener('resize', handleResize)
-
-    return () => window.removeEventListener('resize', handleResize)
-  }, [])
+  }, [noteId])
 
   return (
-    <span
-      className={`relative ${isMobile ? 'inline-block' : 'float-right ml-4 w-1/4 pl-4 text-sm'}`}
-      style={{
-        color: '#dc66d0',
-        fontStyle: 'italic',
-        borderLeft: isMobile ? 'none' : '2px solid #ddd',
-        clear: 'both',
-        marginBottom: isMobile ? '1em' : '0',
-      }}
+    <div
+      id={`margin-note-${noteId}`}
+      className="absolute w-48 italic text-gray-700 dark:text-gray-300"
     >
       {children}
-    </span>
+    </div>
   )
 }
 
