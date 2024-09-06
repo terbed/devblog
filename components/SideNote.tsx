@@ -1,43 +1,45 @@
-'use client' // Ensures it's a client-side component
+'use client'
 
-import React, { useState, useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 
-let sideNoteCounter = 0 // Global counter to maintain numbering
+// A shared ref that both MarginNote and SideNote can access
+const lastNoteBottomRef = { current: 0 } // Tracks the bottom position of the last placed note
 
 interface SideNoteProps {
   children: React.ReactNode
-  noteId: string // unique ID for tracking the note's position
+  noteId: string
 }
 
 const SideNote = ({ children, noteId }: SideNoteProps) => {
   const [noteNumber, setNoteNumber] = useState(0)
 
   useEffect(() => {
-    sideNoteCounter += 1
-    setNoteNumber(sideNoteCounter)
-
     const sideNote = document.getElementById(`side-note-${noteId}`)
     const ref = document.getElementById(`ref-${noteId}`)
+    const noteContainer = document.getElementById('notes-container')
 
-    if (sideNote && ref) {
+    if (sideNote && ref && noteContainer) {
       const refRect = ref.getBoundingClientRect()
-      const noteContainer = sideNote.parentElement
 
-      if (noteContainer) {
-        const previousNote = sideNote.previousElementSibling as HTMLElement | null
-        const previousNoteBottom = previousNote ? previousNote.getBoundingClientRect().bottom : 0
-        const refTop = refRect.top + window.scrollY - noteContainer.offsetTop
-        const topOffset = Math.max(refTop, previousNoteBottom + 20) // 20px padding between notes
+      // Calculate the top position based on the reference element's position
+      const refTop = refRect.top + window.scrollY - noteContainer.getBoundingClientRect().top
 
-        sideNote.style.top = `${topOffset}px`
-      }
+      // Get the last placed note's position from the shared ref
+      const lastNoteBottom = lastNoteBottomRef.current
+      const topOffset = Math.max(refTop, lastNoteBottom + 20)
+
+      // Position the side note
+      sideNote.style.top = `${topOffset}px`
+
+      // Update the shared ref with the current note's bottom position
+      lastNoteBottomRef.current = sideNote.getBoundingClientRect().bottom + window.scrollY
     }
   }, [noteId])
 
   return (
     <div
       id={`side-note-${noteId}`}
-      className="absolute left-0 w-48 italic text-gray-700 dark:text-gray-300"
+      className="absolute w-48 italic text-gray-700 dark:text-gray-300"
     >
       <sup>{noteNumber}</sup> {children}
     </div>

@@ -56,7 +56,9 @@ export default function PostLayout({ content, authorDetails, next, prev, childre
               </div>
             </div>
           </header>
+          {/* Main layout grid */}
           <div className="grid-rows-[auto_1fr] divide-y divide-gray-200 pb-8 dark:divide-gray-700 xl:grid xl:grid-cols-4 xl:gap-x-6 xl:divide-y-0">
+            {/* Left column author info block */}
             <dl className="pb-10 pt-6 xl:border-b xl:border-gray-200 xl:pt-11 xl:dark:border-gray-700">
               <dt className="sr-only">Authors</dt>
               <dd>
@@ -93,7 +95,7 @@ export default function PostLayout({ content, authorDetails, next, prev, childre
                   ))}
                 </ul>
               </dd>
-              {/* Add the "Support Me" section here */}
+              {/* "Support Me" section here */}
               <div className="pt-6 text-sm font-medium leading-5">
                 <h2 className="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400">
                   Support Me
@@ -105,9 +107,13 @@ export default function PostLayout({ content, authorDetails, next, prev, childre
                   </span>
                 </div>
               </div>
+              {/* Notes container */}
+              {/* <div id="notes-container" className="relative mt-10"></div>  Notes block here */}
             </dl>
             <div className="divide-y divide-gray-200 dark:divide-gray-700 xl:col-span-3 xl:row-span-2 xl:pb-0">
+              {/* Main content block */}
               <div className="prose max-w-none pb-8 pt-10 dark:prose-invert">{children}</div>
+              {/* Below the main content */}
               <div className="pb-6 pt-6 text-sm text-gray-700 dark:text-gray-300">
                 <Link href={discussUrl(path)} rel="nofollow">
                   Discuss on Twitter

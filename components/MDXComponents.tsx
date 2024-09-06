@@ -5,7 +5,8 @@ import type { MDXComponents } from 'mdx/types'
 import Image from './Image'
 import CustomLink from './Link'
 import TableWrapper from './TableWrapper'
-//import MarginNote from './MarginNote'
+// import MarginNote from './MarginNote'
+// import SideNote from './SideNote'
 
 export const components: MDXComponents = {
   Image,
@@ -15,4 +16,5 @@ export const components: MDXComponents = {
   table: TableWrapper,
   BlogNewsletterForm,
   //  MarginNote, // Add the MarginNote component here
+  //  SideNote, // Add the SideNote component here
 }
