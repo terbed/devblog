@@ -1,6 +1,10 @@
 # Added features to the forked repo
 
--[x] Ko-Fi Social Icon option for donation -[ ] Left margin note module in PostLayout -[ ] Multicolor option: Change the primary color of the site from pink to neon green
+- [x] Ko-Fi Social Icon option for donation
+
+- [ ] Left margin note module in PostLayout
+
+- [ ] Multicolor option: Change the primary color of the site from pink to neon green
 
 # Forked Content:
 
@@ -278,8 +282,6 @@ canonicalUrl: https://tailwind-nextjs-starter-blog.vercel.app/blog/introducing-t
 ## Deploy
 
 ### GitHub Pages
-
-A [`pages.yml`](.github/_workflows/pages.yml) workflow is already provided. Simply select "GitHub Actions" in: `Settings > Pages > Build and deployment > Source`.
 
 ### Vercel
 
