@@ -12,7 +12,7 @@ interface Note {
 
 const MarginNoteManager = () => {
   const [notes, setNotes] = useState<Note[]>([])
-  const [noteCounter, setNoteCounter] = useState(1) // Shared counter between references and notes
+  const [noteCounter] = useState(1) // Shared counter between references and notes
 
   useEffect(() => {
     const references = document.querySelectorAll('[note-ref-id]')
