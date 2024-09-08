@@ -17,7 +17,7 @@ const MarginNoteManager = () => {
   useEffect(() => {
     const references = document.querySelectorAll('[note-ref-id]')
     const notesContent: Note[] = []
-    let counter = noteCounter // local variable for counter
+    let counter = noteCounter
 
     references.forEach((ref) => {
       const noteId = ref.getAttribute('note-ref-id')
@@ -38,7 +38,6 @@ const MarginNoteManager = () => {
         }
 
         if (isNumbered && !ref.querySelector('sup')) {
-          // Only add the number if no <sup> exists
           const supElement = document.createElement('sup')
           supElement.classList.add('text-primary-500')
           supElement.textContent = counter.toString()
@@ -52,10 +51,12 @@ const MarginNoteManager = () => {
 
     setNotes(notesContent)
     setNoteCounter(counter)
-  }, [noteCounter]) // Empty dependency array to run only once
+  }, [noteCounter]) // Only run once
+
+  let lastNoteBottom = 0 // This tracks the position of the last note
 
   return (
-    <div id="notes-container" className="relative mt-10">
+    <div id="notes-container" className="relative mt-5">
       {notes.length > 0 && (
         <h2 className="text-xs font-medium uppercase tracking-wide text-gray-500 dark:text-gray-400">
           Margin Notes ↓
@@ -63,10 +64,22 @@ const MarginNoteManager = () => {
       )}
 
       {notes.map(({ noteId, content, isNumbered, noteNumber, verticalDistance }) => {
-        const noteStyle: React.CSSProperties = {
-          position: 'absolute',
-          top: `${verticalDistance}px`,
+        const spacing = 5 // Minimal spacing
+        let topPosition = verticalDistance || 0
+
+        // Adjust the position to prevent overlap with the last note
+        if (topPosition < lastNoteBottom + spacing) {
+          topPosition = lastNoteBottom + spacing
         }
+
+        const noteStyle: React.CSSProperties = {
+          position: 'relative',
+          top: `${topPosition - lastNoteBottom}px`, // Set position relative to the previous one
+        }
+
+        // Update last note bottom position after rendering this note
+        const noteHeight = 50 // Approximate note height
+        lastNoteBottom = topPosition + noteHeight
 
         return (
           <div key={noteId} id={`note-${noteId}`} className="relative w-48" style={noteStyle}>
