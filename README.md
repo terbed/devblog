@@ -1,9 +1,7 @@
 # Added features to the forked repo
 
 - [x] Ko-Fi Social Icon option for donation
-
 - [ ] Left margin note module in PostLayout
-
 - [ ] Multicolor option: Change the primary color of the site from pink to neon green
 
 # Forked Content:

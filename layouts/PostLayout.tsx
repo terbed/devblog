@@ -10,6 +10,7 @@ import Tag from '@/components/Tag'
 import siteMetadata from '@/data/siteMetadata'
 import ScrollTopAndComment from '@/components/ScrollTopAndComment'
 import SocialIcon from '@/components/social-icons' // Import the social icon component
+import MarginNoteManager from '@/components/MarginNoteManager' // Import the margin note manager component
 
 const editUrl = (path) => `${siteMetadata.siteRepo}/blob/main/data/${path}`
 const discussUrl = (path) =>
@@ -108,7 +109,9 @@ export default function PostLayout({ content, authorDetails, next, prev, childre
                 </div>
               </div>
               {/* Notes container */}
-              {/* <div id="notes-container" className="relative mt-10"></div>  Notes block here */}
+              <div id="notes-container" className="relative mt-5">
+                <MarginNoteManager />
+              </div>
             </dl>
             <div className="divide-y divide-gray-200 dark:divide-gray-700 xl:col-span-3 xl:row-span-2 xl:pb-0">
               {/* Main content block */}
