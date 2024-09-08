@@ -12,19 +12,17 @@ interface Note {
 
 const MarginNoteManager = () => {
   const [notes, setNotes] = useState<Note[]>([])
-  const [noteCounter, setNoteCounter] = useState(1)
+  const [noteCounter, setNoteCounter] = useState(1) // Shared counter between references and notes
 
   useEffect(() => {
     const references = document.querySelectorAll('[note-ref-id]')
     const notesContent: Note[] = []
-    let counter = noteCounter
+    let counter = 1 // Counter initialized here
 
     references.forEach((ref) => {
       const noteId = ref.getAttribute('note-ref-id')
       const noteContent = ref.getAttribute('content')
-      const numbered = ref.getAttribute('numbered')
-
-      const isNumbered = numbered === 'true'
+      const isNumbered = ref.getAttribute('numbered') === 'true' // Ensure it's boolean
 
       if (noteId && noteContent) {
         const verticalDistance = ref.getBoundingClientRect().top
@@ -33,30 +31,30 @@ const MarginNoteManager = () => {
           noteId,
           content: noteContent,
           isNumbered,
-          noteNumber: isNumbered ? counter : undefined,
+          noteNumber: isNumbered ? counter : undefined, // Use the shared counter
           verticalDistance,
         }
 
+        // Add <sup> only if it doesn't exist
         if (isNumbered && !ref.querySelector('sup')) {
           const supElement = document.createElement('sup')
-          supElement.classList.add('text-primary-500')
-          supElement.textContent = counter.toString()
+          supElement.classList.add('text-primary-500') // Add Tailwind's primary color
+          supElement.textContent = counter.toString() // Number in main content
           ref.appendChild(supElement)
-          counter += 1
         }
 
         notesContent.push(note)
+        if (isNumbered) counter++ // Increment counter after processing each numbered note
       }
     })
 
     setNotes(notesContent)
-    setNoteCounter(counter)
-  }, [noteCounter]) // Only run once
+  }, [noteCounter]) // Empty dependency array to ensure it runs once
 
-  let lastNoteBottom = 0 // This tracks the position of the last note
+  let lastNoteBottom = 0 // Track bottom of the last note to avoid overlaps
 
   return (
-    <div id="notes-container" className="relative mt-5">
+    <div id="notes-container" className="relative mt-10">
       {notes.length > 0 && (
         <h2 className="text-xs font-medium uppercase tracking-wide text-gray-500 dark:text-gray-400">
           Margin Notes ↓
@@ -64,10 +62,10 @@ const MarginNoteManager = () => {
       )}
 
       {notes.map(({ noteId, content, isNumbered, noteNumber, verticalDistance }) => {
-        const spacing = 5 // Minimal spacing
+        const spacing = 20 // Minimum spacing between notes
         let topPosition = verticalDistance || 0
 
-        // Adjust the position to prevent overlap with the last note
+        // Ensure note is positioned below the last note, with proper spacing
         if (topPosition < lastNoteBottom + spacing) {
           topPosition = lastNoteBottom + spacing
         }
