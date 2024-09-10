@@ -46,19 +46,10 @@ module.exports = {
           '50%': { transform: 'rotate(-45deg)' },
           '75%': { transform: 'rotate(45deg)' },
         },
-        typewriter: {
-          '0%': { width: '0%' },
-          '100%': { width: '100%' },
-        },
-        blink: {
-          '0%, 100%': { borderColor: 'transparent' },
-          '50%': { borderColor: 'black' },
-        },
       },
       animation: {
         wiggle: 'wiggle 0.5s ease-in-out',
         pendulum: 'pendulum 1s ease-in-out',
-        typewriter: 'typewriter 2s steps(20) 1s 1 normal both, blink 1s step-end infinite',
       },
       typography: ({ theme }) => ({
         DEFAULT: {
