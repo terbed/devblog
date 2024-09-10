@@ -33,6 +33,17 @@ module.exports = {
         70: '70',
         80: '80',
       },
+      keyframes: {
+        wiggle: {
+          '0%, 100%': { transform: 'rotate(0deg)' },
+          '25%': { transform: 'rotate(3deg)' },
+          '50%': { transform: 'rotate(-3deg)' },
+          '75%': { transform: 'rotate(3deg)' },
+        },
+      },
+      animation: {
+        wiggle: 'wiggle 0.5s ease-in-out',
+      },
       typography: ({ theme }) => ({
         DEFAULT: {
           css: {
