@@ -335,9 +335,9 @@ const ResumePage = () => {
             Skills
           </h3>
 
-          <div className="mt-8 flex justify-center space-x-8">
+          <div className="mt-8 grid grid-cols-2 gap-6 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
             {/* Skill 1 */}
-            <div className="text-center">
+            <div className="flex transform flex-col items-center transition-transform duration-300 ease-in-out hover:scale-110">
               <svg className="h-24 w-24">
                 <circle cx="50%" cy="50%" r="40" stroke="gray" strokeWidth="5" fill="none"></circle>
                 <circle
@@ -357,7 +357,7 @@ const ResumePage = () => {
             </div>
 
             {/* Skill 2 */}
-            <div className="text-center">
+            <div className="flex transform flex-col items-center transition-transform duration-300 ease-in-out hover:scale-110">
               <svg className="h-24 w-24">
                 <circle cx="50%" cy="50%" r="40" stroke="gray" strokeWidth="5" fill="none"></circle>
                 <circle
@@ -367,7 +367,7 @@ const ResumePage = () => {
                   stroke="currentColor"
                   strokeWidth="5"
                   strokeDasharray="251"
-                  strokeDashoffset="70"
+                  strokeDashoffset="80"
                   fill="none"
                   className="text-primary-500"
                 ></circle>
@@ -377,7 +377,7 @@ const ResumePage = () => {
             </div>
 
             {/* Skill 3 */}
-            <div className="text-center">
+            <div className="flex transform flex-col items-center transition-transform duration-300 ease-in-out hover:scale-110">
               <svg className="h-24 w-24">
                 <circle cx="50%" cy="50%" r="40" stroke="gray" strokeWidth="5" fill="none"></circle>
                 <circle
@@ -387,17 +387,39 @@ const ResumePage = () => {
                   stroke="currentColor"
                   strokeWidth="5"
                   strokeDasharray="251"
-                  strokeDashoffset="30"
+                  strokeDashoffset="20"
                   fill="none"
                   className="text-primary-500"
                 ></circle>
               </svg>
-              <p className="mt-4 text-lg font-semibold text-gray-700 dark:text-gray-300">DL</p>
+              <p className="mt-4 text-lg font-semibold text-gray-700 dark:text-gray-300">
+                Deep Learning
+              </p>
+              <p className="font-bold text-primary-500">90%</p>
+            </div>
+
+            {/* Skill 7 */}
+            <div className="flex transform flex-col items-center transition-transform duration-300 ease-in-out hover:scale-110">
+              <svg className="h-24 w-24">
+                <circle cx="50%" cy="50%" r="40" stroke="gray" strokeWidth="5" fill="none"></circle>
+                <circle
+                  cx="50%"
+                  cy="50%"
+                  r="40"
+                  stroke="currentColor"
+                  strokeWidth="5"
+                  strokeDasharray="251"
+                  strokeDashoffset="20"
+                  fill="none"
+                  className="text-primary-500"
+                ></circle>
+              </svg>
+              <p className="mt-4 text-lg font-semibold text-gray-700 dark:text-gray-300">PyTorch</p>
               <p className="font-bold text-primary-500">90%</p>
             </div>
 
             {/* Skill 4 */}
-            <div className="text-center">
+            <div className="flex transform flex-col items-center transition-transform duration-300 ease-in-out hover:scale-110">
               <svg className="h-24 w-24">
                 <circle cx="50%" cy="50%" r="40" stroke="gray" strokeWidth="5" fill="none"></circle>
                 <circle
@@ -419,7 +441,7 @@ const ResumePage = () => {
             </div>
 
             {/* Skill 5 */}
-            <div className="text-center">
+            <div className="flex transform flex-col items-center transition-transform duration-300 ease-in-out hover:scale-110">
               <svg className="h-24 w-24">
                 <circle cx="50%" cy="50%" r="40" stroke="gray" strokeWidth="5" fill="none"></circle>
                 <circle
@@ -439,7 +461,7 @@ const ResumePage = () => {
             </div>
 
             {/* Skill 6 */}
-            <div className="text-center">
+            <div className="flex transform flex-col items-center transition-transform duration-300 ease-in-out hover:scale-110">
               <svg className="h-24 w-24">
                 <circle cx="50%" cy="50%" r="40" stroke="gray" strokeWidth="5" fill="none"></circle>
                 <circle
@@ -454,8 +476,10 @@ const ResumePage = () => {
                   className="text-primary-500"
                 ></circle>
               </svg>
-              <p className="mt-4 text-lg font-semibold text-gray-700 dark:text-gray-300">FinML</p>
-              <p className="font-bold text-primary-500">55%</p>
+              <p className="mt-4 text-lg font-semibold text-gray-700 dark:text-gray-300">
+                Financial ML
+              </p>
+              <p className="font-bold text-primary-500">65%</p>
             </div>
 
             {/* More skills */}
