@@ -157,15 +157,31 @@ const ResumePage = () => {
                 <span className="block text-gray-500 dark:text-gray-400">2017 – 2020</span>
                 <div className="absolute right-[-10px] top-2 h-4 w-4 rounded-full bg-primary-500"></div>
               </div>
-              <div className="w-3/4 pl-12">
-                <div className="milestone-item">
-                  <h4 className="text-lg font-bold">
-                    MSc. Info-Bionics Engineering – Pázmány Péter Catholic University
-                  </h4>
-                  <p>
-                    Specialization: Bionic Interfaces and Integrated Structures. <br />
-                    Thesis: Remote camera-based pulse estimation using deep learning tools.
-                  </p>
+              <div className="relative w-3/4 pl-12">
+                <div className="milestone-item overflow-hidden">
+                  {/* Background Logo */}
+                  <img
+                    src="/static/cv/ppk.svg"
+                    alt="Pázmány Péter Catholic University Logo"
+                    className="absolute -top-10 right-0 h-auto w-32 object-contain opacity-10"
+                  />
+
+                  {/* Foreground Content */}
+                  <div className="relative z-10">
+                    <h4 className="mb-2 text-xl font-bold text-gray-900 dark:text-gray-100">
+                      MSc in Info-Bionics Engineering
+                    </h4>
+                    <p className="mb-2 text-primary-500 dark:text-primary-400">
+                      Pázmány Péter Catholic University, Budapest, Hungary
+                    </p>
+                    <p className="text-gray-700 dark:text-gray-300">
+                      <span className="font-semibold">Specialization:</span> Bionic Interfaces and
+                      Integrated Structures.
+                      <br />
+                      <span className="font-semibold">Thesis:</span> Remote camera-based pulse
+                      estimation using deep learning tools.
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
@@ -175,15 +191,30 @@ const ResumePage = () => {
                 <span className="block text-gray-500 dark:text-gray-400">2013 – 2017</span>
                 <div className="absolute right-[-10px] top-2 h-4 w-4 rounded-full bg-primary-500"></div>
               </div>
-              <div className="w-3/4 pl-12">
-                <div className="milestone-item">
-                  <h4 className="text-lg font-bold">
-                    BSc. Physics – Eötvös Loránd University, Budapest
-                  </h4>
-                  <p>
-                    Specialization: Theoretical Physics. <br />
-                    Thesis: Statistical inference of biophysical neuron model parameters.
-                  </p>
+              <div className="relative w-3/4 pl-12">
+                <div className="milestone-item overflow-hidden">
+                  {/* Background Logo */}
+                  <img
+                    src="/static/cv/elte.svg"
+                    alt="Eötvös Loránd University Logo"
+                    className="absolute -right-14 -top-2 h-52 w-auto object-contain opacity-10 dark:opacity-5"
+                  />
+
+                  {/* Foreground Content */}
+                  <div className="relative z-10">
+                    <h4 className="mb-2 text-xl font-bold text-gray-900 dark:text-gray-100">
+                      BSc in Physics
+                    </h4>
+                    <p className="mb-2 text-primary-500 dark:text-primary-400">
+                      Eötvös Loránd University, Budapest, Hungary
+                    </p>
+                    <p className="text-gray-700 dark:text-gray-300">
+                      <span className="font-semibold ">Specialization:</span> Theoretical Physics.
+                      <br />
+                      <span className="font-semibold">Thesis:</span> Estimating the biophysical
+                      parameters of neurons using computer simulations and probabilistic models.
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
