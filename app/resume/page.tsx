@@ -76,7 +76,9 @@ const ResumePage = () => {
 
         {/* ------------------------ Experience Section ----------------------------------------- */}
         <div className="mt-10">
-          <h3 className="text-3xl font-bold text-primary-500 dark:text-primary-400">Experience </h3>
+          <h3 className="ml-20 text-3xl font-bold text-primary-500 dark:text-primary-400">
+            Experience
+          </h3>
           <div className="relative mt-8">
             {/* Adjust line and dot position */}
             <div className="absolute left-1/4 h-full w-1 bg-primary-500"></div>
@@ -142,7 +144,9 @@ const ResumePage = () => {
 
         {/* Education Section */}
         <div className="mt-12">
-          <h3 className="text-3xl font-bold text-primary-500 dark:text-primary-400">Education</h3>
+          <h3 className="ml-20 text-3xl font-bold text-primary-500 dark:text-primary-400">
+            Education
+          </h3>
           <div className="relative mt-8">
             {/* Adjust line and dot position */}
             <div className="absolute left-1/4 h-full w-1 bg-primary-500"></div>
@@ -185,6 +189,276 @@ const ResumePage = () => {
             </div>
 
             {/* Add more education items in the same format */}
+          </div>
+        </div>
+        {/* Publications */}
+        <div className="mt-12">
+          {/* Adjust the title to be centered on the timeline */}
+          <h3 className="relative ml-20 text-3xl font-bold text-primary-500 dark:text-primary-400">
+            Publications
+          </h3>
+          <div className="relative mt-8">
+            {/* Adjust line and dot position */}
+            <div className="absolute left-1/4 h-full w-1 bg-primary-500"></div>
+
+            {/* Publication Items */}
+            <div className="mb-8 flex items-start">
+              <div className="relative w-1/4 pr-4 text-right">
+                <span className="block text-gray-500 dark:text-gray-400">2024</span>
+                <div className="absolute right-[-10px] top-2 h-4 w-4 rounded-full bg-primary-500"></div>
+              </div>
+              <div className="w-3/4 pl-12">
+                <div className="milestone-item">
+                  <h4 className="text-lg font-bold">
+                    Terbe, D.; Orzó, L.; Bicsák, B.; Zarándy, Á.
+                  </h4>
+                  <p>
+                    <strong>Hologram Noise Model for Data Augmentation and Deep Learning.</strong>{' '}
+                    Sensors 2024, 24, 948.{' '}
+                    <a
+                      href="https://doi.org/10.3390/s24030948"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-primary-500 hover:underline"
+                    >
+                      Read Here
+                    </a>
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div className="mb-8 flex items-start">
+              <div className="relative w-1/4 pr-4 text-right">
+                <span className="block text-gray-500 dark:text-gray-400">2022</span>
+                <div className="absolute right-[-10px] top-2 h-4 w-4 rounded-full bg-primary-500"></div>
+              </div>
+              <div className="w-3/4 pl-12">
+                <div className="milestone-item">
+                  <h4 className="text-lg font-bold">Terbe, D.; Orzó, L.; Zarándy, Á.</h4>
+                  <p>
+                    <strong>Classification of Holograms with 3D-CNN.</strong> Sensors 2022, 22,
+                    8366.{' '}
+                    <a
+                      href="https://doi.org/10.3390/s22218366"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-primary-500 hover:underline"
+                    >
+                      Read Here
+                    </a>
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div className="mb-8 flex items-start">
+              <div className="relative w-1/4 pr-4 text-right">
+                <span className="block text-gray-500 dark:text-gray-400">2021</span>
+                <div className="absolute right-[-10px] top-2 h-4 w-4 rounded-full bg-primary-500"></div>
+              </div>
+              <div className="w-3/4 pl-12">
+                <div className="milestone-item">
+                  <h4 className="text-lg font-bold">Terbe, D.; László, O.; Zarándy, Á.</h4>
+                  <p>
+                    <strong>
+                      Deep-learning-based bright-field image generation from a single hologram using
+                      an unpaired dataset.
+                    </strong>{' '}
+                    Optics Letters 46.22 (2021): 5567-5570.{' '}
+                    <a
+                      href="https://doi.org/10.1364/OL.440900"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-primary-500 hover:underline"
+                    >
+                      Read Here
+                    </a>
+                  </p>
+                </div>
+              </div>
+            </div>
+            {/* Add more publication items similarly */}
+          </div>
+        </div>
+
+        {/* Conferences Section */}
+        <h3 className="ml-20 mt-12 text-3xl font-bold text-primary-500 dark:text-primary-400">
+          Conferences
+        </h3>
+        <div className="relative mt-8">
+          <div className="absolute left-1/4 h-full w-1 bg-primary-500"></div>
+
+          {/* Conference Items */}
+          <div className="mb-8 flex items-start">
+            <div className="relative w-1/4 pr-4 text-right">
+              <span className="block text-gray-500 dark:text-gray-400">2022</span>
+              <div className="absolute right-[-10px] top-2 h-4 w-4 rounded-full bg-primary-500"></div>
+            </div>
+            <div className="w-3/4 pl-12">
+              <div className="milestone-item">
+                <h4 className="text-lg font-bold">
+                  2022 Society for Neuroscience (SfN) Conference
+                </h4>
+                <p>
+                  Presentation: "Reliable estimation of neuronal biophysical parameters from
+                  electrophysiological recordings." by Terbe D., Szoboszlay M., Nusser Z., Káli Sz.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div className="mb-8 flex items-start">
+            <div className="relative w-1/4 pr-4 text-right">
+              <span className="block text-gray-500 dark:text-gray-400">2020</span>
+              <div className="absolute right-[-10px] top-2 h-4 w-4 rounded-full bg-primary-500"></div>
+            </div>
+            <div className="w-3/4 pl-12">
+              <div className="milestone-item">
+                <h4 className="text-lg font-bold">
+                  2020 IEEE International Symposium on Circuits and Systems (ISCAS)
+                </h4>
+                <p>
+                  Presentation: "Multi-Level Optimization for Enabling Life Critical Visual
+                  Inspections of Infants in Resource Limited Environment." by Zarándy, Á., Földesy,
+                  P., Nagy, Á., Jánoki, I., Terbe, D., Siket, M., Szabó, M., and Varga, J.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Add more conference items similarly */}
+        </div>
+
+        <div className="mt-12">
+          <h3 className="ml-20 text-3xl font-bold text-primary-500 dark:text-primary-400">
+            Skills
+          </h3>
+
+          <div className="mt-8 flex justify-center space-x-8">
+            {/* Skill 1 */}
+            <div className="text-center">
+              <svg className="h-24 w-24">
+                <circle cx="50%" cy="50%" r="40" stroke="gray" strokeWidth="5" fill="none"></circle>
+                <circle
+                  cx="50%"
+                  cy="50%"
+                  r="40"
+                  stroke="currentColor"
+                  strokeWidth="5"
+                  strokeDasharray="251"
+                  strokeDashoffset="20"
+                  fill="none"
+                  className="text-primary-500"
+                ></circle>
+              </svg>
+              <p className="mt-4 text-lg font-semibold text-gray-700 dark:text-gray-300">Python</p>
+              <p className="font-bold text-primary-500">90%</p>
+            </div>
+
+            {/* Skill 2 */}
+            <div className="text-center">
+              <svg className="h-24 w-24">
+                <circle cx="50%" cy="50%" r="40" stroke="gray" strokeWidth="5" fill="none"></circle>
+                <circle
+                  cx="50%"
+                  cy="50%"
+                  r="40"
+                  stroke="currentColor"
+                  strokeWidth="5"
+                  strokeDasharray="251"
+                  strokeDashoffset="70"
+                  fill="none"
+                  className="text-primary-500"
+                ></circle>
+              </svg>
+              <p className="mt-4 text-lg font-semibold text-gray-700 dark:text-gray-300">C++</p>
+              <p className="font-bold text-primary-500">60%</p>
+            </div>
+
+            {/* Skill 3 */}
+            <div className="text-center">
+              <svg className="h-24 w-24">
+                <circle cx="50%" cy="50%" r="40" stroke="gray" strokeWidth="5" fill="none"></circle>
+                <circle
+                  cx="50%"
+                  cy="50%"
+                  r="40"
+                  stroke="currentColor"
+                  strokeWidth="5"
+                  strokeDasharray="251"
+                  strokeDashoffset="30"
+                  fill="none"
+                  className="text-primary-500"
+                ></circle>
+              </svg>
+              <p className="mt-4 text-lg font-semibold text-gray-700 dark:text-gray-300">DL</p>
+              <p className="font-bold text-primary-500">90%</p>
+            </div>
+
+            {/* Skill 4 */}
+            <div className="text-center">
+              <svg className="h-24 w-24">
+                <circle cx="50%" cy="50%" r="40" stroke="gray" strokeWidth="5" fill="none"></circle>
+                <circle
+                  cx="50%"
+                  cy="50%"
+                  r="40"
+                  stroke="currentColor"
+                  strokeWidth="5"
+                  strokeDasharray="251"
+                  strokeDashoffset="230"
+                  fill="none"
+                  className="text-primary-500"
+                ></circle>
+              </svg>
+              <p className="mt-4 text-lg font-semibold text-gray-700 dark:text-gray-300">
+                Frontend
+              </p>
+              <p className="font-bold text-primary-500">5%</p>
+            </div>
+
+            {/* Skill 5 */}
+            <div className="text-center">
+              <svg className="h-24 w-24">
+                <circle cx="50%" cy="50%" r="40" stroke="gray" strokeWidth="5" fill="none"></circle>
+                <circle
+                  cx="50%"
+                  cy="50%"
+                  r="40"
+                  stroke="currentColor"
+                  strokeWidth="5"
+                  strokeDasharray="251"
+                  strokeDashoffset="50"
+                  fill="none"
+                  className="text-primary-500"
+                ></circle>
+              </svg>
+              <p className="mt-4 text-lg font-semibold text-gray-700 dark:text-gray-300">MLOps</p>
+              <p className="font-bold text-primary-500">70%</p>
+            </div>
+
+            {/* Skill 6 */}
+            <div className="text-center">
+              <svg className="h-24 w-24">
+                <circle cx="50%" cy="50%" r="40" stroke="gray" strokeWidth="5" fill="none"></circle>
+                <circle
+                  cx="50%"
+                  cy="50%"
+                  r="40"
+                  stroke="currentColor"
+                  strokeWidth="5"
+                  strokeDasharray="251"
+                  strokeDashoffset="100"
+                  fill="none"
+                  className="text-primary-500"
+                ></circle>
+              </svg>
+              <p className="mt-4 text-lg font-semibold text-gray-700 dark:text-gray-300">FinML</p>
+              <p className="font-bold text-primary-500">55%</p>
+            </div>
+
+            {/* More skills */}
           </div>
         </div>
       </div>
