@@ -3,6 +3,7 @@
 import React, { useRef } from 'react'
 import { jsPDF } from 'jspdf'
 import html2canvas from 'html2canvas'
+import Image from 'next/image'
 
 const ResumePage = () => {
   // Create a reference for the resume content
@@ -216,9 +217,11 @@ const ResumePage = () => {
               <div className="relative w-3/4 pl-12">
                 <div className="milestone-item overflow-hidden">
                   {/* Background Logo */}
-                  <img
+                  <Image
                     src="/static/cv/ppk.svg"
                     alt="Pázmány Péter Catholic University Logo"
+                    width={0}
+                    height={0}
                     className="absolute -top-10 right-0 h-auto w-32 object-contain opacity-10"
                   />
 
@@ -250,9 +253,11 @@ const ResumePage = () => {
               <div className="relative w-3/4 pl-12">
                 <div className="milestone-item overflow-hidden">
                   {/* Background Logo */}
-                  <img
+                  <Image
                     src="/static/cv/elte.svg"
                     alt="Eötvös Loránd University Logo"
+                    width={0}
+                    height={0}
                     className="absolute -right-14 -top-2 h-52 w-auto object-contain opacity-10 dark:opacity-5"
                   />
 
@@ -298,10 +303,13 @@ const ResumePage = () => {
               <div className="w-3/4 pl-12">
                 <div className="milestone-item relative overflow-hidden">
                   {/* Background Noise Image */}
-                  <img
+                  <Image
                     src="/static/cv/noisy-texture-black.png" // Path to your noise image
                     alt="Noise Background"
-                    className="pointer-events-none absolute inset-0 z-0 h-full w-full object-cover opacity-10"
+                    layout="fill"
+                    width={0}
+                    height={0}
+                    className="pointer-events-none absolute inset-0 z-0 h-full w-full object-cover opacity-5"
                   />
 
                   {/* Foreground Content */}
