@@ -195,6 +195,47 @@ const ResumePage = () => {
               </div>
             </div>
 
+            {/* experience item */}
+            <div className="mb-8 flex items-start">
+              <div className="relative w-1/4 pr-4 text-right">
+                <span className="block text-gray-500 dark:text-gray-400">September 2015</span>
+                <span className="block text-gray-500 dark:text-gray-400">December 2024</span>
+                <div className="absolute right-[-10px] top-1/2 h-4 w-4 rounded-full bg-primary-500"></div>
+              </div>
+
+              <div className="w-3/4 pl-12">
+                <div className="milestone-item relative overflow-hidden">
+                  {/* Background Logo */}
+                  <Image
+                    src="/static/cv/koki.png"
+                    alt="Institute of Experimental Medicine (KOKI) Logo"
+                    height={100}
+                    width={100}
+                    className="invert-100 absolute -right-24 -top-0 h-auto w-64 object-contain opacity-5 dark:opacity-5 dark:invert-0"
+                  />
+
+                  {/* Role and Organization */}
+                  <h4 className="mb-2 text-lg font-bold text-gray-900 dark:text-gray-100">
+                    Student Researcher at the Institute of Experimental Medicine (KOKI)
+                  </h4>
+
+                  {/* Location */}
+                  <p className="text-primary-500 dark:text-primary-400">
+                    Computational Neuroscience Workgroup, Budapest, Hungary
+                  </p>
+
+                  {/* Content Info */}
+                  <p className="mt-2 text-gray-600 dark:text-gray-300">
+                    I've started working in this role during my BSc studies, focusing on the
+                    statistical inference of realistic neuron model parameters through computer
+                    simulations and Bayesian statistical tools. This work formed the basis of my Bsc
+                    thesis and continued for several years after graduation, ultimately culminating
+                    in the publication of our valuable research findings in a peer-reviewed paper.
+                  </p>
+                </div>
+              </div>
+            </div>
+
             {/* Add more experiences in the same format, sorted by date */}
           </div>
         </div>
@@ -458,6 +499,15 @@ const ResumePage = () => {
                   <span className="italic text-primary-500 dark:text-primary-400">
                     2022 Society for Neuroscience (SfN) Conference, San Diego, CA, USA
                   </span>
+                  <p className="text-primary-500 dark:text-primary-400">
+                    <strong>Link: </strong>
+                    <a
+                      href="https://www.dropbox.com/scl/fi/hiyrkns48ke4v36z8t769/SfN_2022_Kali_v2.mp4?rlkey=axt4y9vg67fr7nc35ljw5bvsh&st=thqeahyv&dl=0"
+                      target="_blank"
+                    >
+                      https://bit.ly/sfn-presentation
+                    </a>
+                  </p>
                 </p>
               </div>
             </div>
