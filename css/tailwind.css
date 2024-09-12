@@ -62,3 +62,12 @@ input:-webkit-autofill:focus {
 .milestone-item {
   @apply transform rounded-md bg-gray-50 p-6 shadow-md transition-transform duration-300 hover:scale-105 dark:bg-gray-700;
 }
+
+/* Invert the image in light mode, keep it normal in dark mode */
+.invert-light {
+  filter: invert(1);
+}
+
+.dark .invert-light {
+  filter: invert(0);
+}

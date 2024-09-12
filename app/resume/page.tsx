@@ -140,56 +140,135 @@ const ResumePage = () => {
             {/* Adjust line and dot position */}
             <div className="absolute left-1/4 h-full w-1 bg-primary-500"></div>
 
-            {/* Experience Items */}
+            {/* experience item */}
             <div className="mb-8 flex items-start">
               <div className="relative w-1/4 pr-4 text-right">
-                <span className="block text-gray-500 dark:text-gray-400">August 2022</span>
-                <span className="block text-gray-500 dark:text-gray-400">January 2022</span>
+                <span className="block text-gray-500 dark:text-gray-400">October 2020</span>
+                <span className="block text-gray-500 dark:text-gray-400">January 2021</span>
                 <div className="absolute right-[-10px] top-1/2 h-4 w-4 rounded-full bg-primary-500"></div>
               </div>
+
               <div className="w-3/4 pl-12">
-                <div className="transform rounded-md bg-gray-50 p-6 shadow-md transition-transform duration-300 hover:scale-105 dark:bg-gray-700">
-                  <h4 className="text-lg font-bold">👅 Tongue Scanner Project</h4>
-                  <p className="italic">Role: Self-Employed AI Consultant & Developer</p>
-                  <p>
-                    A pioneering AI-based tongue analysis tool for Traditional Chinese Medicine
-                    (TCM). Enhanced diagnostic processes for TCM practitioners.
+                <div className="milestone-item relative overflow-hidden">
+                  {/* Background Logo */}
+                  <Image
+                    src="/static/cv/szte.jpg" // Add the correct logo path for SZTE
+                    alt="University of Szeged (SZTE) Logo"
+                    height={100}
+                    width={100}
+                    className="absolute -right-24 -top-5 h-auto w-64 rounded-full object-contain opacity-5"
+                  />
+
+                  {/* Role and Organization */}
+                  <h4 className="mb-2 text-lg font-bold text-gray-900 dark:text-gray-100">
+                    AI Consultant – University of Szeged (SZTE)
+                  </h4>
+
+                  {/* Content Info */}
+                  <p className="text-primary-500 dark:text-primary-400">
+                    Department of Computer Algorithms and Artificial Intelligence, Szeged, Hungary
+                  </p>
+
+                  <p className="mt-2 text-gray-600 dark:text-gray-300">
+                    Involved in a project aimed at improving impaired speech using deep learning
+                    tools. The main focus was on leveraging{' '}
+                    <strong>Generative Adversarial Networks (GANs)</strong> and exploring{' '}
+                    <strong>transformer-based voice conversion models</strong> for dysarthric
+                    speakers.
                   </p>
                 </div>
               </div>
             </div>
 
+            {/* experience item */}
             <div className="mb-8 flex items-start">
               <div className="relative w-1/4 pr-4 text-right">
-                <span className="block text-gray-500 dark:text-gray-400">June 2022</span>
-                <span className="block text-gray-500 dark:text-gray-400">September 2022</span>
+                <span className="block text-gray-500 dark:text-gray-400">August 2017</span>
+                <span className="block text-primary-500 dark:text-primary-400">Present</span>
                 <div className="absolute right-[-10px] top-1/2 h-4 w-4 rounded-full bg-primary-500"></div>
               </div>
+
               <div className="w-3/4 pl-12">
-                <div className="transform rounded-md bg-gray-50 p-6 shadow-md transition-transform duration-300 hover:scale-105 dark:bg-gray-700">
-                  <h4 className="text-lg font-bold">📈 FinTech Startup</h4>
-                  <p className="italic">Role: Self-Employed Data Scientist</p>
-                  <p>
-                    Applied ML and deep learning techniques to financial analysis in the
-                    cryptocurrency sector.
+                <div className="milestone-item relative overflow-hidden">
+                  {/* Background Logo */}
+                  <Image
+                    src="/static/cv/sztaki.png" // Add the correct logo path for SZTAKI
+                    alt="Institute for Computer Science and Control (SZTAKI) Logo"
+                    height={100}
+                    width={100}
+                    className="absolute -right-24 top-4 h-auto w-64 rounded-full object-contain opacity-5"
+                  />
+
+                  {/* Role and Organization */}
+                  <h4 className="mb-2 text-lg font-bold text-gray-900 dark:text-gray-100">
+                    Developer & Researcher – Institute for Computer Science and Control
+                  </h4>
+
+                  {/* Location */}
+                  <p className="text-primary-500 dark:text-primary-400">
+                    (HUN-REN SZTAKI) Optical Sensing and Processing Laboratory, Budapest, HUN
+                  </p>
+
+                  {/* Compressed Content Info */}
+                  <p className="mt-2 text-gray-600 dark:text-gray-300">
+                    During my MSc studies, I began working here part-time on a project to detect
+                    subtle skin color changes related to the cardiac cycle using regular cameras,
+                    enabling <strong>remote pulse-rate measurement</strong>. This work became the
+                    foundation of my MSc thesis. After graduating, I transitioned to a full-time
+                    role and joined the <strong>digital holography</strong> project in 2020 – where
+                    I am responsible for the AI-related tasks. This project eventually led to the
+                    founding of a startup, <strong>HoloDetect</strong>. Learn more at:{' '}
+                    <a
+                      href="http://holodetect.com"
+                      target="_blank"
+                      className="text-primary-500 hover:underline dark:text-primary-400"
+                    >
+                      holodetect.com
+                    </a>
+                    .
                   </p>
                 </div>
               </div>
             </div>
 
+            {/* experience item */}
             <div className="mb-8 flex items-start">
               <div className="relative w-1/4 pr-4 text-right">
-                <span className="block text-gray-500 dark:text-gray-400">June 2022</span>
-                <span className="block text-gray-500 dark:text-gray-400">September 2022</span>
+                <span className="block text-gray-500 dark:text-gray-400">March 2016</span>
+                <span className="block text-gray-500 dark:text-gray-400">June 2016</span>
                 <div className="absolute right-[-10px] top-1/2 h-4 w-4 rounded-full bg-primary-500"></div>
               </div>
+
               <div className="w-3/4 pl-12">
-                <div className="transform rounded-md bg-gray-50 p-6 shadow-md transition-transform duration-300 hover:scale-105 dark:bg-gray-700">
-                  <h4 className="text-lg font-bold">📈 FinTech Startup</h4>
-                  <p className="italic">Role: Self-Employed Data Scientist</p>
-                  <p>
-                    Applied ML and deep learning techniques to financial analysis in the
-                    cryptocurrency sector.
+                <div className="milestone-item relative overflow-hidden">
+                  {/* Background Logo */}
+                  <Image
+                    src="/static/cv/turbine.png" // Add the correct logo path for Turbine
+                    alt="Turbine Ltd. Logo"
+                    height={100}
+                    width={100}
+                    className="absolute -right-16 -top-2 h-auto w-56 rounded-full object-contain opacity-5"
+                  />
+
+                  {/* Role and Organization */}
+                  <h4 className="mb-2 text-lg font-bold text-gray-900 dark:text-gray-100">
+                    Research Intern – Turbine
+                  </h4>
+
+                  {/* Content Info */}
+                  <p className="text-primary-500 dark:text-primary-400">
+                    <a href="http://turbine.ai" target="_blank" className="hover:underline">
+                      turbine.ai
+                    </a>
+                    , Budapest, Hungary
+                  </p>
+
+                  {/* Content Info */}
+                  <p className="mt-2 text-gray-600 dark:text-gray-300">
+                    Turbine’s goal is to design effective and personalised cancer combination
+                    therapies using artificial intelligence and computer simulations. My task was to
+                    explore machine learning (deep learning) applications in the field of
+                    computational biology.
                   </p>
                 </div>
               </div>
@@ -211,26 +290,27 @@ const ResumePage = () => {
                     alt="Institute of Experimental Medicine (KOKI) Logo"
                     height={100}
                     width={100}
-                    className="invert-100 absolute -right-24 -top-0 h-auto w-64 object-contain opacity-5 dark:opacity-5 dark:invert-0"
+                    className="invert-100 invert-light absolute -right-24 -top-0 h-auto w-64 object-contain opacity-5"
                   />
 
                   {/* Role and Organization */}
                   <h4 className="mb-2 text-lg font-bold text-gray-900 dark:text-gray-100">
-                    Student Researcher at the Institute of Experimental Medicine (KOKI)
+                    Student Researcher – Institute of Experimental Medicine
                   </h4>
 
                   {/* Location */}
                   <p className="text-primary-500 dark:text-primary-400">
-                    Computational Neuroscience Workgroup, Budapest, Hungary
+                    (HUN-REN KOKI) Computational Neuroscience Workgroup, Budapest, Hungary
                   </p>
 
                   {/* Content Info */}
                   <p className="mt-2 text-gray-600 dark:text-gray-300">
                     I've started working in this role during my BSc studies, focusing on the
                     statistical inference of realistic neuron model parameters through computer
-                    simulations and Bayesian statistical tools. This work formed the basis of my Bsc
-                    thesis and continued for several years after graduation, ultimately culminating
-                    in the publication of our valuable research findings in a peer-reviewed paper.
+                    simulations and Bayesian statistical tools. This work formed the basis of my BSc
+                    thesis and continued for several years after my graduation, ultimately
+                    culminating in the publication of our research findings in a peer-reviewed
+                    paper.
                   </p>
                 </div>
               </div>
@@ -499,15 +579,16 @@ const ResumePage = () => {
                   <span className="italic text-primary-500 dark:text-primary-400">
                     2022 Society for Neuroscience (SfN) Conference, San Diego, CA, USA
                   </span>
-                  <p className="text-primary-500 dark:text-primary-400">
-                    <strong>Link: </strong>
-                    <a
-                      href="https://www.dropbox.com/scl/fi/hiyrkns48ke4v36z8t769/SfN_2022_Kali_v2.mp4?rlkey=axt4y9vg67fr7nc35ljw5bvsh&st=thqeahyv&dl=0"
-                      target="_blank"
-                    >
-                      https://bit.ly/sfn-presentation
-                    </a>
-                  </p>
+                </p>
+                <p className="text-primary-500 dark:text-primary-400">
+                  <strong>Link: </strong>
+                  <a
+                    href="https://www.dropbox.com/scl/fi/hiyrkns48ke4v36z8t769/SfN_2022_Kali_v2.mp4?rlkey=axt4y9vg67fr7nc35ljw5bvsh&st=thqeahyv&dl=0"
+                    target="_blank"
+                    className="hover:underline"
+                  >
+                    https://bit.ly/sfn-presentation
+                  </a>
                 </p>
               </div>
             </div>
@@ -674,9 +755,7 @@ const ResumePage = () => {
 
         {/* -------------------------------------- Skills Section ------------------------------------------ */}
         <div className="mt-12">
-          <h3 className="ml-20 text-3xl font-bold text-primary-500 dark:text-primary-400">
-            Skills
-          </h3>
+          <h3 className="ml-8 text-3xl font-bold text-primary-500 dark:text-primary-400">Skills</h3>
 
           <div className="mt-8 grid grid-cols-2 gap-6 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
             {/* Skill 1 */}
@@ -800,7 +879,7 @@ const ResumePage = () => {
                 ></circle>
               </svg>
               <p className="mt-4 text-lg font-semibold text-gray-700 dark:text-gray-300">MLOps</p>
-              <p className="font-bold text-primary-500">70%</p>
+              <p className="font-bold text-primary-500">74%</p>
             </div>
 
             {/* Skill 6 */}
