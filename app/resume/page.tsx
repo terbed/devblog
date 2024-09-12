@@ -68,9 +68,9 @@ const ResumePage = () => {
                   height="24px"
                   xmlns="http://www.w3.org/2000/svg"
                   className="text-black dark:text-white"
-                  viewBox="0 0 128 128"
+                  viewBox="0 0 1920 1920"
                 >
-                  <path d="M123.25 24.192c0-.018 0-.034-.005-.052s-.007-.063-.009-.094a1.734 1.734 0 0 0-.083-.408c-.006-.018 0-.037-.011-.055s-.01-.015-.013-.023a1.734 1.734 0 0 0-.227-.407c-.021-.028-.043-.053-.066-.08a1.755 1.755 0 0 0-.31-.294c-.012-.009-.022-.02-.034-.028a1.744 1.744 0 0 0-.414-.2c-.034-.012-.068-.022-.1-.032a1.733 1.733 0 0 0-.474-.073H6.5a1.733 1.733 0 0 0-.474.073c-.035.01-.068.02-.1.032a1.744 1.744 0 0 0-.414.2c-.012.008-.022.019-.034.028a1.755 1.755 0 0 0-.31.294c-.022.027-.045.052-.066.08a1.734 1.734 0 0 0-.227.407c0 .008-.01.015-.013.023s-.005.037-.011.055a1.734 1.734 0 0 0-.083.408c0 .032-.009.063-.009.094s-.005.034-.005.052v79.615c0 .023.006.045.007.068a1.737 1.737 0 0 0 .019.188c.008.051.015.1.027.152a1.74 1.74 0 0 0 .056.179c.017.047.033.094.054.139a1.729 1.729 0 0 0 .093.172c.024.04.048.081.075.119a1.743 1.743 0 0 0 .125.152c.033.036.066.072.1.106.021.019.037.042.059.061s.036.017.052.03a1.736 1.736 0 0 0 .452.263c.035.014.071.022.107.033a1.732 1.732 0 0 0 .488.085c.012 0 .023.006.035.006H121.501c.012 0 .023-.006.034-.006a1.732 1.732 0 0 0 .489-.085c.035-.011.07-.019.1-.033a1.736 1.736 0 0 0 .453-.263c.016-.013.036-.017.052-.03s.038-.042.059-.061c.036-.034.069-.069.1-.106a1.743 1.743 0 0 0 .125-.152c.027-.038.051-.078.075-.119a1.729 1.729 0 0 0 .093-.172c.021-.045.037-.092.054-.139a1.74 1.74 0 0 0 .056-.179c.012-.05.019-.1.027-.152a1.737 1.737 0 0 0 .019-.188c0-.023.007-.045.007-.068zM45.8 60.316l17.058 14.677a1.751 1.751 0 0 0 2.283 0L82.2 60.316l35.512 41.741H10.289zM8.25 99.052V28.007l34.9 30.026zm76.6-41.019 34.9-30.026v71.045zm31.931-32.091L81.276 56.493c-.006.005-.014.008-.02.014l-.019.02L64 71.358 46.763 56.527l-.019-.02-.02-.014-35.507-30.551z" />
+                  <path d="M1920 428.266v1189.54l-464.16-580.146-88.203 70.585 468.679 585.904H83.684l468.679-585.904-88.202-70.585L0 1617.805V428.265l959.944 832.441L1920 428.266ZM1919.932 226v52.627l-959.943 832.44L.045 278.628V226h1919.887Z" />
                 </svg>
                 <a
                   href="mailto:terbed@gmail.com"
@@ -198,7 +198,7 @@ const ResumePage = () => {
           </div>
         </div>
 
-        {/* Education Section */}
+        {/* ------------------------------------- Education Section --------------------------------------------*/}
         <div className="mt-12">
           <h3 className="ml-20 text-3xl font-bold text-primary-500 dark:text-primary-400">
             Education
@@ -279,7 +279,7 @@ const ResumePage = () => {
           </div>
         </div>
 
-        {/* Publications */}
+        {/* ----------------------------------------- Publications -------------------------------------------- */}
         <div className="mt-12">
           {/* Adjust the title to be centered on the timeline */}
           <h3 className="relative ml-20 text-3xl font-bold text-primary-500 dark:text-primary-400">
@@ -418,7 +418,7 @@ const ResumePage = () => {
           </div>
         </div>
 
-        {/* Conferences Section */}
+        {/* -------------------------------------- Conferences Section ------------------------------------------ */}
         <h3 className="ml-20 mt-12 text-3xl font-bold text-primary-500 dark:text-primary-400">
           Conferences
         </h3>
@@ -428,17 +428,28 @@ const ResumePage = () => {
           {/* Conference Items */}
           <div className="mb-8 flex items-start">
             <div className="relative w-1/4 pr-4 text-right">
-              <span className="block text-gray-500 dark:text-gray-400">2022</span>
+              <span className="block text-gray-500 dark:text-gray-400">December 2022</span>
               <div className="absolute right-[-10px] top-2 h-4 w-4 rounded-full bg-primary-500"></div>
             </div>
+
             <div className="w-3/4 pl-12">
-              <div className="milestone-item">
-                <h4 className="text-lg font-bold">
-                  2022 Society for Neuroscience (SfN) Conference
+              <div className="milestone-item relative overflow-hidden">
+                {/* Presentation Title */}
+                <h4 className="mb-2 text-lg font-bold text-gray-900 dark:text-gray-100">
+                  Reliable estimation of neuronal biophysical parameters from electrophysiological
+                  recordings
                 </h4>
-                <p>
-                  Presentation: "Reliable estimation of neuronal biophysical parameters from
-                  electrophysiological recordings." by Terbe D., Szoboszlay M., Nusser Z., Káli Sz.
+
+                {/* Authors */}
+                <p className="text-gray-600 dark:text-gray-300">
+                  D. Terbe, M. Szoboszlay, Z. Nusser, Sz. Káli
+                </p>
+
+                {/* Conference Name */}
+                <p className="mt-1 text-gray-600 dark:text-gray-300">
+                  <span className="italic text-primary-500 dark:text-primary-400">
+                    2022 Society for Neuroscience (SfN) Conference, San Diego, CA, USA
+                  </span>
                 </p>
               </div>
             </div>
@@ -446,18 +457,155 @@ const ResumePage = () => {
 
           <div className="mb-8 flex items-start">
             <div className="relative w-1/4 pr-4 text-right">
-              <span className="block text-gray-500 dark:text-gray-400">2020</span>
+              <span className="block text-gray-500 dark:text-gray-400">January 2022</span>
+              <div className="absolute right-[-10px] top-2 h-4 w-4 rounded-full bg-primary-500"></div>
+            </div>
+
+            <div className="w-3/4 pl-12">
+              <div className="milestone-item relative overflow-hidden">
+                {/* Presentation Title */}
+                <h4 className="mb-2 text-lg font-bold text-gray-900 dark:text-gray-100">
+                  The application of voice conversion methods to improve the speech quality of
+                  dysarthric patients
+                </h4>
+
+                {/* Authors */}
+                <p className="text-gray-600 dark:text-gray-300">D. Terbe, L. Tóth, L. Ivaskó</p>
+
+                {/* Conference Name and DOI */}
+                <p className="mt-1 text-gray-600 dark:text-gray-300">
+                  <span className="italic text-primary-500 dark:text-primary-400">
+                    XVIII. Hungarian Conference on Computational Linguistics, Szeged, January 27-28,
+                    2022
+                  </span>{' '}
+                  <span className="mt-1 text-primary-500 dark:text-primary-400">
+                    <strong>Link:</strong>{' '}
+                    <a
+                      href="https://acta.bibl.u-szeged.hu/75872/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-primary-500 hover:underline dark:text-primary-400"
+                    >
+                      https://acta.bibl.u-szeged.hu/75872/
+                    </a>
+                  </span>
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div className="mb-8 flex items-start">
+            <div className="relative w-1/4 pr-4 text-right">
+              <span className="block text-gray-500 dark:text-gray-400">October 2020</span>
               <div className="absolute right-[-10px] top-2 h-4 w-4 rounded-full bg-primary-500"></div>
             </div>
             <div className="w-3/4 pl-12">
-              <div className="milestone-item">
-                <h4 className="text-lg font-bold">
-                  2020 IEEE International Symposium on Circuits and Systems (ISCAS)
+              <div className="milestone-item relative overflow-hidden">
+                {/* Presentation Title */}
+                <h4 className="mb-2 text-lg font-bold text-gray-900 dark:text-gray-100">
+                  Multi-Level Optimization for Enabling Life Critical Visual Inspections of Infants
+                  in Resource Limited Environment
                 </h4>
-                <p>
-                  Presentation: "Multi-Level Optimization for Enabling Life Critical Visual
-                  Inspections of Infants in Resource Limited Environment." by Zarándy, Á., Földesy,
-                  P., Nagy, Á., Jánoki, I., Terbe, D., Siket, M., Szabó, M., and Varga, J.
+
+                {/* Authors */}
+                <p className="text-gray-600 dark:text-gray-300">
+                  Á. Zarándy, P. Földesy, Á. Nagy, I. Jánoki, D. Terbe, M. Siket, M. Szabó, and J.
+                  Varga
+                </p>
+
+                {/* Conference Name and DOI */}
+                <p className="mt-1 text-gray-600 dark:text-gray-300">
+                  <span className="italic text-primary-500 dark:text-primary-400">
+                    2020 IEEE International Symposium on Circuits and Systems (ISCAS), Seville,
+                    Spain, pp. 1-5
+                  </span>{' '}
+                  <strong className="text-primary-500 dark:text-primary-400">DOI:</strong>{' '}
+                  <a
+                    href="https://doi.org/10.1109/ISCAS45731.2020.9181040"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-primary-500 hover:underline dark:text-primary-400"
+                  >
+                    10.1109/ISCAS45731.2020.9181040
+                  </a>
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Conference Item */}
+          <div className="mb-8 flex items-start">
+            <div className="relative w-1/4 pr-4 text-right">
+              <span className="block text-gray-500 dark:text-gray-400">January 2019</span>
+              <div className="absolute right-[-10px] top-2 h-4 w-4 rounded-full bg-primary-500"></div>
+            </div>
+
+            <div className="w-3/4 pl-12">
+              <div className="milestone-item relative overflow-hidden">
+                {/* Presentation Title */}
+                <h4 className="mb-2 text-lg font-bold text-gray-900 dark:text-gray-100">
+                  Remote camera based heart rate estimation
+                </h4>
+
+                {/* Authors */}
+                <p className="text-gray-600 dark:text-gray-300">D. Terbe, Á. Zarándy</p>
+
+                {/* Conference Name and Link */}
+                <p className="mt-1 text-gray-600 dark:text-gray-300">
+                  <span className="italic text-primary-500 dark:text-primary-400">
+                    Hungarian Association for Image Processing and Pattern Recognition, 12th
+                    National Conference (KÉPAF 2019), Debrecen, January 28-31, 2019
+                  </span>
+                </p>
+                <p className="mt-1 text-primary-500 dark:text-primary-400">
+                  <strong>Link:</strong>{' '}
+                  <a
+                    href="https://eprints.sztaki.hu/9703/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-primary-500 hover:underline dark:text-primary-400"
+                  >
+                    https://eprints.sztaki.hu/9703/
+                  </a>
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Conference Item */}
+          <div className="mb-8 flex items-start">
+            <div className="relative w-1/4 pr-4 text-right">
+              <span className="block text-gray-500 dark:text-gray-400">August 2018</span>
+              <div className="absolute right-[-10px] top-2 h-4 w-4 rounded-full bg-primary-500"></div>
+            </div>
+
+            <div className="w-3/4 pl-12">
+              <div className="milestone-item relative overflow-hidden">
+                {/* Presentation Title */}
+                <h4 className="mb-2 text-lg font-bold text-gray-900 dark:text-gray-100">
+                  Remote camera based measurement of human vital signs
+                </h4>
+
+                {/* Authors */}
+                <p className="text-gray-600 dark:text-gray-300">D. Terbe, Á. Zarándy</p>
+
+                {/* Conference Name and Additional Info */}
+                <p className="mt-1 text-gray-600 dark:text-gray-300">
+                  <span className="italic text-primary-500 dark:text-primary-400">
+                    The 16th International Workshop on Cellular Nanoscale Networks and their
+                    Applications, Budapest, Hungary, August 28-30, 2018, pp. 1-5
+                  </span>
+                </p>
+                <p className="mt-1 text-primary-500 dark:text-primary-400">
+                  <strong>Link:</strong>{' '}
+                  <a
+                    href="https://ieeexplore.ieee.org/document/8470476"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-primary-500 hover:underline dark:text-primary-400"
+                  >
+                    https://ieeexplore.ieee.org/document/8470476
+                  </a>
                 </p>
               </div>
             </div>
@@ -466,6 +614,7 @@ const ResumePage = () => {
           {/* Add more conference items similarly */}
         </div>
 
+        {/* -------------------------------------- Skills Section ------------------------------------------ */}
         <div className="mt-12">
           <h3 className="ml-20 text-3xl font-bold text-primary-500 dark:text-primary-400">
             Skills
