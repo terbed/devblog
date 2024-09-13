@@ -730,7 +730,7 @@ const ResumePage = () => {
 
                 {/* Conference Name and Additional Info */}
                 <p className="mt-1 text-gray-600 dark:text-gray-300">
-                  <span className="italic text-primary-500 dark:text-primary-400">
+                  <span className="text-primary-500 dark:text-primary-400">
                     The 16th International Workshop on Cellular Nanoscale Networks and their
                     Applications, Budapest, Hungary, August 28-30, 2018, pp. 1-5
                   </span>
@@ -789,13 +789,13 @@ const ResumePage = () => {
                   stroke="currentColor"
                   strokeWidth="5"
                   strokeDasharray="251"
-                  strokeDashoffset="80"
+                  strokeDashoffset="90"
                   fill="none"
                   className="text-primary-500"
                 ></circle>
               </svg>
               <p className="mt-4 text-lg font-semibold text-gray-700 dark:text-gray-300">C++</p>
-              <p className="font-bold text-primary-500">60%</p>
+              <p className="font-bold text-primary-500">63%</p>
             </div>
 
             {/* Skill 3 */}
@@ -859,7 +859,7 @@ const ResumePage = () => {
               <p className="mt-4 text-lg font-semibold text-gray-700 dark:text-gray-300">
                 Frontend
               </p>
-              <p className="font-bold text-primary-500">5%</p>
+              <p className="font-bold text-primary-500">6%</p>
             </div>
 
             {/* Skill 5 */}
