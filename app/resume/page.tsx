@@ -161,7 +161,7 @@ const ResumePage = () => {
 
                   {/* Role and Organization */}
                   <h4 className="mb-2 text-lg font-bold text-gray-900 dark:text-gray-100">
-                    AI Consultant – University of Szeged (SZTE)
+                    Self-Employed AI Consultant – University of Szeged (SZTE)
                   </h4>
 
                   {/* Content Info */}
@@ -173,8 +173,8 @@ const ResumePage = () => {
                     Involved in a project aimed at improving impaired speech using deep learning
                     tools. The main focus was on leveraging{' '}
                     <strong>Generative Adversarial Networks (GANs)</strong> and exploring{' '}
-                    <strong>transformer-based voice conversion models</strong> for dysarthric
-                    speakers.
+                    <strong>transformer-based voice conversion models</strong> to enhance the speech
+                    quality of dysarthric patients.
                   </p>
                 </div>
               </div>
@@ -576,7 +576,7 @@ const ResumePage = () => {
 
                 {/* Conference Name */}
                 <p className="mt-1 text-gray-600 dark:text-gray-300">
-                  <span className="italic text-primary-500 dark:text-primary-400">
+                  <span className="text-primary-500 dark:text-primary-400">
                     2022 Society for Neuroscience (SfN) Conference, San Diego, CA, USA
                   </span>
                 </p>
@@ -613,7 +613,7 @@ const ResumePage = () => {
 
                 {/* Conference Name and DOI */}
                 <p className="mt-1 text-gray-600 dark:text-gray-300">
-                  <span className="italic text-primary-500 dark:text-primary-400">
+                  <span className="text-primary-500 dark:text-primary-400">
                     XVIII. Hungarian Conference on Computational Linguistics, Szeged, January 27-28,
                     2022
                   </span>{' '}
@@ -654,7 +654,7 @@ const ResumePage = () => {
 
                 {/* Conference Name and DOI */}
                 <p className="mt-1 text-gray-600 dark:text-gray-300">
-                  <span className="italic text-primary-500 dark:text-primary-400">
+                  <span className="text-primary-500 dark:text-primary-400">
                     2020 IEEE International Symposium on Circuits and Systems (ISCAS), Seville,
                     Spain, pp. 1-5
                   </span>{' '}
@@ -691,7 +691,7 @@ const ResumePage = () => {
 
                 {/* Conference Name and Link */}
                 <p className="mt-1 text-gray-600 dark:text-gray-300">
-                  <span className="italic text-primary-500 dark:text-primary-400">
+                  <span className="text-primary-500 dark:text-primary-400">
                     Hungarian Association for Image Processing and Pattern Recognition, 12th
                     National Conference (KÉPAF 2019), Debrecen, January 28-31, 2019
                   </span>
