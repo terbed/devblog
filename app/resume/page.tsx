@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useRef } from 'react'
+import React, { useState, useRef } from 'react'
 import { jsPDF } from 'jspdf'
 import html2canvas from 'html2canvas'
 import Image from 'next/image'
@@ -8,38 +8,51 @@ import Image from 'next/image'
 const ResumePage = () => {
   // Create a reference for the resume content
   const resumeRef = useRef(null)
+  const [isLoading, setIsLoading] = useState(false) // State to track loading
 
   // Function to generate the PDF
   const generatePDF = async () => {
-    const element = resumeRef.current
-    if (!element) {
-      console.error('Resume content is not available for PDF generation.')
-      return
-    }
-    const canvas = await html2canvas(element)
-    const imgData = canvas.toDataURL('image/png')
-    const pdf = new jsPDF('p', 'mm', 'a4')
+    setIsLoading(true) // Show loading animation
 
-    // Add image of the resume content to the PDF
-    const imgWidth = 210 // A4 page width in mm
-    const pageHeight = 297 // A4 page height in mm
-    const imgHeight = (canvas.height * imgWidth) / canvas.width
-    let heightLeft = imgHeight
-    let position = 0
+    setTimeout(async () => {
+      const element = resumeRef.current
+      if (!element) {
+        console.error('Resume content is not available for PDF generation.')
+        setIsLoading(false) // Hide loading animation if error
+        return
+      }
 
-    // Add multiple pages if necessary
-    pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight)
-    heightLeft -= pageHeight
+      try {
+        const canvas = await html2canvas(element)
+        const imgData = canvas.toDataURL('image/png')
+        const pdf = new jsPDF('p', 'mm', 'a4')
 
-    while (heightLeft >= 0) {
-      position = heightLeft - imgHeight
-      pdf.addPage()
-      pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight)
-      heightLeft -= pageHeight
-    }
+        const imgWidth = 210 // A4 page width in mm
+        const pageHeight = 297 // A4 page height in mm
+        const imgHeight = (canvas.height * imgWidth) / canvas.width
+        let heightLeft = imgHeight
+        let position = 0
 
-    // Save the PDF
-    pdf.save('DanielTerbeCV.pdf')
+        // Add image of the resume content to the PDF
+        pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight)
+        heightLeft -= pageHeight
+
+        // Add multiple pages if necessary
+        while (heightLeft >= 0) {
+          position = heightLeft - imgHeight
+          pdf.addPage()
+          pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight)
+          heightLeft -= pageHeight
+        }
+
+        // Save the PDF
+        pdf.save('DanielTerbeCV.pdf')
+      } catch (error) {
+        console.error('Error generating PDF:', error)
+      } finally {
+        setIsLoading(false) // Hide loading animation after PDF generation
+      }
+    }, 0) // Set a timeout of 0 to allow the loading state to update
   }
 
   return (
@@ -908,12 +921,24 @@ const ResumePage = () => {
           </div>
         </div>
       </div>
+
+      {/* Modal for Loading Indicator */}
+      {isLoading && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm">
+          <div className="flex flex-col items-center justify-center rounded-md bg-white p-8 shadow-lg dark:bg-gray-800">
+            <div className="loader mb-4 h-16 w-16 animate-spin rounded-full border-t-4 border-primary-500"></div>
+            <p className="text-lg text-gray-700 dark:text-gray-300">Generating PDF...</p>
+          </div>
+        </div>
+      )}
+
       {/* Download button */}
       <button
         onClick={generatePDF}
         className="mt-8 transform rounded-md bg-primary-500 px-4 py-2 font-semibold text-white shadow-md transition-transform hover:scale-105 hover:bg-primary-600 dark:bg-primary-500 dark:hover:bg-primary-600"
+        disabled={isLoading} // Disable the button while loading
       >
-        Download PDF
+        {isLoading ? 'Generating PDF...' : 'Download PDF'}
       </button>
     </div>
   )
