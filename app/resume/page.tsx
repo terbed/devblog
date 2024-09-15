@@ -146,22 +146,26 @@ const ResumePage = () => {
 
         {/* ------------------------ Experience Section ----------------------------------------- */}
         <div className="mt-10">
-          <h3 className="ml-20 text-3xl font-bold text-primary-500 dark:text-primary-400">
+          <h3 className="text-left text-3xl font-bold text-primary-500 dark:text-primary-400 md:ml-20">
             Experience
           </h3>
           <div className="relative mt-8">
             {/* Adjust line and dot position */}
-            <div className="absolute left-1/4 h-full w-1 bg-primary-500"></div>
+            <div className="absolute left-1/4 hidden h-full w-1 bg-primary-500 md:block"></div>
 
             {/* experience item */}
+            {/* Date section for mobile view */}
+            <div className="mb-2 block text-gray-500 dark:text-gray-400 md:hidden">
+              <span>October 2020 - January 2021</span>
+            </div>
             <div className="mb-8 flex items-start">
-              <div className="relative w-1/4 pr-4 text-right">
+              <div className="relative hidden w-1/4 pr-4 text-right md:block">
                 <span className="block text-gray-500 dark:text-gray-400">October 2020</span>
                 <span className="block text-gray-500 dark:text-gray-400">January 2021</span>
                 <div className="absolute right-[-10px] top-1/2 h-4 w-4 rounded-full bg-primary-500"></div>
               </div>
 
-              <div className="w-3/4 pl-12">
+              <div className="w-full md:w-3/4 md:pl-12">
                 <div className="milestone-item relative overflow-hidden">
                   {/* Background Logo */}
                   <Image
@@ -194,14 +198,18 @@ const ResumePage = () => {
             </div>
 
             {/* experience item */}
+            {/* Date section for mobile view */}
+            <div className="mb-2 block text-gray-500 dark:text-gray-400 md:hidden">
+              <span>August 2017 - Present</span>
+            </div>
             <div className="mb-8 flex items-start">
-              <div className="relative w-1/4 pr-4 text-right">
+              <div className="relative hidden w-1/4 pr-4 text-right md:block">
                 <span className="block text-gray-500 dark:text-gray-400">August 2017</span>
                 <span className="block text-primary-500 dark:text-primary-400">Present</span>
                 <div className="absolute right-[-10px] top-1/2 h-4 w-4 rounded-full bg-primary-500"></div>
               </div>
 
-              <div className="w-3/4 pl-12">
+              <div className="w-full md:w-3/4 md:pl-12">
                 <div className="milestone-item relative overflow-hidden">
                   {/* Background Logo */}
                   <Image
@@ -245,14 +253,17 @@ const ResumePage = () => {
             </div>
 
             {/* experience item */}
+            <div className="mb-2 block text-gray-500 dark:text-gray-400 md:hidden">
+              <span>March 2016 - June 2016</span>
+            </div>
             <div className="mb-8 flex items-start">
-              <div className="relative w-1/4 pr-4 text-right">
+              <div className="relative hidden w-1/4 pr-4 text-right md:block">
                 <span className="block text-gray-500 dark:text-gray-400">March 2016</span>
                 <span className="block text-gray-500 dark:text-gray-400">June 2016</span>
                 <div className="absolute right-[-10px] top-1/2 h-4 w-4 rounded-full bg-primary-500"></div>
               </div>
 
-              <div className="w-3/4 pl-12">
+              <div className="w-full md:w-3/4 md:pl-12">
                 <div className="milestone-item relative overflow-hidden">
                   {/* Background Logo */}
                   <Image
@@ -288,14 +299,17 @@ const ResumePage = () => {
             </div>
 
             {/* experience item */}
+            <div className="mb-2 block text-gray-500 dark:text-gray-400 md:hidden">
+              <span>September 2015 - January 2025</span>
+            </div>
             <div className="mb-8 flex items-start">
-              <div className="relative w-1/4 pr-4 text-right">
+              <div className="relative hidden w-1/4 pr-4 text-right md:block">
                 <span className="block text-gray-500 dark:text-gray-400">September 2015</span>
-                <span className="block text-gray-500 dark:text-gray-400">December 2024</span>
+                <span className="block text-gray-500 dark:text-gray-400">January 2025</span>
                 <div className="absolute right-[-10px] top-1/2 h-4 w-4 rounded-full bg-primary-500"></div>
               </div>
 
-              <div className="w-3/4 pl-12">
+              <div className="w-full md:w-3/4 md:pl-12">
                 <div className="milestone-item relative overflow-hidden">
                   {/* Background Logo */}
                   <Image
@@ -335,20 +349,23 @@ const ResumePage = () => {
 
         {/* ------------------------------------- Education Section --------------------------------------------*/}
         <div className="mt-12">
-          <h3 className="ml-20 text-3xl font-bold text-primary-500 dark:text-primary-400">
+          <h3 className="text-left text-3xl font-bold text-primary-500 dark:text-primary-400 md:ml-20">
             Education
           </h3>
           <div className="relative mt-8">
             {/* Adjust line and dot position */}
-            <div className="absolute left-1/4 h-full w-1 bg-primary-500"></div>
+            <div className="absolute left-1/4 hidden h-full w-1 bg-primary-500 md:block"></div>
 
             {/* Education Items */}
+            <div className="mb-2 block text-gray-500 dark:text-gray-400 md:hidden">
+              <span>2017 - 2020</span>
+            </div>
             <div className="mb-8 flex items-start">
-              <div className="relative w-1/4 pr-4 text-right">
+              <div className="relative hidden w-1/4 pr-4 text-right md:block">
                 <span className="block text-gray-500 dark:text-gray-400">2017 – 2020</span>
                 <div className="absolute right-[-10px] top-2 h-4 w-4 rounded-full bg-primary-500"></div>
               </div>
-              <div className="relative w-3/4 pl-12">
+              <div className="w-full md:w-3/4 md:pl-12">
                 <div className="milestone-item overflow-hidden">
                   {/* Background Logo */}
                   <Image
@@ -379,12 +396,15 @@ const ResumePage = () => {
               </div>
             </div>
 
+            <div className="mb-2 block text-gray-500 dark:text-gray-400 md:hidden">
+              <span>2013 - 2017</span>
+            </div>
             <div className="mb-8 flex items-start">
-              <div className="relative w-1/4 pr-4 text-right">
+              <div className="relative hidden w-1/4 pr-4 text-right md:block">
                 <span className="block text-gray-500 dark:text-gray-400">2013 – 2017</span>
                 <div className="absolute right-[-10px] top-2 h-4 w-4 rounded-full bg-primary-500"></div>
               </div>
-              <div className="relative w-3/4 pl-12">
+              <div className="w-full md:w-3/4 md:pl-12">
                 <div className="milestone-item overflow-hidden">
                   {/* Background Logo */}
                   <Image
@@ -421,20 +441,23 @@ const ResumePage = () => {
         {/* ----------------------------------------- Publications -------------------------------------------- */}
         <div className="mt-12">
           {/* Adjust the title to be centered on the timeline */}
-          <h3 className="relative ml-20 text-3xl font-bold text-primary-500 dark:text-primary-400">
+          <h3 className="relative text-left text-3xl font-bold text-primary-500 dark:text-primary-400 md:ml-20">
             Publications
           </h3>
           <div className="relative mt-8">
             {/* Timeline line */}
-            <div className="absolute left-1/4 h-full w-1 bg-primary-500"></div>
+            <div className="absolute left-1/4 hidden h-full w-1 bg-primary-500 md:block"></div>
 
             {/* Publication Items */}
+            <div className="mb-2 block text-gray-500 dark:text-gray-400 md:hidden">
+              <span>January 2024</span>
+            </div>
             <div className="mb-8 flex items-start">
-              <div className="relative w-1/4 pr-4 text-right">
+              <div className="relative hidden w-1/4 pr-4 text-right md:block">
                 <span className="block text-gray-500 dark:text-gray-400">January 2024</span>
                 <div className="absolute right-[-10px] top-2 h-4 w-4 rounded-full bg-primary-500"></div>
               </div>
-              <div className="w-3/4 pl-12">
+              <div className="w-full md:w-3/4 md:pl-12">
                 <div className="milestone-item relative overflow-hidden">
                   {/* Background Noise Image */}
                   <Image
@@ -470,12 +493,15 @@ const ResumePage = () => {
               </div>
             </div>
 
+            <div className="mb-2 block text-gray-500 dark:text-gray-400 md:hidden">
+              <span>October 2022</span>
+            </div>
             <div className="mb-8 flex items-start">
-              <div className="relative w-1/4 pr-4 text-right">
+              <div className="relative hidden w-1/4 pr-4 text-right md:block">
                 <span className="block text-gray-500 dark:text-gray-400">October 2022</span>
                 <div className="absolute right-[-10px] top-2 h-4 w-4 rounded-full bg-primary-500"></div>
               </div>
-              <div className="w-3/4 pl-12">
+              <div className="w-full md:w-3/4 md:pl-12">
                 <div className="milestone-item">
                   <h4 className="mb-2 text-lg font-bold text-gray-900 dark:text-gray-100">
                     Classification of Holograms with 3D-CNN
@@ -498,12 +524,15 @@ const ResumePage = () => {
               </div>
             </div>
 
+            <div className="mb-2 block text-gray-500 dark:text-gray-400 md:hidden">
+              <span>October 2021</span>
+            </div>
             <div className="mb-8 flex items-start">
-              <div className="relative w-1/4 pr-4 text-right">
+              <div className="relative hidden w-1/4 pr-4 text-right md:block">
                 <span className="block text-gray-500 dark:text-gray-400">October 2021</span>
                 <div className="absolute right-[-10px] top-2 h-4 w-4 rounded-full bg-primary-500"></div>
               </div>
-              <div className="w-3/4 pl-12">
+              <div className="w-full md:w-3/4 md:pl-12">
                 <div className="milestone-item">
                   <h4 className="mb-2 text-lg font-bold text-gray-900 dark:text-gray-100">
                     Deep-learning-based bright-field image generation from a single hologram using
@@ -527,12 +556,15 @@ const ResumePage = () => {
               </div>
             </div>
 
+            <div className="mb-2 block text-gray-500 dark:text-gray-400 md:hidden">
+              <span>July 2021</span>
+            </div>
             <div className="mb-8 flex items-start">
-              <div className="relative w-1/4 pr-4 text-right">
+              <div className="relative hidden w-1/4 pr-4 text-right md:block">
                 <span className="block text-gray-500 dark:text-gray-400">July 2021</span>
                 <div className="absolute right-[-10px] top-2 h-4 w-4 rounded-full bg-primary-500"></div>
               </div>
-              <div className="w-3/4 pl-12">
+              <div className="w-full md:w-3/4 md:pl-12">
                 <div className="milestone-item">
                   <h4 className="mb-2 text-lg font-bold text-gray-900 dark:text-gray-100">
                     Continuous Camera-Based Premature-Infant Monitoring Algorithms for NICU
@@ -561,20 +593,23 @@ const ResumePage = () => {
         </div>
 
         {/* -------------------------------------- Conferences Section ------------------------------------------ */}
-        <h3 className="ml-20 mt-12 text-3xl font-bold text-primary-500 dark:text-primary-400">
+        <h3 className="mt-12 text-left text-3xl font-bold text-primary-500 dark:text-primary-400 md:ml-20">
           Conferences
         </h3>
         <div className="relative mt-8">
-          <div className="absolute left-1/4 h-full w-1 bg-primary-500"></div>
+          <div className="absolute left-1/4 hidden h-full w-1 bg-primary-500 md:block"></div>
 
           {/* Conference Items */}
+          <div className="mb-2 block text-gray-500 dark:text-gray-400 md:hidden">
+            <span>December 2022</span>
+          </div>
           <div className="mb-8 flex items-start">
-            <div className="relative w-1/4 pr-4 text-right">
+            <div className="relative hidden w-1/4 pr-4 text-right md:block">
               <span className="block text-gray-500 dark:text-gray-400">December 2022</span>
               <div className="absolute right-[-10px] top-2 h-4 w-4 rounded-full bg-primary-500"></div>
             </div>
 
-            <div className="w-3/4 pl-12">
+            <div className="w-full md:w-3/4 md:pl-12">
               <div className="milestone-item relative overflow-hidden">
                 {/* Presentation Title */}
                 <h4 className="mb-2 text-lg font-bold text-gray-900 dark:text-gray-100">
@@ -607,13 +642,16 @@ const ResumePage = () => {
             </div>
           </div>
 
+          <div className="mb-2 block text-gray-500 dark:text-gray-400 md:hidden">
+            <span>January 2022</span>
+          </div>
           <div className="mb-8 flex items-start">
-            <div className="relative w-1/4 pr-4 text-right">
+            <div className="relative hidden w-1/4 pr-4 text-right md:block">
               <span className="block text-gray-500 dark:text-gray-400">January 2022</span>
               <div className="absolute right-[-10px] top-2 h-4 w-4 rounded-full bg-primary-500"></div>
             </div>
 
-            <div className="w-3/4 pl-12">
+            <div className="w-full md:w-3/4 md:pl-12">
               <div className="milestone-item relative overflow-hidden">
                 {/* Presentation Title */}
                 <h4 className="mb-2 text-lg font-bold text-gray-900 dark:text-gray-100">
@@ -646,12 +684,15 @@ const ResumePage = () => {
             </div>
           </div>
 
+          <div className="mb-2 block text-gray-500 dark:text-gray-400 md:hidden">
+            <span>October 2020</span>
+          </div>
           <div className="mb-8 flex items-start">
-            <div className="relative w-1/4 pr-4 text-right">
+            <div className="relative hidden w-1/4 pr-4 text-right md:block">
               <span className="block text-gray-500 dark:text-gray-400">October 2020</span>
               <div className="absolute right-[-10px] top-2 h-4 w-4 rounded-full bg-primary-500"></div>
             </div>
-            <div className="w-3/4 pl-12">
+            <div className="w-full md:w-3/4 md:pl-12">
               <div className="milestone-item relative overflow-hidden">
                 {/* Presentation Title */}
                 <h4 className="mb-2 text-lg font-bold text-gray-900 dark:text-gray-100">
@@ -686,13 +727,16 @@ const ResumePage = () => {
           </div>
 
           {/* Conference Item */}
+          <div className="mb-2 block text-gray-500 dark:text-gray-400 md:hidden">
+            <span>January 2019</span>
+          </div>
           <div className="mb-8 flex items-start">
-            <div className="relative w-1/4 pr-4 text-right">
+            <div className="relative hidden w-1/4 pr-4 text-right md:block">
               <span className="block text-gray-500 dark:text-gray-400">January 2019</span>
               <div className="absolute right-[-10px] top-2 h-4 w-4 rounded-full bg-primary-500"></div>
             </div>
 
-            <div className="w-3/4 pl-12">
+            <div className="w-full md:w-3/4 md:pl-12">
               <div className="milestone-item relative overflow-hidden">
                 {/* Presentation Title */}
                 <h4 className="mb-2 text-lg font-bold text-gray-900 dark:text-gray-100">
@@ -725,13 +769,16 @@ const ResumePage = () => {
           </div>
 
           {/* Conference Item */}
+          <div className="mb-2 block text-gray-500 dark:text-gray-400 md:hidden">
+            <span>August 2018</span>
+          </div>
           <div className="mb-8 flex items-start">
-            <div className="relative w-1/4 pr-4 text-right">
+            <div className="relative hidden w-1/4 pr-4 text-right md:block">
               <span className="block text-gray-500 dark:text-gray-400">August 2018</span>
               <div className="absolute right-[-10px] top-2 h-4 w-4 rounded-full bg-primary-500"></div>
             </div>
 
-            <div className="w-3/4 pl-12">
+            <div className="w-full md:w-3/4 md:pl-12">
               <div className="milestone-item relative overflow-hidden">
                 {/* Presentation Title */}
                 <h4 className="mb-2 text-lg font-bold text-gray-900 dark:text-gray-100">
@@ -920,7 +967,8 @@ const ResumePage = () => {
             {/* More skills */}
           </div>
         </div>
-        {/* Website */}
+
+        {/* Resume Footer Link */}
         <div className="mt-8 flex justify-center">
           <div className="flex items-center space-x-2">
             <svg
