@@ -96,7 +96,7 @@ export default function PostLayout({ content, authorDetails, next, prev, childre
                 </ul>
               </dd>
               {/* "Support Me" section here */}
-              <div className="pt-6 text-sm font-medium leading-5">
+              <div className="flex flex-col items-center pt-6 text-sm font-medium leading-5 xl:items-start">
                 <h2 className="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400">
                   Support Me
                 </h2>
@@ -107,8 +107,6 @@ export default function PostLayout({ content, authorDetails, next, prev, childre
                   </span>
                 </div>
               </div>
-              {/* Notes container */}
-              {/* <div id="notes-container" className="relative mt-10"></div>  Notes block here */}
             </dl>
             <div className="divide-y divide-gray-200 dark:divide-gray-700 xl:col-span-3 xl:row-span-2 xl:pb-0">
               {/* Main content block */}
