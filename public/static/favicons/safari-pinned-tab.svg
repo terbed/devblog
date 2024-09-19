@@ -1,10 +1,10 @@
-<?xml version="1.0" standalone="no"?>
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010904//EN"
- "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
-<svg version="1.0" xmlns="http://www.w3.org/2000/svg"
- width="107.000000pt" height="107.000000pt" viewBox="0 0 107.000000 107.000000"
- preserveAspectRatio="xMidYMid meet">
-<metadata>
-Created by potrace 1.11, written by Peter Selinger 2001-2013
-</metadata>
-<path d="M16 3.383l-.924-.383-7.297 17.617.924.383 7.297-17.617zm.287 3.617l6.153 4.825-6.173 5.175.678.737 7.055-5.912-7.048-5.578-.665.753zm-8.478 0l-6.249 4.825 6.003 5.175-.679.737-6.884-5.912 7.144-5.578.665.753z"/></svg>
+
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="400" version="1.1">
+    <defs>
+        <linearGradient id="universalGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="20%" style="stop-color:#ec407a; stop-opacity:1" />
+            <stop offset="100%" style="stop-color:#00bfa5; stop-opacity:1" />
+        </linearGradient>
+    </defs>
+    <path d="m87.347 290.6 112.65-256.99h6.2996l106.35 256.99zm181.02-15.749-75.04-184.54-81.155 184.54z" fill="url(#universalGradient)"/>
+</svg>
