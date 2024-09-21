@@ -36,9 +36,13 @@ module.exports = {
       keyframes: {
         wiggle: {
           '0%, 100%': { transform: 'rotate(0deg)' },
-          '25%': { transform: 'rotate(3deg)' },
-          '50%': { transform: 'rotate(-3deg)' },
-          '75%': { transform: 'rotate(3deg)' },
+          '25%': { transform: 'rotate(1deg)' },
+          '50%': { transform: 'rotate(-1deg)' },
+          '75%': { transform: 'rotate(1deg)' },
+        },
+        subtlePulse: {
+          '0%, 100%': { transform: 'scale(1)', opacity: 1 },
+          '50%': { transform: 'scale(1.015)', opacity: 1 },
         },
         pendulum: {
           '0%, 100%': { transform: 'rotate(0deg)' },
@@ -50,6 +54,7 @@ module.exports = {
       animation: {
         wiggle: 'wiggle 0.5s ease-in-out',
         pendulum: 'pendulum 1s ease-in-out',
+        subtlePulse: 'subtlePulse 8s ease-in-out infinite',
       },
       typography: ({ theme }) => ({
         DEFAULT: {
