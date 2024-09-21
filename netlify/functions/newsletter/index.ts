@@ -9,7 +9,7 @@ export const handler = async (event) => {
     if (!email) {
       return {
         statusCode: 400,
-        body: JSON.stringify({ error: 'Email is required' }),
+        body: JSON.stringify({ error: true, message: 'Email is required' }),
       }
     }
 
@@ -32,30 +32,33 @@ export const handler = async (event) => {
     if (!response.ok) {
       const error = await response.json()
 
-      // Check if the user is already subscribed
+      // If the user is already subscribed
       if (error.error && error.error.includes('already subscribed')) {
         return {
           statusCode: 400,
-          body: JSON.stringify({ error: 'This email is already subscribed!' }),
+          body: JSON.stringify({ error: true, message: 'This email is already subscribed!' }),
         }
       }
 
       // Handle other errors
       return {
-        statusCode: response.status,
-        body: JSON.stringify({ error: error.error.message || 'Subscription failed' }),
+        statusCode: 400,
+        body: JSON.stringify({
+          error: true,
+          message: error.error.message || 'Subscription failed',
+        }),
       }
     }
 
     // Success
     return {
       statusCode: 200,
-      body: JSON.stringify({ message: 'Successfully subscribed!' }),
+      body: JSON.stringify({ error: false, message: 'Successfully subscribed!' }),
     }
   } catch (error) {
     return {
       statusCode: 500,
-      body: JSON.stringify({ error: 'Internal Server Error' }),
+      body: JSON.stringify({ error: true, message: 'Internal Server Error' }),
     }
   }
 }
