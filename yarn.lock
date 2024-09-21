@@ -2382,6 +2382,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@netlify/plugin-nextjs@npm:^5.7.2":
+  version: 5.7.2
+  resolution: "@netlify/plugin-nextjs@npm:5.7.2"
+  checksum: 2e08cff3064872745061cbc7004c7a89e8fb2c85c47b77059d9ab3711480087f89e9b99cc17e24f20bf44fbfce01d2083153b43566d26a79ba3d5e740eee792b
+  languageName: node
+  linkType: hard
+
 "@next/bundle-analyzer@npm:^14.2.8":
   version: 14.2.8
   resolution: "@next/bundle-analyzer@npm:14.2.8"
@@ -3300,11 +3307,11 @@ __metadata:
   linkType: hard
 
 "@types/node@npm:*":
-  version: 22.5.4
-  resolution: "@types/node@npm:22.5.4"
+  version: 22.5.5
+  resolution: "@types/node@npm:22.5.5"
   dependencies:
     undici-types: ~6.19.2
-  checksum: 77ac225c38c428200036780036da0bc6764e2721cfa8f528c7e7da7cfefe01a32a5791e28a54efbeedbc977949058d7db902b2e00139298225d4686cee4ae6db
+  checksum: 1f788966ff7df07add0af3481fb68c7fe5091cc72a265c671432abb443788ddacca4ca6378af64fe100c20f857c4d80170d358e66c070171fcea0d4adb1b45b1
   languageName: node
   linkType: hard
 
@@ -14730,6 +14737,7 @@ __metadata:
   resolution: "tailwind-nextjs-starter-blog@workspace:."
   dependencies:
     "@headlessui/react": 1.7.19
+    "@netlify/plugin-nextjs": ^5.7.2
     "@next/bundle-analyzer": ^14.2.8
     "@next/mdx": ^14.2.8
     "@svgr/webpack": ^8.0.1
