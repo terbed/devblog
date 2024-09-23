@@ -46,24 +46,33 @@ To better underscore the main properties of machine learning, let's compare it t
     A[Input] --> C[ALGO];
     B[Patterns] --> C[ALGO];
     C[ALGO] --> D((Output));
-  `}
+   `}
   caption="Fig. 1. Traditional Algorithm: the patterns or decision logic is hand-crafted."
 />
 
 In the traditional algorithmic approach, we hand-craft heuristics, decision logic, and patterns. Take trading algorithms as an example: a simple rule might be to buy when the Relative Strength Index (RSI) is below 30<span note-ref-id="7" numbered="true" content="<strong>Understanding RSI:</strong> The Relative Strength Index (RSI) is a popular technical indicator used in trading. It measures the speed and change of price movements, typically on a scale from 0 to 100. An RSI below 30 often signals that a stock is oversold and potentially undervalued, prompting traders to consider buying. Conversely, an RSI above 70 may indicate an overbought, possibly overvalued condition, suggesting a selling opportunity. This simple yet powerful tool helps traders make informed decisions based on market trends."></span>. This approach is efficient for well-defined problems with simple patterns. However, traditional methods often fall short when faced with complex problems where patterns are not easily discernible or where hand-crafting them is impractical. An example of hand-crafting features is the use of Haar features in face detection algorithms. Hand-crafting features is a laborious and challenging process, as it requires extensive manual effort to design and test each feature for effectiveness. In contrast, machine learning methods have outperformed these techniques by automating feature learning, significantly improving both accuracy and efficiency, and marking a shift from manual to automated processes in feature design. This is where machine learning comes into play. In machine learning, the system doesn't just follow explicitly programmed instructions. Instead, it learns patterns from data during a training stage. This learned knowledge is then applied to make predictions on new, unseen data. This is the main difference between traditional algorithms and machine learning.
 
-<figure>
-  <Image
-    src="/static/images/machine-learning/ml.png"
-    alt="Machine Learning"
-    width={700}
-    height={400}
-  />
-  <figcaption>
-    <strong>Fig. 2.</strong> Machine Learning: Patterns are learned from examples in the training
-    phase and then these learned patterns are utilized during the prediction/inference stage.{' '}
-  </figcaption>
-</figure>
+<Mermaid
+  chart={`graph TD
+    subgraph Phase_1_Training["Phase 1: Training"]
+      T1[Pair 1] --> T["Input-Output Pairs"]
+      T2[Pair 2] --> T
+      T3[Pair 3] --> T
+      Dots[...] --> T
+      Tn[Pair n] --> T
+      T --> B[ML Model]
+      B --> D[Learned Patterns]
+    end
+
+      subgraph Phase_2_Prediction["Phase 2: Prediction"]
+        D[Learned Patterns] -.-> F[ML Model]
+        E[New Input Data] --> F
+        F --> G[Predicted Output]
+      end
+
+`}
+caption="Fig. 2. Machine Learning: Patterns are learned from examples in the training phase and then these learned patterns are utilized during the prediction/inference stage."
+/>
 
 <span
   note-ref-id="7"

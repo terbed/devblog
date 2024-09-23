@@ -71,3 +71,17 @@ input:-webkit-autofill:focus {
 .dark .invert-light {
   filter: invert(0);
 }
+
+/* Ensure SVG diagrams fill the container and scale responsively */
+.mermaid svg {
+  width: 100%;
+  height: auto;
+}
+
+/* Center the diagram container */
+.diagram-container {
+  display: flex;
+  justify-content: center;
+  overflow-x: auto;
+  width: 100%;
+}

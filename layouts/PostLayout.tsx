@@ -41,7 +41,7 @@ export default function PostLayout({ content, authorDetails, next, prev, childre
       <article>
         {/* Main layout grid */}
         <div className="xl:divide-y xl:divide-gray-200 xl:dark:divide-gray-700">
-          <header className="pt-6 xl:pb-6">
+          <header className="pb-6 pt-6">
             {/* Header content */}
             <div className="space-y-1 text-center">
               <dl className="space-y-10">
@@ -63,54 +63,57 @@ export default function PostLayout({ content, authorDetails, next, prev, childre
           <div className="pb-8 xl:grid xl:grid-cols-4 xl:gap-x-6">
             {/* Left column (Author Info and Margin Notes) */}
             <aside className="xl:col-span-1 xl:pt-11">
-              {/* Author Info */}
-              <div className="pb-10">
-                <dt className="sr-only">Authors</dt>
-                <dd>
-                  <ul className="flex flex-wrap justify-center gap-4 sm:space-x-12 xl:block xl:space-x-0 xl:space-y-8">
-                    {authorDetails.map((author) => (
-                      <li className="flex items-center space-x-2" key={author.name}>
-                        {author.avatar && (
-                          <Image
-                            src={author.avatar}
-                            width={38}
-                            height={38}
-                            alt="avatar"
-                            className="h-10 w-10 rounded-full"
-                          />
-                        )}
-                        <dl className="whitespace-nowrap text-sm font-medium leading-5">
-                          <dt className="sr-only">Name</dt>
-                          <dd className="text-gray-900 dark:text-gray-100">{author.name}</dd>
-                          <dt className="sr-only">Twitter</dt>
-                          <dd>
-                            {author.twitter && (
-                              <Link
-                                href={author.twitter}
-                                className="text-primary-500 hover:text-primary-600 dark:hover:text-primary-400"
-                              >
-                                {author.twitter
-                                  .replace('https://twitter.com/', '@')
-                                  .replace('https://x.com/', '@')}
-                              </Link>
-                            )}
-                          </dd>
-                        </dl>
-                      </li>
-                    ))}
-                  </ul>
-                </dd>
-              </div>
-              {/* "Support Me" section */}
-              <div className="pb-6 text-sm font-medium leading-5">
-                <h2 className="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400">
-                  Support Me
-                </h2>
-                <div className="mt-1 flex items-center space-x-3">
-                  <SocialIcon kind="kofi" href={siteMetadata.kofi} size={6} />
-                  <span className="text-sm text-gray-700 dark:text-gray-300">
-                    If you like my work, consider buying me a coffee! 🙏 :)
-                  </span>
+              {/* Author Info and Support Me */}
+              <div className="flex flex-col items-center space-y-6 pb-6 xl:block xl:space-y-8">
+                {/* Author Info */}
+                <div>
+                  <dt className="sr-only">Authors</dt>
+                  <dd>
+                    <ul className="flex flex-col items-center sm:flex-row sm:justify-center sm:space-x-6 xl:flex-col xl:items-start xl:space-x-0">
+                      {authorDetails.map((author) => (
+                        <li className="flex items-center space-x-2" key={author.name}>
+                          {author.avatar && (
+                            <Image
+                              src={author.avatar}
+                              width={38}
+                              height={38}
+                              alt="avatar"
+                              className="h-10 w-10 rounded-full"
+                            />
+                          )}
+                          <dl className="whitespace-nowrap text-sm font-medium leading-5">
+                            <dt className="sr-only">Name</dt>
+                            <dd className="text-gray-900 dark:text-gray-100">{author.name}</dd>
+                            <dt className="sr-only">Twitter</dt>
+                            <dd>
+                              {author.twitter && (
+                                <Link
+                                  href={author.twitter}
+                                  className="text-primary-500 hover:text-primary-600 dark:hover:text-primary-400"
+                                >
+                                  {author.twitter
+                                    .replace('https://twitter.com/', '@')
+                                    .replace('https://x.com/', '@')}
+                                </Link>
+                              )}
+                            </dd>
+                          </dl>
+                        </li>
+                      ))}
+                    </ul>
+                  </dd>
+                </div>
+                {/* "Support Me" section */}
+                <div className="text-sm font-medium leading-5">
+                  <h2 className="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400">
+                    Support Me
+                  </h2>
+                  <div className="mt-1 flex items-center space-x-3">
+                    <SocialIcon kind="kofi" href={siteMetadata.kofi} size={6} />
+                    <span className="text-sm text-gray-700 dark:text-gray-300">
+                      If you like my work, consider buying me a coffee! 🙏 :)
+                    </span>
+                  </div>
                 </div>
               </div>
               {/* Margin Notes */}

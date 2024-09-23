@@ -144,6 +144,19 @@ const MarginNoteManager = () => {
   }, [])
 
   useEffect(() => {
+    // Add event listener for 'mermaidRendered' event
+    const handleMermaidRendered = () => {
+      calculatePositions()
+    }
+
+    window.addEventListener('mermaidRendered', handleMermaidRendered)
+
+    return () => {
+      window.removeEventListener('mermaidRendered', handleMermaidRendered)
+    }
+  }, [calculatePositions])
+
+  useEffect(() => {
     if (isMobile) {
       // Insert notes inline after their references
       notes.forEach((note) => {
