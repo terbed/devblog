@@ -2,8 +2,8 @@
 
 - [x] Ko-Fi Social Icon option for donation
 - [x] Added Resume page
-- [ ] Left margin note module in PostLayout
-- [ ] Multicolor option: Change the primary color of the site from pink to green
+- [x] Left margin note module in PostLayout
+- [ ] Multicolor option: Change the primary color of the site from pink to teal green
 
 # Forked Content:
 
