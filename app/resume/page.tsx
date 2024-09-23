@@ -849,13 +849,13 @@ const ResumePage = () => {
                   stroke="currentColor"
                   strokeWidth="5"
                   strokeDasharray="251"
-                  strokeDashoffset="90"
+                  strokeDashoffset="130"
                   fill="none"
                   className="text-primary-500"
                 ></circle>
               </svg>
               <p className="mt-4 text-lg font-semibold text-gray-700 dark:text-gray-300">C++</p>
-              <p className="font-bold text-primary-500">63%</p>
+              <p className="font-bold text-primary-500">54%</p>
             </div>
 
             {/* Skill 3 */}
