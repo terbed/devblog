@@ -8,11 +8,24 @@ interface Note {
   isNumbered: boolean
   noteNumber?: number
   verticalDistance?: number
+  referenceElement?: Element
 }
 
 const MarginNoteManager = () => {
   const [notes, setNotes] = useState<Note[]>([])
+  const [isMobile, setIsMobile] = useState(false)
   const notesContainerRef = useRef<HTMLDivElement>(null)
+
+  // Function to detect mobile view
+  const detectMobile = () => {
+    setIsMobile(window.innerWidth < 1280) // Adjust breakpoint as needed
+  }
+
+  useEffect(() => {
+    detectMobile()
+    window.addEventListener('resize', detectMobile)
+    return () => window.removeEventListener('resize', detectMobile)
+  }, [])
 
   const calculatePositions = () => {
     const notesContainer = notesContainerRef.current
@@ -58,6 +71,7 @@ const MarginNoteManager = () => {
           isNumbered,
           noteNumber: isNumbered ? counter : undefined,
           verticalDistance,
+          referenceElement: ref,
         }
 
         // Add <sup> only if it doesn't exist
@@ -80,13 +94,15 @@ const MarginNoteManager = () => {
     // Run the initial calculation
     calculatePositions()
 
-    // Recalculate positions when the window resizes
-    window.addEventListener('resize', calculatePositions)
+    // Recalculate positions when the window resizes (desktop only)
+    if (!isMobile) {
+      window.addEventListener('resize', calculatePositions)
+    }
 
     return () => {
       window.removeEventListener('resize', calculatePositions)
     }
-  }, [])
+  }, [isMobile])
 
   useEffect(() => {
     // Check if all images have loaded
@@ -122,7 +138,29 @@ const MarginNoteManager = () => {
     }
   }, [])
 
-  return (
+  useEffect(() => {
+    if (isMobile) {
+      // Insert notes inline after their references
+      notes.forEach((note) => {
+        const { referenceElement, content, isNumbered, noteNumber } = note
+        if (referenceElement) {
+          // Check if note is already inserted
+          if (!referenceElement.nextElementSibling?.classList.contains('inline-note')) {
+            const noteSpan = document.createElement('span')
+            noteSpan.classList.add('inline-note', 'text-sm', 'text-gray-600', 'dark:text-gray-300')
+            noteSpan.innerHTML = ` ${content}`
+            referenceElement.parentNode?.insertBefore(noteSpan, referenceElement.nextSibling)
+          }
+        }
+      })
+    } else {
+      // Remove inline notes when switching back to desktop
+      const inlineNotes = document.querySelectorAll('.inline-note')
+      inlineNotes.forEach((note) => note.remove())
+    }
+  }, [isMobile, notes])
+
+  return isMobile ? null : (
     <div id="notes-container" className="relative mt-1" ref={notesContainerRef}>
       {notes.length > 0 && (
         <h2 className="text-xs font-medium uppercase tracking-wide text-gray-500 dark:text-gray-400">
