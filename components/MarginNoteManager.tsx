@@ -44,7 +44,20 @@ const MarginNoteManager = () => {
       const isNumbered = ref.getAttribute('numbered') === 'true'
 
       if (noteId && noteContent) {
-        const refRect = ref.getBoundingClientRect()
+        // Use the ref element as the reference element
+        const referenceElement = ref
+
+        if (!isMobile) {
+          // Add <sup> only if it doesn't exist
+          if (isNumbered && !ref.querySelector('sup')) {
+            const supElement = document.createElement('sup')
+            supElement.classList.add('text-primary-500')
+            supElement.textContent = `(${counter})` // Number in parentheses
+            ref.appendChild(supElement)
+          }
+        }
+
+        const refRect = referenceElement.getBoundingClientRect()
         let verticalDistance = refRect.top - containerRect.top
 
         // Ensure note is positioned below the last note, with proper spacing
@@ -72,14 +85,6 @@ const MarginNoteManager = () => {
           noteNumber: isNumbered ? counter : undefined,
           verticalDistance,
           referenceElement: ref,
-        }
-
-        // Add <sup> only if it doesn't exist
-        if (isNumbered && !ref.querySelector('sup')) {
-          const supElement = document.createElement('sup')
-          supElement.classList.add('text-primary-500')
-          supElement.textContent = `(${counter})` // Number in parentheses
-          ref.appendChild(supElement)
         }
 
         notesContent.push(note)
@@ -148,7 +153,7 @@ const MarginNoteManager = () => {
           if (!referenceElement.nextElementSibling?.classList.contains('inline-note')) {
             const noteSpan = document.createElement('span')
             noteSpan.classList.add('inline-note', 'text-sm', 'text-gray-600', 'dark:text-gray-300')
-            noteSpan.innerHTML = ` ${content}`
+            noteSpan.innerHTML = ` (${content})` // Content in parentheses without numbering
             referenceElement.parentNode?.insertBefore(noteSpan, referenceElement.nextSibling)
           }
         }
@@ -180,7 +185,7 @@ const MarginNoteManager = () => {
           <div
             key={noteId}
             id={`note-${noteId}`}
-            className="absolute mt-2 w-48 text-justify text-sm text-gray-600 dark:text-gray-300"
+            className="absolute mt-2 w-48 text-left text-sm text-gray-600 dark:text-gray-300"
             style={noteStyle}
             // Use dangerouslySetInnerHTML to render HTML content
             dangerouslySetInnerHTML={{
