@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useEffect, useState } from 'react'
+import React, { useLayoutEffect, useEffect, useState, useRef } from 'react'
 
 interface Note {
   noteId: string
@@ -12,49 +12,118 @@ interface Note {
 
 const MarginNoteManager = () => {
   const [notes, setNotes] = useState<Note[]>([])
-  const [noteCounter] = useState(1) // Shared counter between references and notes
+  const notesContainerRef = useRef<HTMLDivElement>(null)
 
-  useEffect(() => {
+  const calculatePositions = () => {
+    const notesContainer = notesContainerRef.current
+    if (!notesContainer) return
+
+    const containerRect = notesContainer.getBoundingClientRect()
+
     const references = document.querySelectorAll('[note-ref-id]')
     const notesContent: Note[] = []
-    let counter = 1 // Counter initialized here
+    let counter = 1
+    let lastNoteBottom = 0 // Track bottom of the last note to avoid overlaps
 
     references.forEach((ref) => {
       const noteId = ref.getAttribute('note-ref-id')
       const noteContent = ref.getAttribute('content')
-      const isNumbered = ref.getAttribute('numbered') === 'true' // Ensure it's boolean
+      const isNumbered = ref.getAttribute('numbered') === 'true'
 
       if (noteId && noteContent) {
-        const verticalDistance = ref.getBoundingClientRect().top
+        const refRect = ref.getBoundingClientRect()
+        let verticalDistance = refRect.top - containerRect.top
+
+        // Ensure note is positioned below the last note, with proper spacing
+        const spacing = 20 // Minimum spacing between notes
+        if (verticalDistance < lastNoteBottom + spacing) {
+          verticalDistance = lastNoteBottom + spacing
+        }
+
+        // Calculate the actual height of the note content
+        const tempDiv = document.createElement('div')
+        tempDiv.style.visibility = 'hidden'
+        tempDiv.style.position = 'absolute'
+        tempDiv.style.width = '200px' // Use the same width as the note
+        tempDiv.innerHTML = isNumbered ? `<sup>${counter}</sup> ${noteContent}` : noteContent
+        document.body.appendChild(tempDiv)
+        const noteHeight = tempDiv.getBoundingClientRect().height
+        document.body.removeChild(tempDiv)
+
+        lastNoteBottom = verticalDistance + noteHeight
 
         const note: Note = {
           noteId,
           content: noteContent,
           isNumbered,
-          noteNumber: isNumbered ? counter : undefined, // Use the shared counter
+          noteNumber: isNumbered ? counter : undefined,
           verticalDistance,
         }
 
         // Add <sup> only if it doesn't exist
         if (isNumbered && !ref.querySelector('sup')) {
           const supElement = document.createElement('sup')
-          supElement.classList.add('text-primary-500') // Add Tailwind's primary color
-          supElement.textContent = counter.toString() // Number in main content
+          supElement.classList.add('text-primary-500')
+          supElement.textContent = counter.toString()
           ref.appendChild(supElement)
         }
 
         notesContent.push(note)
-        if (isNumbered) counter++ // Increment counter after processing each numbered note
+        if (isNumbered) counter++
       }
     })
 
     setNotes(notesContent)
-  }, [noteCounter]) // Empty dependency array to ensure it runs once
+  }
 
-  let lastNoteBottom = 0 // Track bottom of the last note to avoid overlaps
+  useLayoutEffect(() => {
+    // Run the initial calculation
+    calculatePositions()
+
+    // Recalculate positions when the window resizes
+    window.addEventListener('resize', calculatePositions)
+
+    return () => {
+      window.removeEventListener('resize', calculatePositions)
+    }
+  }, [])
+
+  useEffect(() => {
+    // Check if all images have loaded
+    const images = Array.from(document.querySelectorAll('img'))
+    let imagesLoaded = 0
+
+    const onImageLoad = () => {
+      imagesLoaded++
+      if (imagesLoaded === images.length) {
+        // All images are loaded, recalculate positions
+        calculatePositions()
+      }
+    }
+
+    images.forEach((img) => {
+      if (img.complete) {
+        imagesLoaded++
+      } else {
+        img.addEventListener('load', onImageLoad)
+      }
+    })
+
+    if (imagesLoaded === images.length) {
+      // All images were already loaded
+      calculatePositions()
+    }
+
+    // Clean up event listeners
+    return () => {
+      images.forEach((img) => {
+        img.removeEventListener('load', onImageLoad)
+      })
+    }
+  }, [])
 
   return (
-    <div id="notes-container" className="relative mt-10">
+    <div id="notes-container" className="relative mt-10" ref={notesContainerRef}>
       {notes.length > 0 && (
         <h2 className="text-xs font-medium uppercase tracking-wide text-gray-500 dark:text-gray-400">
           Margin Notes ↓
@@ -62,25 +131,14 @@ const MarginNoteManager = () => {
       )}
 
       {notes.map(({ noteId, content, isNumbered, noteNumber, verticalDistance }) => {
-        const spacing = 20 // Minimum spacing between notes
-        let topPosition = verticalDistance || 0
-
-        // Ensure note is positioned below the last note, with proper spacing
-        if (topPosition < lastNoteBottom + spacing) {
-          topPosition = lastNoteBottom + spacing
-        }
-
         const noteStyle: React.CSSProperties = {
-          position: 'relative',
-          top: `${topPosition - lastNoteBottom}px`, // Set position relative to the previous one
+          position: 'absolute',
+          top: `${verticalDistance}px`,
+          width: '200px', // Adjust the width as needed
         }
-
-        // Update last note bottom position after rendering this note
-        const noteHeight = 50 // Approximate note height
-        lastNoteBottom = topPosition + noteHeight
 
         return (
-          <div key={noteId} id={`note-${noteId}`} className="relative w-48" style={noteStyle}>
+          <div key={noteId} id={`note-${noteId}`} className="w-48" style={noteStyle}>
             {isNumbered && <sup className="text-primary-500">{noteNumber}</sup>} {content}
           </div>
         )
