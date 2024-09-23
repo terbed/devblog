@@ -44,8 +44,8 @@ const MarginNoteManager = () => {
         const tempDiv = document.createElement('div')
         tempDiv.style.visibility = 'hidden'
         tempDiv.style.position = 'absolute'
-        tempDiv.style.width = '200px' // Use the same width as the note
-        tempDiv.innerHTML = isNumbered ? `<sup>${counter}</sup> ${noteContent}` : noteContent
+        tempDiv.style.width = '275px' // Use the same width as the note
+        tempDiv.innerHTML = isNumbered ? `<sup>(${counter})</sup> ${noteContent}` : noteContent
         document.body.appendChild(tempDiv)
         const noteHeight = tempDiv.getBoundingClientRect().height
         document.body.removeChild(tempDiv)
@@ -64,7 +64,7 @@ const MarginNoteManager = () => {
         if (isNumbered && !ref.querySelector('sup')) {
           const supElement = document.createElement('sup')
           supElement.classList.add('text-primary-500')
-          supElement.textContent = counter.toString()
+          supElement.textContent = `(${counter})` // Number in parentheses
           ref.appendChild(supElement)
         }
 
@@ -123,7 +123,7 @@ const MarginNoteManager = () => {
   }, [])
 
   return (
-    <div id="notes-container" className="relative mt-10" ref={notesContainerRef}>
+    <div id="notes-container" className="relative mt-1" ref={notesContainerRef}>
       {notes.length > 0 && (
         <h2 className="text-xs font-medium uppercase tracking-wide text-gray-500 dark:text-gray-400">
           Margin Notes ↓
@@ -134,12 +134,18 @@ const MarginNoteManager = () => {
         const noteStyle: React.CSSProperties = {
           position: 'absolute',
           top: `${verticalDistance}px`,
-          width: '200px', // Adjust the width as needed
+          left: '-40px', // Adjust this value to move the notes closer to the main content
+          width: '275px', // Adjust the width to bring notes closer
         }
 
         return (
-          <div key={noteId} id={`note-${noteId}`} className="w-48" style={noteStyle}>
-            {isNumbered && <sup className="text-primary-500">{noteNumber}</sup>} {content}
+          <div
+            key={noteId}
+            id={`note-${noteId}`}
+            className="absolute mt-2 w-48 text-justify text-sm text-gray-600 dark:text-gray-300"
+            style={noteStyle}
+          >
+            {isNumbered && <sup className="text-primary-500">({noteNumber})</sup>} {content}
           </div>
         )
       })}
