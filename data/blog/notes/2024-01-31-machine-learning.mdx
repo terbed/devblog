@@ -31,17 +31,14 @@ Now, let's unpack this definition:
 
 To better underscore the main properties of machine learning, let's compare it to traditional algorithms.
 
-<figure>
-  <Image
-    src="/static/images/machine-learning/algo.png"
-    alt="Traditional Algorithm"
-    width={700}
-    height={400}
-  />
-  <figcaption>
-    <strong>Fig. 1.</strong> Traditional Algorithm: the patterns or decision logic is hand-crafted.{' '}
-  </figcaption>
-</figure>
+<Mermaid
+  chart={`graph TD;
+    A[Input] --> C[ALGO];
+    B[Patterns] --> C[ALGO];
+    C[ALGO] --> D((Output));
+  `}
+  caption="Fig. 1. Traditional Algorithm: the patterns or decision logic is hand-crafted."
+/>
 
 In the traditional algorithmic approach, we hand-craft heuristics, decision logic, and patterns. Take trading algorithms as an example: a simple rule might be to buy when the Relative Strength Index (RSI) is below 30[^1]. This approach is efficient for well-defined problems with simple patterns. However, traditional methods often fall short when faced with complex problems where patterns are not easily discernible or where hand-crafting them is impractical. An example of hand-crafting features is the use of Haar features in face detection algorithms. Hand-crafting features is a laborious and challenging process, as it requires extensive manual effort to design and test each feature for effectiveness. In contrast, machine learning methods have outperformed these techniques by automating feature learning, significantly improving both accuracy and efficiency, and marking a shift from manual to automated processes in feature design. This is where machine learning comes into play. In machine learning, the system doesn't just follow explicitly programmed instructions. Instead, it learns patterns from data during a training stage. This learned knowledge is then applied to make predictions on new, unseen data. This is the main difference between traditional algorithms and machine learning.
 
