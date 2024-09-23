@@ -57,7 +57,7 @@ const MarginNoteManager = () => {
         const tempDiv = document.createElement('div')
         tempDiv.style.visibility = 'hidden'
         tempDiv.style.position = 'absolute'
-        tempDiv.style.width = '275px' // Use the same width as the note
+        tempDiv.style.width = '350px' // Use the same width as the note
         tempDiv.innerHTML = isNumbered ? `<sup>(${counter})</sup> ${noteContent}` : noteContent
         document.body.appendChild(tempDiv)
         const noteHeight = tempDiv.getBoundingClientRect().height
@@ -142,7 +142,7 @@ const MarginNoteManager = () => {
     if (isMobile) {
       // Insert notes inline after their references
       notes.forEach((note) => {
-        const { referenceElement, content, isNumbered, noteNumber } = note
+        const { referenceElement, content } = note
         if (referenceElement) {
           // Check if note is already inserted
           if (!referenceElement.nextElementSibling?.classList.contains('inline-note')) {
@@ -182,9 +182,13 @@ const MarginNoteManager = () => {
             id={`note-${noteId}`}
             className="absolute mt-2 w-48 text-justify text-sm text-gray-600 dark:text-gray-300"
             style={noteStyle}
-          >
-            {isNumbered && <sup className="text-primary-500">({noteNumber})</sup>} {content}
-          </div>
+            // Use dangerouslySetInnerHTML to render HTML content
+            dangerouslySetInnerHTML={{
+              __html: `${
+                isNumbered ? `<sup class="text-primary-500">(${noteNumber})</sup> ` : ''
+              }${content}`,
+            }}
+          />
         )
       })}
     </div>
