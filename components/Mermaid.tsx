@@ -22,6 +22,9 @@ const Mermaid = ({ chart, caption }) => {
         flowchart: {
           useMaxWidth: false,
         },
+        sequence: {
+          useMaxWidth: false,
+        },
         securityLevel: 'loose',
       })
 

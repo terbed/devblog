@@ -74,8 +74,8 @@ input:-webkit-autofill:focus {
 
 /* Ensure SVG diagrams fill the container and scale responsively */
 .mermaid svg {
-  width: 100%;
-  height: auto;
+  width: 100% !important;
+  height: auto !important;
 }
 
 /* Center the diagram container */
