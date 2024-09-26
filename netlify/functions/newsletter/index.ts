@@ -11,26 +11,33 @@ export const handler = async (event) => {
       }
     }
 
-    // Call the EmailOctopus API directly with the API key in the query parameter
+    // Prepare the data to be sent
+    const data = {
+      api_key: process.env.EMAILOCTOPUS_API_KEY,
+      email_address: email,
+    }
+
+    // Call the EmailOctopus API directly
     const response = await fetch(
-      `https://emailoctopus.com/api/1.6/lists/${process.env.EMAILOCTOPUS_LIST_ID}/contacts?api_key=${process.env.EMAILOCTOPUS_API_KEY}`,
+      `https://emailoctopus.com/api/1.6/lists/${process.env.EMAILOCTOPUS_LIST_ID}/contacts`,
       {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          email_address: email,
-        }),
+        body: JSON.stringify(data),
       }
     )
 
     const responseData = await response.json()
 
+    // Log the response for debugging
+    console.log('EmailOctopus response:', responseData)
+
     // Handle API response
-    if (!response.ok) {
+    if (responseData.error) {
       // Check if the user is already subscribed
-      if (responseData.error && responseData.error.type === 'MEMBER_EXISTS_WITH_EMAIL_ADDRESS') {
+      if (responseData.error.type === 'MEMBER_EXISTS_WITH_EMAIL_ADDRESS') {
         return {
           statusCode: 400,
           body: JSON.stringify({ error: true, message: 'This email is already subscribed!' }),
