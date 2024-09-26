@@ -147,7 +147,7 @@ trainer.test(model, datamodule=data_module)
 
 Both `LightningModule` and `LightningDataModule` come with well-defined methods that structure the training process efficiently. In `LightningModule`, methods like `forward()`, `training_step()`, `validation_step()`, and `test_step()` define how data flows through the model and how the training, validation, and test steps are executed. Meanwhile, the `configure_optimizers()` method sets up the optimizer and learning rate scheduler. The `LightningDataModule` provides methods like `prepare_data()` for downloading and preparing data, and `setup()` for initializing and splitting the dataset. Importantly, these methods are designed to ensure compatibility with distributed training environments, such as multi-GPU or TPU setups. PyTorch Lightning abstracts away the complexity of device management, automatically handling things like data parallelism, gradient synchronization, and checkpointing, allowing one to scale from a single GPU to large clusters with minimal code changes. Specifically, the **`prepare_data()`** method is only **called once per machine**, ensuring that tasks like data downloading or unzipping files are not repeated across multiple GPU processes, saving time and resources. Note that **each process requires its own dataloader**, which is why we initialize the actual datasets in the `setup()` method. This ensures that each GPU or process has its own independent access to data, allowing for efficient parallel processing during training without duplicating the data preparation steps performed by `prepare_data()` those are common to the processes.
 
-> [!CAUTION] > `prepare_data` is called from the main process. It is not recommended to assign state here (e.g. `self.x = y`) since it is called on a single process and if you assign states here then they won’t be available for other processes. For state assignment use the `setup()` method.
+> [!CAUTION] > `prepare_data` is called from the main process once per machine. It is not recommended to assign state here (e.g. `self.x = y`) since it is called on a single process and if you assign states here then they won’t be available for other processes. For state assignment use the `setup()` method.
 
 <Mermaid
   chart={
@@ -167,7 +167,7 @@ Both `LightningModule` and `LightningDataModule` come with well-defined methods 
 
 `
 }
-caption="Fig.2.: Time-consuming data preparation task (like donwloading, unzipping, loading into memory) should be done inside the prepare_data() function."
+caption="Fig.2.: Time-consuming stateless data preparation tasks (like donwloading, unzipping) should be done inside the prepare_data() function."
 />
 
 Another thing I find particularly useful is `LightningCLI` (Lightning’s Command Line Interface) which automates argument parsing. It makes all the LightningModule’s function parameters automatically parsable, eliminating the need to manually handle argument parsing. LightningCLI also supports YAML configs, which I find much cleaner than passing a long list of command-line arguments. Furthermore, it allows using configs and command-line arguments together, so we can define default parameters in a YAML file and override specific ones via the command line. Managing command-line arguments manually can become tedious as we need to track changes in function parameters, but LightningCLI handles this seamlessly by linking the hyperparameters of the lightning modules directly to the CLI and config files.
