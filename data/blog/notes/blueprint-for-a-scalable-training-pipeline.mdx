@@ -347,7 +347,10 @@ class ImageClassificationModel(L.LightningModule):
 
 ```
 
-If you run the CLI script with `--help` (e.g., `python main.py --model path.to.LightningModule --data path.to.LightningDataModule --help`), the linked parameters will be listed but won’t appear as explicit arguments for the model. Note that **the linked parameters must be JSON serializable**, meaning they should be basic Python types like lists or floats – complex objects like PyTorch tensors cannot be passed as arguments and linked between modules.
+If you run the CLI script with `--help` (e.g., `python main.py --model path.to.LightningModule --data path.to.LightningDataModule --help`), the linked parameters will be listed but won’t appear as explicit arguments for the model.
+
+> [!IMPORTANT]
+> Note that **the linked parameters must be JSON serializable**, meaning they should be basic Python types like lists or floats – complex objects like PyTorch tensors cannot be passed as arguments and linked between modules.
 
 # Wrapping it up
 
