@@ -1,1 +1,9 @@
-{ "ml": 1, "pytorch": 1, "lightning": 1, "lightning-cli": 1, "blueprint": 1, "journal": 2 }
+{
+  "pytorch": 1,
+  "lightning": 1,
+  "lightning-cli": 1,
+  "blueprint": 1,
+  "journal": 2,
+  "ml": 1,
+  "guide": 8
+}

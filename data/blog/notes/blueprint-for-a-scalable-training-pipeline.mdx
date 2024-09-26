@@ -20,7 +20,7 @@ For years, I’ve been using PyTorch dataset classes for various problems, and w
 
 ```python
 class Subset(Dataset[T_co]):
-    r"""
+    """
     Subset of a dataset at specified indices.
 
     Args:
@@ -145,7 +145,9 @@ trainer.fit(model, datamodule=data_module)
 trainer.test(model, datamodule=data_module)
 ```
 
-Both `LightningModule` and `LightningDataModule` come with well-defined methods that structure the training process efficiently. In `LightningModule`, methods like `forward()`, `training_step()`, `validation_step()`, and `test_step()` define how data flows through the model and how the training, validation, and test steps are executed. Meanwhile, the `configure_optimizers()` method sets up the optimizer and learning rate scheduler. The `LightningDataModule` provides methods like `prepare_data()` for downloading and preparing data, and `setup()` for initializing and splitting the dataset. Importantly, these methods are designed to ensure compatibility with distributed training environments, such as multi-GPU or TPU setups. PyTorch Lightning abstracts away the complexity of device management, automatically handling things like data parallelism, gradient synchronization, and checkpointing, allowing one to scale from a single GPU to large clusters with minimal code changes. Specifically, the **`prepare_data()`** method is only **called once per machine**, ensuring that tasks like data downloading or loading files into memory are not repeated across multiple GPU processes, saving time and resources. Note that **each process requires its own dataloader**, which is why we initialize the actual datasets in the `setup()` method. This ensures that each GPU or process has its own independent access to data, allowing for efficient parallel processing during training without duplicating the data preparation steps performed by `prepare_data()`.
+Both `LightningModule` and `LightningDataModule` come with well-defined methods that structure the training process efficiently. In `LightningModule`, methods like `forward()`, `training_step()`, `validation_step()`, and `test_step()` define how data flows through the model and how the training, validation, and test steps are executed. Meanwhile, the `configure_optimizers()` method sets up the optimizer and learning rate scheduler. The `LightningDataModule` provides methods like `prepare_data()` for downloading and preparing data, and `setup()` for initializing and splitting the dataset. Importantly, these methods are designed to ensure compatibility with distributed training environments, such as multi-GPU or TPU setups. PyTorch Lightning abstracts away the complexity of device management, automatically handling things like data parallelism, gradient synchronization, and checkpointing, allowing one to scale from a single GPU to large clusters with minimal code changes. Specifically, the **`prepare_data()`** method is only **called once per machine**, ensuring that tasks like data downloading or unzipping files are not repeated across multiple GPU processes, saving time and resources. Note that **each process requires its own dataloader**, which is why we initialize the actual datasets in the `setup()` method. This ensures that each GPU or process has its own independent access to data, allowing for efficient parallel processing during training without duplicating the data preparation steps performed by `prepare_data()` those are common to the processes.
+
+> [!CAUTION] > `prepare_data` is called from the main process. It is not recommended to assign state here (e.g. `self.x = y`) since it is called on a single process and if you assign states here then they won’t be available for other processes. For state assignment use the `setup()` method.
 
 <Mermaid
   chart={
@@ -172,11 +174,11 @@ Another thing I find particularly useful is `LightningCLI` (Lightning’s Comman
 
 After this brief detour (which will make sense later hopefully), let’s return to the core question: how should we utilize the `LightningDataModule` effectively?
 
-The `setup(stage=...)` method is called before each stage (`fit`, `train`, `validate`, `test`, `predict`), primarily to set up the datasets for the corresponding dataloaders, allowing flexibility to adjust data handling as needed for each stage. During the `fit` stage, both training and validation datasets can be set up jointly, since **`fit` covers the entire train-validate loop** – making it the ideal place to handle the training-validation splitting. So, we already know that data loading should be handled in the `prepare_data()` method, while the actual dataset construction and splitting mechanisms should be implemented in the `setup()` method. Now address the issue of how the separated lightning modules pass information to each other.
+The `setup(stage=...)` method is called before each stage (`fit`, `train`, `validate`, `test`, `predict`), primarily to set up the datasets for the corresponding dataloaders, allowing flexibility to adjust data handling as needed for each stage. During the `fit` stage, both training and validation datasets can be set up jointly, since **`fit` covers the entire train-validate loop** – making it the ideal place to handle the training-validation splitting. So, we already know that downloading data to the local machine should be handled in the `prepare_data()` method, while the actual dataset construction and splitting mechanisms should be implemented in the `setup()` method. Now address the issue of how the separated lightning modules pass information to each other.
 
 A common challenge when using `LightningDataModule` and `LightningModule` is that key dataset properties, like `num_classes` in classification tasks, are needed when building the model architecture. However, since Lightning separates data processing and model definition into different modules, passing this information between them can become complicated, especially when using `LightningCLI`. An initial solution might be to compute such properties in the `setup()` method of the `DataModule` and access them in the model’s `setup()` or through hooks like `on_fit_start()`. However, this approach is suboptimal, as `setup()` in LightningModule is not intended for model initialization, as discussed in this [GitHub issue](https://github.com/Lightning-AI/pytorch-lightning/issues/5410). Using `setup()` for model initialization causes checkpoint loading issues because `load_from_checkpoint()` expects the model layers to be defined during instantiation. **The recommended solution is to define layers in the `__init__()` method rather than in `setup()`**.
 
-To avoid this trap, the **recommended approach** is to use `link_arguments` in `LightningCLI`, allowing `num_classes` or other parameters computed in the `DataModule` to be passed to the `LightningModule` during instantiation. However, since `prepare_data()` runs **after** `__init__()`, parameters like `num_classes` might not be available in time. As a workaround by defining `num_classes` as a `@property`, you ensure it is “lazily” computed when first accessed, guaranteeing it’s initialized properly before model construction – as discussed [here](https://github.com/Lightning-AI/pytorch-lightning/discussions/13403). Lightning tracks the execution of `prepare_data()`, ensuring it runs only once, even if accessed multiple times via a property.
+To avoid this trap, the **recommended approach** is to use `link_arguments` in `LightningCLI`, allowing `num_classes` or other parameters computed in the `DataModule` to be passed to the `LightningModule` during instantiation. However, since `prepare_data()` runs **after** `__init__()`, parameters like `num_classes` might not be available in time. As a workaround by defining the linked parameters as a `@property`, you ensure it is “lazily” computed when first accessed, guaranteeing it’s initialized properly before model construction – as discussed [here](https://github.com/Lightning-AI/pytorch-lightning/discussions/13403).
 
 <Mermaid
   chart={
@@ -203,7 +205,7 @@ caption="Fig.3.: A sequence diagram of the discussed process."
 
 Knowing all this we can construct the final design template. Let’s take the case of image classification where you have images in different folders representing different categories. A blueprint might look like this for the `datamodule`:
 
-```python:data.py {12-13, 34-35, 37-38, 44-45, 51-55, 58-63} showLineNumbers
+```python:data.py {12-13, 34-35,} showLineNumbers
 import lightning as L
 from torch.utils.data import Dataset, DataLoader
 
@@ -244,24 +246,25 @@ class ImageClassificationModule(L.LightningDataModule):
     def num_classes(self):
 		    # Ensure data is prepared if not already
         if self._num_classes is None:
-            self.prepare_data()
+            self.prepare_data()  # Ensure data is downloaded and prepared
+            self._num_classes = infer_num_classes(self.data_dir)  # Analyse data and infer number of classes
         return self._num_classes
 
     @property
     def class_weights(self):
 		    # Ensure data is prepared if not already
         if self._class_weights is None:
-            self.prepare_data()
+            self.prepare_data()  # Ensure data is downloaded and prepared
+            self._class_weights = calculate_class_weigths(self.data_dir) # Analyse data and calculate class weigths
         return self._class_weights
 
     def prepare_data(self):
-        # Load image data to memory
-        self.all_data = load_data(self.data_dir)  # Assumed function to load dataset to memory
-        self.num_classes = get_num_classes(self.all_data)  # Assumed function to calculate num_classes
-        self.class_weights = get_class_weights(self.all_data)  # Assumed function to calculate class weights
+        # Download and unzip data if it is not yet on the machine
+        ...
 
     def setup(self, stage: str = None):
         # Create train-val-test split with our custom function
+        self.all_data = load_all_data(self.data_dir)
         train_data, val_data, test_data = random_split_data(self.all_data, self.data_splits, self.random_seed)
 
         if stage == "fit" or stage is None:
@@ -281,7 +284,7 @@ class ImageClassificationModule(L.LightningDataModule):
         return DataLoader(self.test_dataset, batch_size=32)
 ```
 
-You can see that here we use custom data loading and splitting logic inside the `setup()` method and instantiate `PyTorch Dataclass` with the splits and corresponding transforms to avoid the need for an extra wrapper class as discussed in the first section.
+You can see that here we use custom data loading and splitting logic inside the `setup()` method and instantiate `PyTorch Dataclass` with the splits and corresponding transforms to avoid the need for an extra wrapper class as discussed in the first section. Furthermore, lazy linked-parameter initialization with manual `prepare_data()` call inside the property ensures the data is prepared before it calculates the desired parameter values – those are then linked to the `LightningModule` right after instantiation. You might stop here and ask: the whole point of the `prepare_data()` method was to run only once per machine, and now we are calling it multiple times through the properties, what's going on? Typically, well-written data downloading scripts handle cases where the data is already available, ensuring the operation is only performed once. This way, we ensure that linked parameters like `num_classes` are dynamically initialized when needed, without any data preparation overhead during repeated calls.
 
 The corresponding `LightningModule` will be straightforward, as we’ll rely on `LightningCLI` to link parameters from the `DataModule` dynamically:
 
@@ -350,10 +353,10 @@ If you run the CLI script with `--help` (e.g., `python main.py --model path.to.L
 
 The key takeaways of this post are:
 
-- To avoid using extra wrapper classes for dataset splitting and transformations, handle data loading outside the `PyTorch Dataset` class.
-- PyTorch Lightning organizes training into `LightningModule` and `LightningDataModule`, making it scalable but introduces a challenge when sharing parameters between modules.
+- To avoid using extra wrapper classes for dataset splitting and transformations, handle data loading and splitting outside the `PyTorch Dataset` class.
+- PyTorch Lightning organizes training into `LightningModule` and `LightningDataModule`, making the code organized and scalable but introduces a challenge when sharing parameters between modules.
 - Use LightningCLI with `link_arguments` to seamlessly pass information like `num_classes` and `class_weights` from the `DataModule` to the `LightningModule`.
-- Put data loading in the `prepare_data()` method and use a `@property` workaround to ensure `prepare_data()` is executed before `link_arguments` passes the parameter.
+- Put only data download and stateless preparations in `prepare_data()`; put data loading, dataset construction, and splitting in `setup()`; and use a `@property`-lazy-init workaround to ensure that the linked parameters are correctly initialized before `link_arguments` passes these parameters between the modules.
 
 # References
 
