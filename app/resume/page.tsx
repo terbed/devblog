@@ -57,7 +57,7 @@ const ResumePage = () => {
 
   return (
     <div className="container mx-auto py-10">
-      <div ref={resumeRef} className="rounded-md bg-white p-8 shadow-lg dark:bg-gray-800">
+      <div ref={resumeRef} className="rounded-md bg-white p-8 shadow-md dark:bg-gray-900">
         {/* Header Section */}
         <div className="divide-y divide-gray-200 dark:divide-gray-700">
           {/* Name, Title, and Contact Section */}
