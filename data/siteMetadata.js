@@ -4,7 +4,7 @@ const siteMetadata = {
   author: 'Dániel Terbe',
   headerTitle: "t3rb3d's blog",
   description:
-    'Welcome 👋 to my development blog! Here, I share my experiences, insights, and the latest updates on my projects and resume.',
+    'Welcome to my devblog! 👋  Here, I share my experiences, insights, and the latest updates on my projects and resume.',
   language: 'en-us',
   theme: 'system', // system, dark or light
   siteUrl: 'https://terbed.dev',
