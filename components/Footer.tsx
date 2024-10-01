@@ -25,11 +25,33 @@ export default function Footer() {
           <div>{` • `}</div>
           <Link href="/">{siteMetadata.title}</Link>
         </div>
-        <div className="mb-8 text-sm text-gray-500 dark:text-gray-400">
+        <div className="mb-8 flex items-center text-sm text-gray-500 dark:text-gray-400">
           {/*<Link href="https://github.com/timlrx/tailwind-nextjs-starter-blog">*/}
           {/*  Tailwind Nextjs Theme*/}
           {/*</Link>*/}
-          Just Keep Going Patiently 🚀
+          <span>Just Keep Going Patiently 🚀</span>
+          <span className="mx-2">|</span>
+          <div className="flex items-center space-x-1">
+            <span>Content Licensed Under</span>
+            <a
+              href="https://creativecommons.org/licenses/by/4.0/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center space-x-1"
+            >
+              <img
+                alt="Creative Commons License"
+                className="h-6 w-6 dark:invert"
+                src="https://mirrors.creativecommons.org/presskit/icons/cc.svg"
+              />
+              <img
+                alt="Attribution"
+                className="h-6 w-6 dark:invert"
+                src="https://mirrors.creativecommons.org/presskit/icons/by.svg"
+              />
+              <span className="hover:underline">CC BY 4.0</span>
+            </a>
+          </div>
         </div>
       </div>
     </footer>
