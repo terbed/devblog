@@ -61,7 +61,7 @@ const MarginNoteManager = () => {
         let verticalDistance = refRect.top - containerRect.top
 
         // Ensure note is positioned below the last note, with proper spacing
-        const spacing = 20 // Minimum spacing between notes
+        const spacing = 20 // Minimum spacing between posts
         if (verticalDistance < lastNoteBottom + spacing) {
           verticalDistance = lastNoteBottom + spacing
         }
@@ -158,7 +158,7 @@ const MarginNoteManager = () => {
 
   useEffect(() => {
     if (isMobile) {
-      // Insert notes inline after their references
+      // Insert posts inline after their references
       notes.forEach((note) => {
         const { referenceElement, content } = note
         if (referenceElement) {
@@ -172,7 +172,7 @@ const MarginNoteManager = () => {
         }
       })
     } else {
-      // Remove inline notes when switching back to desktop
+      // Remove inline posts when switching back to desktop
       const inlineNotes = document.querySelectorAll('.inline-note')
       inlineNotes.forEach((note) => note.remove())
     }
@@ -190,8 +190,8 @@ const MarginNoteManager = () => {
         const noteStyle: React.CSSProperties = {
           position: 'absolute',
           top: `${verticalDistance}px`,
-          left: '-40px', // Adjust this value to move the notes closer to the main content
-          width: '275px', // Adjust the width to bring notes closer
+          left: '-40px', // Adjust this value to move the posts closer to the main content
+          width: '275px', // Adjust the width to bring posts closer
         }
 
         return (

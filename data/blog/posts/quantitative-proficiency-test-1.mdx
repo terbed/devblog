@@ -1,0 +1,1030 @@
+---
+title: 'WQU Quantitative Proficiency Test 1'
+date: '2024-10-10'
+lastmod: '2024-10-10'
+tags: ['wqu']
+draft: false
+summary: 'This post contains a collection of World Quant University proficiency test examples along with their solutions, gathered from publicly available sources.'
+---
+
+# WQU Quantitative Proficiency Test 1
+
+The following are examples of World Quant University proficiency test questions that have been publicly shared by previous applicants on various online platforms. **I am not the source of these questions nor responsible for their dissemination.** I’ve simply gathered and compiled them with solutions for educational purposes.
+
+I hope this will aid your preparation. If you're unfamiliar with these topics, it's best to start with the recommended materials and courses. However, if you've already studied these subjects, I believe practicing and refreshing your knowledge by solving these problems should be sufficient to pass the test.
+
+**Disclaimer**: The questions presented here were found on public third-party websites. **I am not the source of these questions nor responsible for their dissemination.** I take no responsibility for their accuracy or origin. The source for this collection is: https://www.studocu.com/en-us/u/16902932?sid=458480921726817658
+
+Let’s begin the fun, shall we?
+
+## Q1
+
+If $f: (0, \infty) \rightarrow \mathbb{R}$ is defined by $f(x) = \frac{x}{ln(2x)}$ for every $x \in (0, \infty)$, then $f'(e/2)$ is …
+
+---
+
+To solve this problem we have to apply some key derivation rules:
+
+1. Chain-rule: $\frac{d}{dx}f(g(x)) = \frac{df}{dg}\frac{dg}{dx}$
+2. Quotient-rule: $f'(\frac{u}{v})=\frac{u'v-uv'}{v^2}$
+3. Logarithm-derivation: $\frac{d}{dx}ln(x)=1/x$
+
+, and the following identity: $ln(e)=1$.
+
+First, lets compute the derivative of the given function:
+
+$$
+f'(x) = \frac{u}{v} = \frac{u'v-uv'}{v^2} \tag{1.1}
+$$
+
+$$
+u = x, \quad v = ln(2x)
+$$
+
+$$
+u'=1, \quad v'=\frac{1}{2x}2=\frac{1}{x}
+$$
+
+Substitute these back to E.q. (1.1):
+
+$$
+f'(x) = \frac{ln(2x) - x/x}{ln(2x)^2} \tag{1.2}
+$$
+
+And finally, substitute $x = e/2$ into E.q. (1.2)
+
+$$
+f'\left(\frac{e}{2}\right) = \frac{ln(e) - 1}{ln(e)^2} = \frac{1 - 1}{1} = 0
+$$
+
+So the correct answer to this question is $0$.
+
+## Q2
+
+Let $x_0 \in (0, \infty)$ be the value of $x \in (0,\infty)$ that maximizes the function $f:(0, \infty) \rightarrow \mathbb{R}$ defined by $f(x) := ln(x)/x$ for every $x \in (0, \infty)$, and $y_0:=f(x_0)$ be the value of this maximum. Then the product $x_0y_0$ is…
+
+---
+
+A function can have a maximum where its derivative is zero. But we have to be careful as it could indicate a minimum point as well. If the second derivate of a function is negative that assures us that it is a maximum point. However, calculating the second derivative is time-consuming and can be cumbersome. So if we could guess the form of the function and be confident that it is a peaked function then we can spare the calculation of the second derivative. We can inspect this with checking the asymptotic conditions:
+
+$$
+\lim_{x\to0}f(x) = -\infty \tag{2.1}
+$$
+
+In the other asymptotic direction, $ln(x)$ grows, but the denominator ($x$) grows much faster and the whole term eventually approaches zero.
+
+$$
+\lim_{x\to\infty}f(x) = 0 \tag{2.2}
+$$
+
+These asymptotic conditions assure us that there must be a maximum point somewhere between these extremes.
+
+Let’s calculate the derivative using the quotient-rule.
+
+$$
+f'(x) = \frac{u'v-uv'}{v^2},\;\text{where}\; u=\ln(x), \ \; v=x \tag{2.3}
+$$
+
+$$
+u' = \frac{1}{x},\; v'= 1 \tag{2.4}
+$$
+
+Substituting equation 2.4 to 2.3:
+
+$$
+f'(x)=\frac{x/x-\ln{x}\cdot1}{x^2} = \frac{1-\ln{x}}{x^2} \tag{2.5}
+$$
+
+To find the critical points, set the derivative to zero:
+
+$$
+f'(x_0) = \frac{1 - \ln x_0}{x_0^2} = 0
+$$
+
+The only way for this term to be zero is when the numerator zero:
+
+$$
+\ln{x_0} = 1
+$$
+
+This implies that the function reaches its maximum value at $x_0 = e$.
+
+Next, we have to substitute this value back in the original function:
+
+$$
+y_0 = f(x_0) = \frac{\ln{e}}{e}=\frac{1}{e}
+$$
+
+Finally, we have to calculate $x_0\cdot y_0 = e\cdot \frac{1}{e} = 1$
+
+Thus, the correct answer is $1$.
+
+## Q3
+
+If $f: \mathbb{R}\rightarrow\mathbb{R}$ is defined by $f(x)=e^{-\cos{x}}\sin{x}$ for every $x \in \mathbb{R}$ then $f'(0)$ is…
+
+---
+
+To solve this problem we have to know a few derivation rules.
+
+1. Product-rule: $(uv)'=u'v+uv'$
+2. Chan-rule: $\frac{d}{dx}f(g(x)) = \frac{df}{dg}\frac{dg}{dx}$
+3. The derivative of the exponential function: $\frac{d}{dx}e^x = e^x$
+4. The derivation of the sine and cosine function: $\cos'{x} = -\sin{x},\; \sin'{x}=\cos{x}$
+
+$$
+f(x) = uv,\; \text{where}\; u=e^{-\cos{x}},\; v=\sin{x}
+$$
+
+$$
+f'(x) = u'v + uv' \tag{3.1}
+$$
+
+$$
+u'=\frac{d}{dx}e^{-\cos{x}}=e^{-\cos{x}}\sin{x} \tag{3.2}
+$$
+
+$$
+v'=\frac{d}{dx}\cos{x}=\sin{x} \tag{3.3}
+$$
+
+Substitute Eq. 3.2 and 3.3 into 3.1.
+
+$$
+f'(x) = e^{-\cos{x}}\sin{x}\cdot\sin{x}+e^{-\cos{x}}\cdot\cos{x}
+$$
+
+Finally, evaluate this function at $x=0$. Here, we should know that $\sin{0}=0$, thus the first term is zero. Moreover, $\cos{0}=1$, thus the expression simplifies to $e^{-1}$.
+
+The correct answer is $e^{-1}$.
+
+## Q4
+
+The value of the integral $\int_0^{\pi/2}\cos{(x)}e^{-\sin{x}}dx$ is…
+
+---
+
+The integral involves both cosine and sine functions, suggesting that a substitution trick might simplify it. Let’s set: $u = \sin(x).$ Then, the derivative of $\sin(x)$ is:
+
+$$
+\frac{du}{dx} = \cos(x) \implies du = \cos(x) \, dx.
+$$
+
+Since  $u = \sin(x)$, we need to convert the limits of integration from $x$ to $u$:
+
+- When $x=0, \; u=\sin{(0)}=0$.
+- When $x=\frac{\pi}{2},\; u=\sin{(\frac{\pi}{2})=1}$.
+
+Thus, the integral now becomes:
+
+$$
+I = \int_0^1 e^{-u} \, du.
+$$
+
+This is a standard integral. The antiderivative of $e^{-u}$ is $e^{-u}$ – which forms our area function:
+
+$$
+
+\int e^{-u} \, du = -e^{-u} + C.
+$$
+
+Let’s calculate the integral with plugging in the limits:
+
+$$
+
+I = \left[ -e^{-u} \right]_0^1
+= -e^{-1} - (-e^0) = 1 - \frac{1}{e}.
+
+
+$$
+
+Thus, the value of the integral is:
+
+$$
+
+I = 1 - \frac{1}{e}.
+$$
+
+## Q5
+
+Evaluate $\int_0^{\pi/2}x\cos{x}\;dx$.
+
+---
+
+To solve this problem we can apply the technique called **integration by parts**.
+
+The formula for **integration by parts** is derived from the product rule in differentiation and states:
+
+$$
+\int u \, dv = uv - \int v \, du, \tag{5.1}
+$$
+
+where:
+
+- $u$ is a function that we choose to differentiate.
+- $dv$ is a function that we choose to integrate.
+
+The trick is to pick $u$ and $dv$ wisely so that the resulting integral becomes simpler to evaluate.
+
+In this case, we have the product of two functions: $x$ and $\cos(x)$. We need to choose $u$ and $dv$:
+
+$$
+u = x \implies du = dx \tag{5.2}
+$$
+
+$$
+dv = \cos{(x)}\,dx \implies v = \int \cos{(x)}\,dx = \sin{(x)} \tag{5.3}
+$$
+
+Now, apply the integration by parts formula and substitute (5.2-5.3) into (5.1):
+
+$$
+
+\int_0^{\pi/2} x \cos(x) \, dx = \left[ x \sin(x) \right]_0^{\pi/2} - \int_0^{\pi/2} \sin(x) \, dx. \tag{5.4}
+$$
+
+First, evaluate the boundary part:
+
+$$
+
+\left[ x \sin(x) \right]_0^{\pi/2} = \left( \frac{\pi}{2} \sin\left(\frac{\pi}{2}\right) \right) - \left( 0 \cdot \sin(0) \right) = \frac{\pi}{2}. \tag{5.5}
+$$
+
+Next, calculate the integral part:
+
+$$
+
+\begin{align}
+\int_0^{\pi/2} \sin(x) \, dx &= \left[ -\cos(x) \right]_0^{\pi/2} \notag \\
+&= -\cos\left(\frac{\pi}{2}\right) - \left( -\cos(0) \right) \notag \\&= 0 - (-1) = 1. \tag{5.6}
+\end{align}
+$$
+
+Finally, substitute (5.5) and (5.6) back to (5.4) to attain the solution:
+
+$$
+
+\int_0^{\pi/2} x \cos(x) \, dx = \frac{\pi}{2} - 1.
+$$
+
+## Q6
+
+Let $A, \,B$ and $C$ be square invertible matrices of the same size. If $B^TB = I = BB^T$ and $C$ has no eigenvalue equal to $-1$, then $(AB^T+AB^TC)^{-1}$ is equal to…
+
+---
+
+Let’s examine what the given conditions imply.
+
+$B^T B = I = B B^T$ means that $B$ is an **orthogonal matrix**. An orthogonal matrix has the property that its inverse is equal to its transpose:  $B^{-1} = B^T .$ Moreover, its eigenvectors are orthogonal → hence the naming. Okay, this one was not that hard, but what is the significance in stating that matrix $C$ does not have eigenvalues equal to $-1$?
+
+A matrix $M$ is invertible if and only if none of its eigenvalues are zero. This is because the determinant of a matrix is the product of its eigenvalues, and for an invertible matrix, the determinant must be non-zero. If any eigenvalue of $M$ is zero, the determinant becomes zero, and the matrix is singular (non-invertible). Let’s suppose that $C$ is a matrix and we know its eigenvalues. If  $\lambda$ is an eigenvalue of $C$, then the eigenvalues of $I + C$ (where $I$ is the identity matrix) are  $\lambda + 1$ . This comes from the fact that adding the identity matrix shifts the eigenvalues of $C$ by $1$. For $I + C$ to be invertible, none of its eigenvalues can be zero. This means that  $\lambda + 1 \neq 0$ for all eigenvalues $\lambda$  of $C$ , which implies: $\lambda \neq -1.$ Hence, the condition that $C$ has no eigenvalue equal to $-1$ tells us that $I + C$ is also invertible. Thats it.
+
+We need to find the inverse of the matrix expression:
+
+$$
+
+(AB^T + AB^TC)^{-1}. \tag{6.1}
+$$
+
+First, factor out common terms from the expression inside the parentheses:
+
+$$
+
+AB^T + AB^TC = AB^T (I + C).
+$$
+
+So, we now need to find the inverse of the matrix product above:
+
+$$
+
+(AB^T(I + C))^{-1} = (I + C)^{-1} (AB^T)^{-1}. \tag{6.2}
+$$
+
+Here we used the fact that the inverse of a product of matrices follows the rule:
+
+$$
+
+(AB)^{-1} = B^{-1} A^{-1},
+$$
+
+and that $I + C$ is invertible due to the specified condition.
+
+Now, let’s focus on the term $(AB^T)^{-1}$ in Eq. (6.2):
+
+$$
+
+(AB^T)^{-1} = (B^T)^{-1} A^{-1} = B A^{-1},
+$$
+
+because $(B^T)^{-1} = B$  due to the orthogonality of $B$.
+
+Finally, substitute this simplification back into Eq. (6.2) to arrive at the solution:
+
+$$
+
+(AB^T(I + C))^{-1} = (I + C)^{-1} B A^{-1}. \tag{6.3}
+$$
+
+Let’s recap what we needed to know to solve this problem:
+
+1. Orthogonal matrices and their properties (such as $B^{-1} = B^T$ ).
+2. **Matrix factorization** to recognize common factors.
+3. **Matrix inverse properties**, particularly the inverse of a product of matrices.
+4. The fact that $I + C$ is invertible, which follows from the condition that $C$ has no eigenvalue equal to  $-1$.
+
+## Q7
+
+Let $A,B,C$ be square invertible matrices of the same size. If $B^TB = I = BB^T$, then $(AB^TC)^{-1 }$ is equal to…
+
+---
+
+Again, we got an extra property for $B$ matrix, namely that it is **orthogonal** which implies that $B^T=B^{-1}$.
+
+The solution is quite straightforward after the previous problem:
+
+$$
+\begin{align}
+(AB^TC)^{-1 } &= (A(B^TC))^{-1} \notag \\ &= (B^TC)^{-1}A^{-1}\notag \\ &= C^{-1}(B^T)^{-1}A^{-1}\notag \\ &= C^{-1}BA^{-1}. \notag
+\end{align}
+$$
+
+## Q8
+
+Let  $f: \mathbb{R} \to \mathbb{R}$ and  $g: \mathbb{R} \to \mathbb{R}$ be defined by
+$f(x) := \sin(x) \;\forall x \in \mathbb{R}$ and
+$g(x) := e^x \; \forall x \in \mathbb{R}.$
+
+Consider the following statements:
+
+[i.] $f$ is one-to-one
+[ii.] $f$ is onto
+[iii.] $g$ is one-to-one
+[iv.] $g$ is onto
+
+Which of the statements are true? Select one:
+
+- [ ] None of the statements
+- [ ] iii
+- [ ] All of the statements
+- [ ] ii. and iii.
+
+---
+
+We should know here that “one-to-one” means injective and “onto” surjective. In case of the former each distinct input leads to a distinct output. In the latter the function has to cover the whole output space.
+
+[i.] The sine function is a periodic function taking the same value multiple times → it is not one-to-one → False
+
+[ii.] The sine function does not cover the whole output space $\mathbb{R}$ → False
+
+[iii.] The exponential function is one-to-one → True
+
+[iv.] The exponential function is not onto as it takes only positive values → False
+
+Thus, the correct answer is: iii.
+
+## Q9
+
+The solution to the following differential equation
+
+$y{\prime}{\prime} + 2y{\prime} + y = 0, \quad y(0) = 2, \quad y{\prime}(0) = 10$
+
+is…
+
+---
+
+This is a **second-order linear homogenous differential equations**. Exponential functions naturally arise as a solution to this kind of differential equations. We begin by guessing that solutions of the form $y = e^{rx}$  might work. Why guess exponential functions? Exponential functions have the unique property that their derivative is proportional to the function itself. Specifically,  $\frac{d}{dx} (e^{rx}) = r e^{rx}$ , and similarly,  $\frac{d^2}{dx^2} (e^{rx}) = r^2 e^{rx}$ . This property allows us to turn the original differential equation into an algebraic equation – the characteristic equation –, which is much simpler to solve.
+
+For example, if we substitute  $y = e^{rx}$  into the differential equation a, we get:
+
+$a r^2 e^{rx} + b r e^{rx} + c e^{rx} = 0.$
+
+Factoring out  $e^{rx}$ – which is never zero –, we are left with the characteristic equation:
+
+$a r^2 + b r + c = 0.$
+
+This is a quadratic equation in $r$ . Solving this quadratic equation gives us values of $r$, and these values determine the solution to the differential equation.
+
+If the characteristic equation has two **distinct real roots** ($r_1$ and $r_2$), the general solution is a linear combination of two exponential functions:
+
+$y(x) = C_1 e^{r_1 x} + C_2 e^{r_2 x}.$
+
+These represent two linearly independent solutions, which span the space of solutions for this second-order equation.
+
+If the characteristic equation has a **repeated real root** ($r = r_1 = r_2$), the solution takes the form:
+$y(x) = (C_1 + C_2 x) e^{r x}.$
+
+If the characteristic equation has **complex roots** ($r = \alpha \pm i \beta$), the solution is still expressible in terms of exponentials, but using Euler’s formula $e^{i\theta} = \cos(\theta) + i \sin(\theta)$ , we convert the complex exponentials into real trigonometric functions:
+
+$y(x) = e^{\alpha x} (C_1 \cos(\beta x) + C_2 \sin(\beta x)).$
+
+This solution represents oscillatory behaviour (due to the sines and cosines) modulated by an exponential term $e^{\alpha x}$.
+
+Knowing all this, try to solve the problem as fast as possible.
+
+So in the case of this specific example substituting the guessed function back to the formula we get:
+$r^2 e^{rx} + 2r e^{rx} + e^{rx} = 0.$
+
+Factoring out  $e^{rx}$ (which is never zero), we obtain the characteristic equation:
+
+$r^2 + 2r + 1 = 0.$
+
+Now, solve this quadratic equation with factoring (using the quadratic formula is slow):
+
+$(r + 1)^2 = 0 \implies r = -1.$
+
+This is a repeated/single root so we know the form. We should not calculate this further as in the test we have 2 minutes per question in average. At this point depending on the possible answers the correct one might be obvious as in this case.
+
+Options:
+
+- $y(t) = 2e^{-t} + 12te^{-t}$
+- $y(t) = 2e^{-t}$
+- $y(t) = e^{-t}$
+- $y(t) = 2$
+
+Calculating the root implies the form of the solution so we know that the first one must be the correct answer. Fortunately, no need to calculate the constants.
+
+## Q10
+
+The complex number $z=2e^{i\frac{\pi}{4}}$ can also be written as…
+
+---
+
+$$
+z = 2(\cos\frac{\pi}{4}+i\cdot\sin\frac{\pi}{4}) = \sqrt{2}+i\sqrt{2}
+$$
+
+## Q11
+
+The following series
+
+$$
+
+\sum_{n=1}^{\infty} \frac{(-1)^n}{n^2}
+
+
+$$
+
+Select one:
+
+- Converges absolutely
+- Diverges to  $-\infty$
+- Converges conditionally
+- Diverges to $\infty$
+
+---
+
+A series $\sum a_n$ **converges absolutely** if the series of absolute values $\sum |a_n|$ converges. In other words, if we strip away the signs and the resulting series still converges, the original series converges absolutely. A series $\sum a_n$ **converges conditionally** if the series converges, but the series of absolute values $\sum |a_n|$ does not converge. This means that the signs (alternation between positive and negative) play a crucial role in the series converging.
+
+First look at the series formed by the absolute values of the terms:
+
+$\sum_{n=1}^{\infty} \left| \frac{(-1)^n}{n^2} \right| = \sum_{n=1}^{\infty} \frac{1}{n^2}.$
+
+This is a p-series: $\sum_{n=1}^{\infty} \frac{1}{n^p},$ with $p = 2$. A p-series converges if $p > 1$. Since $p = 2$, the series $\sum \frac{1}{n^2}$ converges.
+
+Because the absolute series $\sum \frac{1}{n^2}$ converges, the original series $\sum \frac{(-1)^n}{n^2}$ converges absolutely.
+
+Let’s consider another example:
+$\sum_{n=1}^{\infty} \frac{(-1)^n}{n}.$
+
+The absolute value series is $\sum_{n=1}^{\infty} \frac{1}{n}$, which is the harmonic series, known to diverge. Therefore, the series does not converge absolutely.
+
+Now, let’s move to the **Alternating Series Test** (also known as **Leibniz’s Test**), which allows us to test the convergence of alternating series. The test applies to series of the form:
+
+$\sum (-1)^n a_n \quad \text{or} \quad \sum (-1)^{n+1} a_n$, where $a_n$ are positive terms. The test states that an alternating series converges if:
+
+1. The terms $a_n = \frac{1}{n}$ decrease monotonically because $\frac{1}{n+1} < \frac{1}{n}$ for all $n$.
+2. $\lim_{n \to \infty} \frac{1}{n} = 0$, so the terms tend to zero as $n \to \infty$.
+
+Since both conditions of the Alternating Series Test are satisfied, **the alternating harmonic series**: $\sum_{n=1}^{\infty} \frac{(-1)^n}{n}$ **converges**.
+
+Hence, this is an example of **conditional convergence** because, while **the alternating harmonic series converges**, the series of absolute values (which is the **harmonic series** itself) **diverges.**
+
+In other words, the alternating harmonic series converges **conditionally**, but not absolutely.
+
+Note that if **a series converges absolutely, it also converges conditionally**, but we typically don’t call it **conditionally convergent** in this case because the stronger property (absolute convergence) applies.
+
+## Q12
+
+The value of  $\lim_{n \to \infty} \frac{2^n}{n!}$  is:
+
+---
+
+$2^n$ grows exponentially as  $n$  increases.   $n!$  (factorial) grows much faster than exponential growth. Factorial grows super-exponentially, meaning that for large $n , \; n!$ becomes much larger than  $2^n$. Factorial grows extremely fast because it multiplies all the integers from $1$ to $n$ , while $2^n$ just multiplies $2$ repeatedly.
+
+So, the correct answer is: $0.$
+
+## Q13
+
+Consider the following statements concerning a positive integer  $n$:
+
+[i.] If  $n$  is a multiple of 9, then  $n^2$  is a multiple of 3.
+
+[ii.] If  $n^2$  is a multiple of 7, then  $n$  is a multiple of 7.
+
+[iii.] If  $n^2$  is a multiple of 14, then  $n$  is a multiple of 7.
+
+Select one:
+
+- i. and ii.
+- i. and iii.
+- All the statements
+- None of the statements
+
+---
+
+**Statement [i]:**
+
+- If  $n$  is a multiple of 9, it means  $n = 9k$  for some integer  $k$.
+- Squaring both sides:  $n^2 = (9k)^2 = 81k^2$.
+- $81k^2$  is clearly divisible by 3 (since 81 is divisible by 3). Hence,  $n^2$  is a multiple of 3.
+
+**Conclusion for [i]:** True.
+
+**Statement [ii]:**
+
+- If  $n^2$  is divisible by 7, then  $n$  must be divisible by 7. This is because 7 is a prime number, and if a prime divides   $n^2$ , it must divide   $n$  as well.
+
+**Conclusion for [ii]:** True.
+
+**Statement [iii]:**
+
+- If  $n^2$  is a multiple of 14, this means  $n^2 = 14k$  for some integer  $k$ .
+- $14 = 2 \times 7$ , so  $n^2$  must be divisible by both 2 and 7.
+- However, for  $n^2$  to be divisible by 7, we can apply the same reasoning as in [ii]. If  $n^2$ is divisible by 7, then  $n$  must be divisible by 7.
+
+**Conclusion for [iii]:** True.
+
+Thus, the correct answer is **“All of the statements”.**
+
+## Q14
+
+An island consists of four kinds of people: Tetas, Jekas, Frekas, and Hekas. The following information is known:
+
+- All Frekas are both Jekas and Tetas.
+- No Hekas are Jekas.
+- No Hekas are Tetas.
+
+Consider the following statements:
+
+[i.] Some Hekas are Frekas.
+
+[ii.] No Frekas are Hekas.
+
+[iii.] All Tetas are Frekas.
+
+Which of these statements are necessarily true based only on the information above?
+
+Select one:
+
+- None of the statements
+- All the statements
+- ii. and iii.
+- Only ii.
+
+---
+
+In these types of problems, the key is to visualize the relationships using Venn diagrams, which makes the connections much clearer. Without this visual aid, the logical relationships can be difficult to see and slow to derive.
+
+In this case, Frekas is a subset of both Jekas and Tetas, so we place the Frekas set in the intersection of Jekas and Tetas. Hekas, on the other hand, is a completely disjoint set, meaning it shares no members with either Jekas or Tetas.
+
+By observing the diagram, it becomes clear that the only correct statement is **ii** (“No Frekas are Hekas”). The other statements are obviously false based on the visual relationships.
+
+## Q15
+
+Let  $f: \mathbb{R}^2 \to \mathbb{R}$  be defined by $f((x, y)) := \sin(xy), \text{ for every } (x, y) \in \mathbb{R}^2.$ The value of $f_x((1, 0)) + f_y((1, 0)) + f_{xx}((1, 0))$ is:
+
+---
+
+At first sight, I did not quite get what is this notation. It turns out, it denotes partial derivation:
+
+$$
+\frac{\partial f}{\partial x} + \frac{\partial f}{\partial y} + \frac{\partial^2 f}{\partial x^2} \bigg|_{(1, 0)}
+$$
+
+much better this way, right 🤓?
+
+$$
+\frac{\partial f}{\partial x}= y\cos(xy), \; \frac{\partial f}{\partial y}= x\cos{xy}, \; \frac{\partial^2 f}{\partial x^2}= -y^2\sin(xy)
+$$
+
+If we evaluate these terms at the given point: the first term is zero, the second term is $1$, and the third term is zero again. Thus, the correct answer is $1$.
+
+## Q16
+
+Let $I := \iint_D 2 \, dA,$ where  $D$  is the interior of the region bounded by the curves  $y = x^2$  and  $y = x^3$ , with  $x \geq 0$  and  $y \geq 0$. The value of  $I$  is…
+
+---
+
+This problem involves calculating the **double integral** over a specified region in the plane bounded by two curves. A **double integral** is used to compute things like the area, volume, or more generally, the accumulation of some quantity over a two-dimensional region. In this case, the double integral is: $I = \iint_D 2 \, dA,$ where  $D$  is the region bounded by the curves  $y = x^2$  and  $y = x^3$ . The expression  $dA$  represents an infinitesimal area element in the region, and  $2$  is the function being integrated. Since this function is constant (just 2), the integral essentially gives us twice the area of the region.
+
+The intersection of these two curves occurs when  $x^2 = x^3$ , which simplifies to $x^2(x - 1) = 0$ , meaning that $x_1 = 0$ and $x_2 = 1$ .
+
+To compute the double integral, we need to set up the limits of integration correctly. In this case, we integrate with respect to $y$ first (vertical slices), and the limits for  $y$  will be between the curves  $y = x^3$  (the lower bound) and  $y = x^2$  (the upper bound), for each  $x$  between $0$ and $1$. The double integral can be written as:
+
+$$
+
+I = \int_0^1 \int_{x^3}^{x^2} 2 \, dy \, dx.
+$$
+
+First, integrate with respect to  $y$ :
+
+$$
+\int_{x^3}^{x^2} 2 \, dy = 2(y) \bigg|_{y = x^3}^{y = x^2} = 2(x^2 - x^3).
+$$
+
+Next, integrate with respect to  $x$ :
+
+$$
+
+I = \int_0^1 2(x^2 - x^3) \, dx.
+$$
+
+Break this into two separate integrals:
+
+$$
+
+I = 2 \underbrace{\int_0^1 x^2 \, dx}_{\frac{1}{3}} - 2 \underbrace{\int_0^1 x^3 \, dx}_{\frac{1}{4}}.
+
+
+$$
+
+So, the correct answer is:
+
+$$
+
+I = 2\left( \frac{1}{3} \right) - 2\left( \frac{1}{4} \right) = \frac{2}{3} - \frac{1}{2} = \frac{4}{6} - \frac{3}{6} = \frac{1}{6}.
+$$
+
+Some tips for these kind of problems are as follows. Determine whether it’s easier to integrate with respect to  $y$  first or  $x$  first. Typically, you choose based on how the region is described (whether it’s bounded by vertical or horizontal curves). For each slice of  $x$ , determine the limits of  $y$ , or vice versa. If the integrand is a simple constant (like in this case), the integral simplifies to calculating the area of the region.
+
+## Q17
+
+Evaluate
+
+$$
+
+\int_0^1 \int_x^1 \sin(y^2) \, dy \, dx
+$$
+
+by changing the order of the integral.
+
+---
+
+If you are familiar with coding, you can think of the double integral as a double `for` cycle in programming. It can be a a more tangible analogy – and can aid the thinking process.  $x$  goes from $0$ to $1$. For each $x$ ,  $y$ goes from  $x$  to $1$.
+
+This describes a triangular region in the $xy$ -plane. To change the order of integration, we need to describe the region in terms of $y$ first:
+
+- $y$ ranges from $0$ to $1$.
+- For each $y,\;  x$ ranges from $0$ to $y$ (since $x \leq y$ ).
+
+Thus, the new limits for the double integral are:
+
+$$
+
+\int_0^1 \int_0^y \sin(y^2) \, dx \, dy.
+$$
+
+In the new order of integration, we integrate with respect to  $x$ first:
+
+$$
+\int_0^y \sin(y^2) \, dx = \sin(y^2) \cdot x \bigg|_0^y = y \sin(y^2).
+$$
+
+Now we need to evaluate the remaining integral:
+
+$$
+
+\int_0^1 y \sin(y^2) \, dy.
+
+
+$$
+
+We can guess that the antiderivative of the integrand is:
+
+$$
+\frac{d}{dy}\left(-\frac{1}{2}\cos(y^2)\right) = y\sin(y^2).
+$$
+
+After evaluation, we find that the correct answer is:
+
+$$
+
+\frac{1}{2} \left( 1 - \cos(1) \right).
+$$
+
+## Q18
+
+Let  $f: \mathbb{R}^2 \to \mathbb{R}$  be defined by
+
+$f((x, y)) := x^2 + 2y^2 - 3xy, \text{ for every } (x, y) \in \mathbb{R}^2.$
+
+The value of  $f_x((0, 0)) + f_y((0, 0)) + f_{xy}((0, 0))$  is:
+
+---
+
+This is a partial differentiation exercise again. The solution can be derived likewise in $Q15.$ The correct answer is: $-3$.
+
+## Q19
+
+For each $n = 1, 2, 3, \dots$, define
+
+$$
+
+f_n(x) := \frac{n^2x^3}{1 + 2n^2x^2}, \text{ for every } x \in \mathbb{R}.
+$$
+
+Then the function  $f$  defined by
+
+$$
+
+f(x) := \lim_{n \to \infty} f_n(x)
+$$
+
+exists for each   $x \in \mathbb{R}$  and is equal to:
+
+Select one:
+
+- $f(x) = \frac{x}{2}$
+- $f(x) = x^2$
+- $f(x) = x$
+- $f(x) = 0$
+
+---
+
+We want to find the limit:
+
+$$
+
+f(x) = \lim_{n \to \infty} \frac{n^2 x^3}{1 + 2n^2 x^2}.
+$$
+
+For large  $n$ , the dominant term in the denominator is  $2n^2x^2$  (since  $2n^2x^2$ grows much faster than the constant $1$). So, for large  $n$, we can approximately write:
+
+$$
+
+f_n(x) \approx \frac{n^2x^3}{2n^2x^2}.
+$$
+
+Now, cancel  $n^2$ from both the numerator and the denominator:
+
+$$
+
+f_n(x) \approx \frac{x^3}{2x^2} = \frac{x}{2}
+$$
+
+which is the correct answer.
+
+## Q20
+
+Consider the following partial differential equation (PDE):
+
+$$
+
+\frac{\partial^2 u}{\partial x^2} - \frac{\partial^2 u}{\partial y^2} = 0
+$$
+
+where  $u = u(x, y)$  is the unknown function.
+
+Define the following functions:
+
+$u_1(x, y) := \cos(2xy), \quad u_2(x, y) := \sin(x^2 y), \quad u_3(x, y) := e^{-(x^2 + y^2)}.$
+
+Which of these functions are solutions to the above PDE?
+
+Select one:
+
+- Only $u_3.$
+- $u_1$  and $u_3$.
+- All the functions
+- None of the functions
+
+---
+
+To solve this problem (and similar ones), you need to understand **partial differential equations (PDEs)** and the process of verifying whether a given function is a solution to a PDE. Let’s break this down into a few key concepts and step-by-step instructions on how to solve it.
+
+A PDE is an equation involving an unknown function and its partial derivatives. The unknown function typically depends on several variables (in this case,  $x$  and  $y$).
+
+The given PDE is:
+
+$$
+\frac{\partial^2 u}{\partial x^2} - \frac{\partial^2 u}{\partial y^2} = 0,
+$$
+
+which is known as the **two-dimensional wave equation** or **Laplace equation** in certain contexts.
+
+For a function  $u(x, y)$  to be a solution to this PDE, it must satisfy the equation. That is, when you compute the second partial derivatives of  $u(x, y)$  with respect to  $x$  and  $y$ , and plug them into the PDE, the equation should hold true (i.e., the left-hand side should equal zero).
+
+It would be really time consuming to test all of these functions and we do not have much time, but if you are fast, go for it brute-force. However, some knowledge about the equation could spare us a pencil.
+
+This PDE commonly arises in physics, and it describes functions that exhibit a balance between their second derivatives in  $x$  and $y$ . For this type of PDE, the general solution often involves functions of the form:
+
+$u(x, y) = f(x + y) + g(x - y),$
+
+where  $f$  and $g$  are arbitrary differentiable functions. If we know this we instantly see that none of the presented functions satisfies this form.
+
+Thus, the correct answer is **none of the above functions**.
+
+Now, let’s have a little fun and prove that this form satisfies the 2D wave equation.
+
+The reasoning behind the form $u(x, y) = f(x + y) + g(x - y)$ comes from a powerful technique called **separation of variables**. This approach allows us to break down complex PDEs into simpler parts. The basic idea is to look for solutions where the variables $x$ and $y$ can be separated into independent functions.
+
+Let’s introduce new variables:
+$\xi = x + y \quad \text{and} \quad \eta = x - y.$
+
+Using the chain rule, express the partial derivatives with respect to $x$ and $y$ in terms of $\xi$ and $\eta$. First derivatives:
+
+$$
+
+\frac{\partial}{\partial x} = \frac{\partial}{\partial \xi} + \frac{\partial}{\partial \eta}, \quad \frac{\partial}{\partial y} = \frac{\partial}{\partial \xi} - \frac{\partial}{\partial \eta}.
+$$
+
+Second derivatives:
+
+$$
+\textcolor{red}{\frac{\partial^2}{\partial x^2}} = \frac{\partial^2}{\partial \xi^2} + 2\frac{\partial^2}{\partial \xi \partial \eta} + \frac{\partial^2}{\partial \eta^2}, \quad
+\textcolor{green}{\frac{\partial^2}{\partial y^2}} = \frac{\partial^2}{\partial \xi^2} - 2\frac{\partial^2}{\partial \xi \partial \eta} + \frac{\partial^2}{\partial \eta^2}.
+
+
+$$
+
+Now, substitute these second derivatives into the PDE:
+
+$$
+
+\frac{\textcolor{red}{\partial^2} u}{\textcolor{red}{\partial x^2}} - \frac{\textcolor{green}{\partial^2} u}{\textcolor{green}{\partial y^2}} = 0.
+$$
+
+Substituting the expressions from above:
+
+$$
+
+\left( \frac{\partial^2 u}{\partial \xi^2} + 2\frac{\partial^2 u}{\partial \xi \partial \eta} + \frac{\partial^2 u}{\partial \eta^2} \right) - \left( \frac{\partial^2 u}{\partial \xi^2} - 2\frac{\partial^2 u}{\partial \xi \partial \eta} + \frac{\partial^2 u}{\partial \eta^2} \right) = 0.
+$$
+
+Simplifying this equation gives:
+
+$$
+
+\left(\frac{\partial^2 u}{\partial x^2} - \frac{\partial^2 u}{\partial y^2} = \right) 4 \frac{\partial^2 u}{\partial \xi \partial \eta} = 0.
+
+
+$$
+
+This means that the mixed derivative  $\frac{\partial^2 u}{\partial \xi \partial \eta}$ must be zero. It means that the function $u(\xi, \eta)$ does not have any “interaction” between  $\xi$  and  $\eta$ . In other words, the function  $u(\xi, \eta)$ can be split into a sum of two independent functions, one that depends only on $\xi$  and one that depends only on  $\eta$ . Thus, we conclude that:
+
+$$
+u(x, y) = f(\xi) + g(\eta) = f(x + y) + g(x - y).
+$$
+
+## Q21
+
+A class has $25$ students, of which $10$ are boys (you may assume that the other $15$ are girls). The class average (mean) height is  $\bar{x}$  metres and the mean height for boys is  $\bar{x}_B$  metres. The mean height for girls  $\bar{x}_G$ is…
+
+---
+
+To solve this type of problem, we need to understand **weighted averages**, which allow us to calculate the overall average when there are different groups (boys and girls in this case) with different sizes and different averages. The overall class average  $\bar{x}$  is the weighted average of the boys’ and girls’ mean heights, where the weights are the number of boys and girls, respectively:
+
+$$
+
+\bar{x} = \frac{\text{(number of boys)} \times \bar{x}_B + \text{(number of girls)} \times \bar{x}_G}{\text{total number of students}}.
+
+
+$$
+
+Substituting the numbers from the example:
+
+$$
+
+\bar{x} = \frac{10 \cdot \bar{x}_B + 15 \cdot \bar{x}_G}{25}.
+$$
+
+This equation means that the class average is the total height of the boys and girls divided by the total number of students.
+
+We have to express the term $\bar{x}_G$ from the equation:
+
+$$
+
+\bar{x}_G = \frac{25 \cdot \bar{x} - 10 \cdot \bar{x}_B}{15}.
+
+
+$$
+
+## Q22
+
+A group of $10$ students received the following marks for a test:
+
+58, 89, 65, 78, 55, 26, 93, 46, 43, 59.
+
+The standard deviation of their marks is (to two decimal places):
+
+- 20.91
+- 437.29
+- 61.20
+- 3745.44
+
+---
+
+Based on the options, **20.91** is a reasonable guess for the standard deviation.
+
+## Q23
+
+A jar contains $6$ red balls and $5$ blue balls. Two balls are drawn at random from the hat without replacement. What is the probability that both the balls drawn are blue?
+
+---
+
+The number of ways to choose $k$ items from $n$ items without regard to the order is given by:
+
+$$
+\binom{n}{k} = \frac{n!}{k!(n-k)!}.
+$$
+
+The number of all possible combination is:
+
+$$
+\binom{11}{2} = \frac{11!}{2!\cdot9!} = \frac{11\cdot10\cdot9!}{2!\cdot9!} = \frac{110}{2} = 55.
+$$
+
+So, the number of ways to choose $2$ balls from $11$ is $55$.
+
+Next, calculate the number of favourable outcomes, i.e. the number of ways to draw $2$ blue balls out of $5$ blue balls:
+
+$$
+
+\binom{5}{2} = \frac{5!}{2!(5-2)!} = \frac{5 \cdot 4 \cdot 3!}{2 \cdot 1 \cdot 3!} = \frac{5 \cdot 4}{2 \cdot 1} = \frac{20}{2} = 10.
+
+
+$$
+
+So, there are $10$ favorable outcomes for drawing two blue balls.
+
+Finally, that we have both the total number of outcomes and the number of favourable outcomes, we can find the probability:
+
+$$
+P(\text{both balls are blue}) = \frac{\binom{5}{2}}{\binom{11}{2}} = \frac{10}{55} = \frac{2}{11}.
+$$
+
+Note that in the example we do not have to calculate the exact probability, because $\binom{5}{2}/\binom{11}{2}$ is presented as a possible solution, so we can instantly select the correct answer. Remember, we do not have much time, so favouring speed over precision is a good strategy in these kind of tests. Detailed solution is presented just for the sake of learning and understanding.
+
+Let’s refresh our knowledge in this topic.
+
+In probability, there are two main types of sampling methods when drawing from a set of items. The first one is **Sampling Without Replacement.** Once an item is drawn, it is **not returned** to the set. This means the total number of items decreases with each draw. The probability changes after each draw because the number of possible outcomes is reduced. Example: Drawing cards from a deck without putting them back or drawing balls from a jar without replacing them. The other sampling method is **Sampling With Replacement**. After an item is drawn, it is **returned** to the set before the next draw. The total number of items remains the same for each draw. The probability stays the same for each draw because the number of possible outcomes remains unchanged. Example: Rolling a die multiple times or drawing a ball from a jar and putting it back after each draw.
+
+here are two key concepts to understand when dealing with the order of items: **combinations** and **permutations**. In the former, the order does not matter. The arrangement of the selected items is irrelevant. This was the case in this exercise. Another example would be choosing 5 numbers out of 50 in a lottery draw. In contrast, the **order does matter in permutations**. The formula for arranging $n$ items in $r$ positions:
+
+$$
+ P(n, r) = \frac{n!}{(n-r)!} .
+$$
+
+Example: Arranging $3$ students in a line out of a group of $10$.
+
+# Q25
+
+Let $A$ , $B$ , and $C$ be the following sets:
+
+- $A  :=$ set of composite numbers
+- $B  :=$ set of positive odd numbers
+- $C  :=$ set of positive integers less than or equal to 10.
+
+The set $D := (A \cup B) \cap C$ is:
+
+- $\{2, 3, 4, 5, 6, 7, 8, 9, 10\}$
+- $\{1, 3, 4, 5, 6, 7, 8, 9, 10\}$
+- $\{2, 3, 4, 5, 6, 7, 8, 10\}$
+- $\{1, 3, 5, 7, 9\}$
+
+---
+
+The correct answer is:
+
+$\{1, 2, 3, 4, 5, 6, 7, 8, 9, 10\}.$
+
+# Q26
+
+A magician has a collection of $52$ cards, with $26$ red and $26$ black cards. Four of these cards are classified as ‘special’, and two of the special cards are red. If a card is chosen at random from the 52 cards, what is the probability that the card is special or red?
+
+Select one:
+
+$\frac{26}{52} \qquad
+\frac{28}{52} \qquad
+\frac{2}{52} \qquad
+\frac{4}{52}$
+
+---
+
+Here you have to see that the number of red or special cards are 28.
+
+The correct answer is:
+
+$$
+\frac{28}{52}.
+$$
+
+# Bonus Question
+
+What is the meaning of life?
+
+---
+
+$$
+42.
+$$
