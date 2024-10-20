@@ -1,0 +1,574 @@
+---
+title: 'Exploring Exponential Moving Average'
+date: '2024-10-20'
+lastmod: '2024-10-20'
+tags: ['fundamentals', 'quant']
+images:
+  [
+    'static/images/ema/exponential_weights_2row_barplot.png',
+    'static/images/machine-learning/algo.png',
+  ]
+draft: false
+bibliography: references-data.bib
+summary: 'The Exponential Weighted Moving Average (EMA) is ubiquitous in signal processing, especially in the algorithmic trading scene. It serves to filter out noise from the signal and compute an average/expected value, with recent samples carrying more significant weight in the calculation. Although this is a fundamental tool, the underlying theory can be confusing. This post attempts to make things clear regarding the theory and practical usage of EMA.'
+---
+
+The Exponential Weighted Moving Average (EMA) is ubiquitous in signal processing, especially in the algorithmic trading scene. It serves to filter out noise from the signal and compute an average/expected value, with recent samples carrying more significant weight in the calculation. Although this is a fundamental tool, the underlying theory can be confusing. Its inner workings have many layers of understanding, which is worth revisiting from time-to-time. This post attempts to make things clear regarding the theory and practical usage of EMA. First, I introduce the most widespread (unadjusted) formula, and then we reveal its weaknesses. After that, the adjusted approach is presented, which should be favored over the other one. Finally, we examine the effective window size of the EMA, the so-called span formula.
+
+# 1. Hunter’s EMA
+
+The traditional and most commonly used EMA formula was conceived by Hunter [@Hunter1986TheEW] for quality control purposes. In this regime, production is monitored by some well-crafted metric, describing the effectiveness of the process or the quality of the final product. If the metric is close to a desired pre-defined threshold, the process is said to be under control. Conversely, if the metric deviates from the threshold, the system signals manual intervention. Hunter recognized that using an EMA would suit this issue due to its beneficial traits: it effectively filters observations, ensuring the system is resilient against outliers while still being flexible and responsive to new data. He framed the problem as predicting the next EMA estimate from the current observation the following way:
+
+$$
+\begin{align*}
+\hat{y}_{t+1} &= \hat{y}_t + \lambda{e_t} \\
+\hat{y}_{t+1} &= \hat{y}_t + \lambda (y_t - \hat{y}_t) \\
+\hat{y}_{t+1} &= \lambda y_t + (1-\lambda)\hat{y}_t
+
+\end{align*}
+$$
+
+where $\hat{y}_{t+1}$ is the predicted new EMA, $\hat{y}_{t}$ is the old EMA, $y_t$ is the observed value at time $t$, $e_t=y_t-\hat{y}_t$ is the observed error at time $t$, and $\lambda$ is a constant $(0<\lambda<1)$ determining the depth of memory of the EMA. The crucial question is **how do we initialize the recursive formula** at time $t=0$. The author provides an example that describes a typical initialization for the given use-case:
+
+> Let $\lambda = 0.5$ and suppose at $t=0$ a process thought to be under control has a target value $\tau = 50$. To initiate the EWMA, set the initial predicted value $\hat{y}_1$ equal to the **target value** and …
+
+This makes sense because the EMA is employed here to track the deviation from the target value. Next, we will attempt to apply this method generally on a series of observations beyond this specific use case.
+
+Let $x_0, x_1, … x_t$ be an ordered series of observations. We modify the notation to the following:
+
+$$
+y_t = \alpha x_t + (1-\alpha)y_{t-1} \tag{1.1}
+$$
+
+where $y_t$ is the exponentially weighted moving average at time $t$; and $\alpha \in (0, 1)$ is the smoothing factor. The term $(1-\alpha)$ decides the impact of the old EMA $y_{t-1}$ on the moving average. If $\alpha$ is small, then $(1-\alpha)$ becomes large, consequently $y_{t-1}$ has a large impact, while the new observation $x_t$ has a smaller influence on the moving average (large memory). If $\alpha$ were one, the EMA would be equal to the observations. If $\alpha$ were zero, then the EMA would not incorporate new observations and would solely output the initial value. This is why we limit this parameter to the range $(0,1)$.
+
+> [!CAUTION]
+> It is important to note a confusing aspect of this topic: some individuals use the EMA formula with an inverse parametrization $(\alpha^{\prime} = 1 - \alpha)$ interchangeably, frequently with the same $\alpha$ naming, and there is no consensus about it:
+>
+> $$
+> y_t =\alpha^{\prime} y_{t-1} + (1-\alpha^{\prime})x_t \tag{1.2}
+> $$
+
+Here, we will employ the first formula, Eq. $(1.1)$, to stick to the original source.
+
+Let’s solve the difference equation by guessing the general formula via manually calculating and “unrolling” it for a few $t$ values.
+
+$$
+\begin{align*}
+\textcolor{teal}{y_1} &= \alpha x_1 + (1 - \alpha) \textcolor{orange}{y_0} \\
+\textcolor{violet}{y_2} &= \alpha x_2 + (1 - \alpha) \textcolor{teal}{y_1}  = \alpha x_2 + \alpha(1 - \alpha) x_1 + (1 - \alpha)^2 \textcolor{orange}{y_0} \\
+\textcolor{olive}{y_3} &= \alpha x_3 + (1 - \alpha) \textcolor{violet}{y_2} = \alpha x_3 + \alpha(1 - \alpha) x_2 + \alpha(1 - \alpha)^2 x_1 + (1 - \alpha)^3 \textcolor{orange}{y_0} \\
+\vdots
+\end{align*}
+$$
+
+From this we can deduce the general formula:
+
+$$
+\begin{align*}
+y_t &= (1-\alpha)^t \textcolor{orange}{y_0} + \alpha\sum_{k=1}^{t}(1-\alpha)^{t-k}x_k \\
+&= (1-\alpha)^t \textcolor{orange}{y_0} + \alpha\sum_{k=0}^{t-1}(1-\alpha)^{k}x_{t-k}
+
+\end{align*}\tag{1.3}
+$$
+
+where $\textcolor{orange}{y_0}$ is the initial condition. Remember that in the quality control application, this was set to the target value [@Hunter1986TheEW]. However, in general, it is unknown. The only thing we know at $t=0$ is the first observation $x_0$. Thus, we initialize it with the first observation $\textcolor{orange}{y_0} = x_0$, which although introduces an **initialization bias**. Keep in mind that for large $t$, the initial term loses significance as $\lim_{t\to\infty}(1-\alpha)^t \to 0$. Yet, for small $t$, the EMA might become inaccurate and biased due to the unknown initial condition. Consider this: $x_0$ might be an outlier, deviating significantly from the actual $\textcolor{orange}{y_0}$. We will examine this issue in detail later.
+
+Regardless, if $t$ is large we can approximate Eq. $(1.3)$ the following way :
+
+$$
+y_t \approx \sum_{k=1}^{t}w_k x_{k} \tag{1.4}
+$$
+
+where $w_i = \alpha(1-\alpha)^{t-k}$ represents the exponential weights for each sample. We can think of this formula as a scalar vector product of the weight vector and the time series vector:
+
+$$
+
+y_t \approx \mathbf{w} \cdot \mathbf{s}^T =
+\begin{pmatrix}w_1 & w_2 & w_3 & ... &w_t\end{pmatrix}\cdot\begin{pmatrix}x_1 \\x_2 \\x_3 \\\vdots \\x_t\end{pmatrix} \tag{1.5}
+$$
+
+which is the vectorized form for large $t$. We can also write the exact equation, Eq. $(1.3)$, in this form utilizing the $y_0 = x_0$ initialization:
+
+$$
+y_t =
+\begin{pmatrix}\color{orange}{w_0/\alpha} & w_1 & w_2 & w_3 & ... &w_t\end{pmatrix}\cdot\begin{pmatrix}\color{orange}{x_0} \\ x_1 \\x_2 \\x_3 \\\vdots \\x_t\end{pmatrix} \tag{1.6}
+$$
+
+where again $w_k = \alpha(1-\alpha)^{t-k}$. **Note that the first term is differently weighted**; this is the weak point of the method. Before we address this issue, let’s plot the weight values in the function of the sample number for $\alpha=0.1$ and $\alpha = 0.2$.
+
+<figure
+  style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', margin: '1.5rem 0' }}
+>
+  <Image
+    src="/static/images/ema/exponential_weights_2row_barplot.png"
+    alt="Exponential decay of the weights."
+    width="600"
+    height="0"
+  />
+  <figcaption>
+    Fig. 1.: The weights for the corresponding observations. Exponential decay of the weights.
+  </figcaption>
+</figure>
+
+In the figure, we can see exponentially decreasing weights assigned to earlier samples – as desired. The necessary condition of a weighted average is that the weights must sum up to one. Examine whether it holds for the EMA’s weights. We can do this by utilizing the summation formula for the geometric series (for more details on this see Appendix A1).
+
+$$
+\begin{align*}
+S &= (1-\alpha)^t + \sum_{k=0}^{t-1}\alpha(1-\alpha)^{k} \\
+&= (1-\alpha)^t + \frac{\alpha\left[1-(1-\alpha)^t\right]}{1-(1-\alpha)} \\
+&=(1-\alpha)^t + 1 - (1-\alpha)^t \\
+&= 1.
+
+\end{align*} \tag{1.7}
+$$
+
+Does the weights sum up to $1$ asymptotically too, i.e. when $t \to \infty$? In this case to first term approaches to zero, thus we have to inspect only the sum:
+
+$$
+\begin{align*}
+S &= \sum_{k=1}^{\infty}\alpha(1-\alpha)^{k} \\
+&= \frac{\alpha}{1-(1-\alpha)} = 1
+
+\end{align*} \tag{1.8}
+$$
+
+where we employed the **geometric sum formula** for infinite terms: $\sum_k^\infty r^k = 1/(1-r)$ when $|r| < 1$ (see derivation in Appendix A1). We can conclude that the assigned weights are correct in the sense that they sum up to $1$, both in the finite and asymptotic case.
+
+So far everything seems to be correct, but if we visualize the weights for smaller
+$\alpha$ values – corresponding to “longer memory” EMA – we get the following figure:
+
+<figure
+  style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', margin: '1.5rem 0' }}
+>
+  <Image
+    src="/static/images/ema/exponential_weights_span_barplot.png"
+    alt="Initialization bias of EMA"
+    width="600"
+    height="0"
+  />
+  <figcaption>
+    Fig. 2. Exponential weights for smaller alpha values. Illustration of the initialization bias.
+  </figcaption>
+</figure>
+
+The first weight assigned to the initial term is highlighted in orange. Additionally, the percentage of the initial weight relative to the total sum of all weights is also denoted – which tells how much influence the initial term holds in relation to the total weights. We can see that the weight of the initial term starts “spiking” as we decrease $\alpha$ – violating the exponentially decaying weighting scheme. To put it differently, the initial term $\color{orange}{y_0} = x_0$ receives greater emphasis, **which is an error**. The observed behaviour emerges from the fact that the initial term’s weight $(1-\alpha)^t$ is not multiplied by $\alpha$, see Eq. $(1.6)$. Although asymptotically $\lim_{t\to\infty}(1-\alpha)^t \to 0$, but for finite samples $(1-\alpha)^{t}$ might be much bigger than $\alpha$ for a sufficiently small $\alpha$. This the so called **initialization bias**.
+
+Before proceeding with our current analysis, it is useful to introduce the concept and formula for the **span**, which we will examine in greater detail later. The span tells us the effective window size or memory associated with a given smoothing factor $\alpha$ in the EMA. It establishes how much historical data is taken into account. The relationship between the span $s$ and $\alpha$ is given by:
+
+$$
+\alpha = \frac{2}{s+1} \tag{1.9}
+$$
+
+where $s$ denotes the span, representing the number of recent observations that effectively contribute to the EMA. For example, in the first row of Fig. 2., the span is set to $30$, and we can observe that the weights rapidly diminish after the $30$th observation. The last row of the figure shows the case where the span equals the number of observations – and where the initialization term holds significant influence, accounting for nearly $14\%$ of the total weight. When the span is half the number of observations, the influence of the initialization term is reduced, accounting for approximately $2\%$ of the total weight. We can see that **the initialization bias becomes more pronounced as the span size approaches the number of observations**.
+
+It would be useful to determine when the influence of the initial term becomes negligible. This defines a so-called **warmup period** for the EMA, during which estimates should be discarded due to initialization bias.
+
+We can say that after $k$ observations, the initial term becomes negligible when
+
+$$
+(1-\alpha)^k \approx \epsilon \tag{1.10}
+$$
+
+where $\epsilon$ is a small threshold expressing the impact for the initial term (e.g. $0.01$ for $1\%$ influence). By solving for $k$, we get:
+
+$$
+k = \frac{\log{\epsilon}}{\log(1-\alpha)} \tag{1.11}
+$$
+
+Next, we substitute the span formula Eq. $(1.9)$ in $(1.11)$ and rearrange:
+
+$$
+
+k(s,\epsilon) = \frac{\log(\epsilon)}{\log\left(1 - \frac{2}{s+1}\right)} =
+\frac{\log(\epsilon)}{\log\left(\frac{s-1}{s+1}\right)} . \tag{1.12}
+$$
+
+This formula defines the warmup period for a give span and $\epsilon$. If we plot this with $\epsilon=0.01$ and normalize the warmup period with the given span size we get the following figure:
+
+<figure
+  style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', margin: '1.5rem 0' }}
+>
+  <Image
+    src="/static/images/ema/warmup_span_units.png"
+    alt="Initialization bias of EMA"
+    width="600"
+    height="0"
+  />
+  <figcaption>
+    Fig. 3. Warmup period needed to minimize the initialization bias in span units.
+  </figcaption>
+</figure>
+
+which shows an increasing tendency for smaller spans and saturates around a value of $2.3$ after a span size of approximately $10$. We can conclude that a warmup period of approximately $2.3$ times the span size is required to reduce the initialization term’s weight to less than $1\%$ of the total influence. Although **in practice, a longer warmup period is often advised, with a general rule of thumb being 3-5 times the span**.
+
+> [!IMPORTANT]
+> Our findings suggest that a warmup period of approximately $2.3$ times the span is needed to reduce the impact of the initialization bias to approx. $1\%$.
+
+Consequently, for large span sizes, a significant amount of data would need to be discarded, as the EMA remains heavily corrupted by the initial term for up to three times the span length, leading to suboptimal results. Therefore, I suggest avoiding this method altogether in favor of using the adjusted formula. **There is little reason to continue using this formula, as we will soon see, yet it remains ingrained in public consciousness.** We will explore the adjusted formula in the next section.
+
+# 2. The Adjusted Formula
+
+Start with the general formula of a weighted moving average:
+
+$$
+y_t = \frac{\sum_{k=0}^{t} w_k x_{t-k}}{\sum_{i=0}^{t} w_i} \tag{2.1}
+$$
+
+where the weights sum up to $1$ by definition. Note that in this definition we sum the observations starting at the latest and going back in time: $x_t, \ x_{t-1},\dots, \ x_0$. It has a weighted sum in the numerator and the cumulative weights in the denominator. If we substitute $w_k =(1-\alpha)^k$ into the above equation we get the **adjusted EMA formula** which behaves better for small sample sizes:
+
+$$
+\begin{align*}
+y_t &= \frac{\sum_{k=0}^{t} (1-\alpha)^k x_{t-k}}{\sum_{k=0}^{t} (1-\alpha)^k} \\
+&=
+\frac{x_t + (1 -\alpha)x_{t-1} + (1-\alpha)^2x_{t-2}+\dots+ (1-\alpha)^tx_0}{1 + (1-\alpha) + (1-\alpha)^2 + \dots + (1-\alpha)^t}
+\end{align*} \tag{2.2}
+$$
+
+The difference between $(2.2)$ and $(1.3)$ is that the former deals with a **series which have finite history**. The **adjusted EMA** provides the correct exponentially decaying weights even within the span period. If we consider an infinite series, then $(2.2)$ returns the original difference equation $(1.1)$ as the denominator contains a geometric series (see Appendix A1):
+
+$$
+\begin{align*}
+y_t &= \frac{x_t + (1 -\alpha)x_{t-1} + (1-\alpha)^2x_{t-2}+\dots}{\frac{1}{1-(1-\alpha)}} \\
+&=
+\alpha x_t + \left[(1 -\alpha)x_{t-1} + (1-\alpha)^2x_{t-2}+\dots\right]\alpha \\
+&= \alpha x_t + (1 -\alpha)\left[\alpha x_{t-1} + \alpha (1-\alpha)^1x_{t-2}+\dots\right] \\
+&= \alpha x_t + (1-\alpha)y_{t-1}
+\end{align*} \tag{2.3}
+$$
+
+so in the asymptotic case we return back to the initial definition Eq. $(1.1)$ – meaning that the two methods converge for large sample sizes and become equivalent. We should mention that although the adjusted method improves early-stage accuracy by correctly weighting observations, **it still suffers from inaccuracies within the span due to the finite data history at the start**. Writing the adjusted formula in vectorized form we get:
+
+$$
+y_t =
+\begin{pmatrix}\frac{w_0}{W_t} & \frac{w_1}{W_t} & \frac{w_2}{W_t} & \frac{w_3}{W_t} & ... &\frac{w_t}{W_t}\end{pmatrix}\cdot\begin{pmatrix}x_0 \\ x_1 \\x_2 \\x_3 \\\vdots \\x_t\end{pmatrix} \tag{2.4}
+$$
+
+where $w_k = (1-\alpha)^{t-k}$ and $W_t = \sum_{i=0}^t w_i$ is the cumulative sum up to time $t$. If we produce the equivalent plot to Fig.2. for the new method, we get the following:
+
+<figure
+  style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', margin: '1.5rem 0' }}
+>
+  <Image
+    src="/static/images/ema/exponential_weights_span_barplot_adjusted.png"
+    alt="Initialization bias of EMA"
+    width="600"
+    height="0"
+  />
+  <figcaption>
+    Fig. 4: Weights for the observations in case of the adjusted method. No initialization bias.
+  </figcaption>
+</figure>
+
+We can see that now the weights perfectly follow the exponentially decreasing scheme even for cases when the span size approaches the number of observations.
+
+As the final blow to the old method, we will show that the adjusted method can also be written recursively. This means that it can be implemented efficiently and is suitable for online processing, just like the traditional method. If we inspect Eq. $(2.2)$ we may realize that both the nominator and denominator can be written in recursive form:
+
+$$
+\begin{align*}
+y_t &=
+\frac{x_t + (1 -\alpha)x_{t-1} + (1-\alpha)^2x_{t-2}+(1-\alpha)^3x_{t-3} + \dots}{1 + (1-\alpha) + (1-\alpha)^2 + (1-\alpha)^3 + \dots} \\
+&= \frac{x_t + (1 -\alpha)\left[x_{t-1} + (1-\alpha)x_{t-2}+(1-\alpha)^2x_{t-3} + \dots\right]}{1 + (1-\alpha)\left[1 + (1-\alpha) + (1-\alpha)^2 + \dots\right]}
+\end{align*} \tag{2.5}
+$$
+
+where we can see the recursion within the square brackets. Consequently, we can write the following:
+
+$$
+\begin{align*}
+u_t &= x_t + (1-\alpha)u_{t-1} \\
+v_t &= 1 + (1-\alpha)v_{t-1} \\
+y_t &= \frac{u_t}{v_t}
+\end{align*} \tag{2.6}
+$$
+
+where $u_t$ denotes the nominator and $v_t$ the denominator in Eq. $(2.2)$. A didactical Python implementation for both the traditional and the adjusted method would look like as follows:
+
+```python
+def ema(x, alpha):
+    n = len(x)
+    y = np.zeros(n)  # the output ema container
+
+    y_t = x[0]  # Initialization
+    for t in range(1, n):
+        y_t = alpha * x[t] + (1 - alpha) * y_t
+        y[t] = y_t
+
+    return y
+
+def ema_adjusted(x, alpha):
+    n = len(x)
+    y = np.zeros(n)  # the output ema container
+
+    u_t = x[0]
+    v_t = 1
+    y[0] = u_t/v_t
+
+    for t in range(1, n):
+        u_t =  x[t] + (1 - alpha) * u_t
+        v_t = 1 + (1 - alpha) * v_t
+
+        y[t] = u_t/v_t
+
+    return y
+```
+
+Quite straightforward, isn’t it? You can’t really argue that the unadjusted EMA is significantly simpler, more elegant, or faster. It’s time to move on from it. The adjusted EMA calculates the weighted sum `u_t` and the cumulative weights `v_t` , then simply divides the two. Note that the EMA implementation of Pandas employs the adjusted formula by default (`adjust=true`).
+
+# 3. The Span
+
+It would be useful if we could determine the effective number of recent samples contributing to the EMA – similar to the simple moving average (SMA), where the moving window parameter explicitly determines this.
+
+The **span** is defined as the **equivalent window length of a simple moving average** (SMA) that would produce approximately the same smoothing as the EMA with a given $\alpha$. The rule of thumb is that the span $s$ can be related to $\alpha$ by the following formula, as we already mentioned:
+
+$$
+
+\alpha = \frac{2}{s + 1}. \tag{3.1}
+$$
+
+If we plot the SMA of a series with `window` size $10$ and the corresponding EMA with `span` size $10$ , that would result in a similar level of smoothing:
+
+```python
+y_sma = random_series.rolling(window=10).mean()
+y_ema = random_series.ewm(span=10).mean() # adjust=False computes the recursive formula
+```
+
+<figure
+  style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', margin: '1.5rem 0' }}
+>
+  <Image src="/static/images/ema/sma_ema.png" alt="SMA EMA" width="600" height="0" />
+  <figcaption>
+    Fig. 5.: The EMA with span=window results in similar memory to SMA with window.
+  </figcaption>
+</figure>
+
+A more precise definition of the span is that, for a **linearly increasing time series**, the EMA will produce the same output as the SMA (after a warmup):
+
+```python
+# In case of a linear series the EMA and SMA results are the same after warmup
+linear_series = pd.Series(np.arange(1000))
+y_sma = linear_series.rolling(window=10).mean()
+y_ema = linear_series.ewm(span=10).mean()
+
+warmup = 10*6
+print(np.allclose(y_sma[warmup:], y_ema[warmup:]))
+# > True
+```
+
+This code prints `True`.
+
+These examples show that the formula works, but a more quantitative derivation would foster a deeper understanding. Strangely, I’ve not found much information on this online, so it will be helpful to put it out there.
+
+To approach the problem, we introduce a concept that will help us derive the span: the **center of mass (CoM)**. In physics, the center of mass is the point where the entire mass of an object (or system of objects) can be considered to be concentrated when analyzing equilibrium and motion. Similarly, in an EMA, we can think of the weights assigned to past data points as having “mass.” In this context, the center of mass represents the “balance point” of these weights over time, helping us understand how much influence older data points have on the current average. In case of an **equally spaced time series** the CoM can be defined as follows:
+
+$$
+c^{\text{EMA}} = \frac{\sum_{k=0}^{\infty} k w_k}{\sum_{k=0}^{\infty} w_k} = \sum_{k=0}^{\infty} k w_k \quad (\text{since } \sum w_k = 1) \tag{2.2}
+$$
+
+where we exploited the fact that the sum of the weights of a weighted average should be one. We saw that the the adjusted formula Eq. $(2.2)$ and the traditional formula Eq. $(1.3)$ is asymptotically equivalent. For simplicity, work with the weight definition of the latter: $w_k = \alpha(1-\alpha)^k$ and substitute it to Eq. $(2.2)$:
+
+$$
+c^{\text{EMA}} = \sum_{k=0}^{\infty} k w_k =\sum_{k=0}^\infty k \alpha(1-\alpha)^k \tag{2.4}
+$$
+
+where we can utilize yet another summation formula (see derivation in Appendix A2):
+
+$$
+
+\sum_{k=0}^{\infty} k r^k = \frac{r}{(1 - r)^2} \quad \text{,where} \; r \in(0,1). \tag{2.5}
+$$
+
+Consequently, Eq. $(2.4)$ renders to:
+
+$$
+c^{\text{EMA}} = \alpha \left( \frac{1-\alpha}{\left[1- (1 - \alpha)\right]^2} \right)=\alpha\left(\frac{1-\alpha}{\alpha^2}\right) = \frac{1-\alpha}{\alpha}. \tag{2.6}
+$$
+
+Now we know the EMA's center of mass. Remember that we defined the span as a likewise smoothing SMA window length. By similarly calculating the SMA's center of mass, we can make the connection between the alpha parameter of the EMA and the window size parameter of the SMA.
+
+For an SMA of window size $n$, the weights are uniform:
+
+$$
+
+w_k^{\text{SMA}} = \frac{1}{n} \quad \text{for } k = 0 \text{ to } n - 1. \tag{2.7}
+$$
+
+So the CoM for SMA becomes:
+
+$$
+c^{\text{SMA}} = \sum_{k=0}^{n-1}k w_k^{\text{SMA}} =  \frac{1}{n}\sum_{k=0}^{n-1}k =  \frac{1}{n} \left( \frac{n(n - 1)}{2} \right) = \frac{n - 1}{2} \tag{2.8}
+$$
+
+where we utilized the well-known **sum of an arithmetic progression** (see derivation in Appendix A3). We can also guess this intuitively: for a uniform weight distribution the CoM has to be in the middle. For example, the CoM for a window size $7$ indexed $[0,1,2,3,4,5,6]$ has to be in the middle at $3$, which is exactly what the formula says.
+
+Finally, we can form the relationship between them, requiring their CoM to be equal:
+
+$$
+c^{\text{EMA}} = c^{\text{SMA}} \tag{2.9}.
+$$
+
+Let’s express both the window size $n$ and $\alpha$ parameters from the above equation. Let’s also rename the window size parameter $n$ to $s$, switching to span terminology from now on.
+
+$$
+\begin{align*}
+&\frac{1-\alpha}{\alpha} = \frac{s-1}{2} \\
+&s = 2\left(\frac{1-\alpha}{\alpha}\right) + 1 \\
+&\color{teal}{s = \frac{2}{\alpha} -1. }\\
+&\color{red}{\alpha = \frac{2}{s+1}}.
+\end{align*} \tag{2.10}
+$$
+
+Now, we can understand the span formula that connects SMA and EMA by mapping the SMA’s window size paremeter to an equivalent EMA $\alpha$ parameter.
+
+# 4. Summary
+
+We began with a historical overview of the traditional formula, followed by a detailed examination of its primary weakness—the initialization bias. To address this, we introduced the adjusted method, which effectively eliminates the bias. Finally, we derived the span formula, providing a more intuitive way to parametrize the EMA using an effective window size.
+
+# Appendix
+
+## A1. Geometric Series
+
+### A1.1 Finite Case
+
+The finite geometric series is of the form:
+
+$$
+S_n = a + ar + ar^2 + \dots + ar^{n-1},
+$$
+
+Multiply the sum by the common ratio $r$:
+
+$$
+rS_n = ar + ar^2 + ar^3 + \dots + ar^n.
+$$
+
+Now subtract $rS_n$ from $S_n$:
+
+$$
+S_n - rS_n = \left( a + ar + ar^2 + \dots + ar^{n-1} \right) - \left( ar + ar^2 + \dots + ar^n \right).
+$$
+
+On the right-hand side, all terms cancel except for the first and last terms:
+
+$$
+
+S_n(1 - r) = a - ar^n.
+$$
+
+Now, solve for $S_n$ :
+
+$$
+
+S_n = \frac{a(1 - r^n)}{1 - r}, \quad \text{for} \; r \neq 1.
+$$
+
+### A1.2 Infinite Case
+
+Now, let’s consider the **infinite geometric series** where the number of terms goes to infinity. The series is:
+
+$$
+S_{\infty} = a + ar + ar^2 + ar^3 + \dots
+$$
+
+We could solve this with the same trick applied in the finite case (see A1.1), but instead, we will examine the finite geometric series formula asymptotically (for brevity). For an infinite geometric series, we assume that $|r| < 1$, so that $r^n \to 0$ as $n \to \infty$. Thus:
+
+$$
+
+S_{\infty} = \lim_{n \to \infty} \frac{a(1 - r^n)}{1 - r} = \frac{a(1 - 0)}{1 - r} = \frac{a}{1 - r}.
+$$
+
+This is the sum of an infinite geometric series when $|r| < 1$ .
+
+## A2. Another Summation formula
+
+Derivation of the formula:
+
+$$
+
+\sum_{k=0}^{\infty} k r^k = \frac{r}{(1 - r)^2} \quad \text{where} \; r \in (0,1). \tag{A2.1}
+$$
+
+We know that the sum of an infinite geometric series is (see A12):
+
+$$
+
+\sum_{k=0}^{\infty} r^k = \frac{1}{1 - r} \quad \text{for} \; |r| < 1. \tag{A2.2}
+$$
+
+To get the sum involving $k r^k$, we differentiate the geometric series sum with respect to $r$. Differentiating both sides of the geometric series sum:
+
+$$
+\begin{align*}
+
+\frac{d}{dr} \left( \sum_{k=0}^{\infty} r^k \right) &= \frac{d}{dr} \left( \frac{1}{1 - r} \right) \\
+
+\sum_{k=1}^{\infty} k r^{k-1} &= \frac{1}{(1 - r)^2}.\end{align*}\tag{A2.3}
+$$
+
+To match the original series $\sum_{k=0}^{\infty} k r^k$ , multiply both sides of the equation by $r$:
+
+$$
+
+r \sum_{k=1}^{\infty} k r^{k-1} = \sum_{k=1}^{\infty} k r^{k}  =\frac{r}{(1 - r)^2}. \tag{A2.3}
+$$
+
+Since the sum starts from $k=1$, we can extend the sum to $k=0$ without changing the result, because the $k=0$ term is zero:
+
+$$
+
+\sum_{k=0}^{\infty} k r^k = \frac{r}{(1 - r)^2}. \tag{A2.4}
+$$
+
+## A3. Sum of Arithmetic Progression
+
+$$
+\begin{align*}
+\sum_{k=0}^{n-1} k = 0 + 1 + 2 + \dots + (n-1) \\
+S = 0 + 1 + 2 + \dots + (n-1).
+\end{align*}
+\tag{A3.1}
+$$
+
+We can also write the sum as:
+
+$$
+S = (n-1) + (n-2) + \dots + 1 + 0. \tag{A3.2}
+$$
+
+Now, add both versions of the sum:
+
+$$
+S + S = (0 + (n-1)) + (1 + (n-2)) + \dots + ((n-1) + 0). \tag{A3.3}
+$$
+
+Each pair sums to $n-1$ , and there are $n$ terms (including $0$), so:
+
+$$
+
+2S = (n-1) n \tag{A3.4}
+$$
+
+consequently:
+
+$$
+S = \frac{n(n-1)}{2}. \tag{A3.5}
+$$
+
+# References
+
+[^ref]
+
+- https://math.stackexchange.com/questions/2664601/deriving-weight-formula-for-exponential-moving-average
+- https://stats.stackexchange.com/questions/619558/switching-between-alpha-half-life-and-span-in-exponential-moving-average
+- https://tedboy.github.io/pandas/computation/computation5.html
+- https://stats.stackexchange.com/questions/534210/what-does-span-mean-in-exponential-moving-average
+- https://gregorygundersen.com/blog/2022/06/04/moving-averages/
+
+# Attribution
+
+<CitationGenerator
+  author={'Dániel Terbe'}
+  title={'Exploring Exponential Moving Average'}
+  date={'2024-10-20'}
+  url={'/blog/posts/exponentially-weighted-moving-average'}
+/>

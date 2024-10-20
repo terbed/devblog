@@ -15,7 +15,7 @@ const Header = () => {
   return (
     <header className={headerClass}>
       <Link href="/" aria-label={siteMetadata.headerTitle}>
-        <div className="flex animate-subtlePulse items-center justify-between hover:animate-wiggle">
+        <div className="flex animate-subtlePulse items-center justify-between">
           <div className="mr-3">
             <Logo />
           </div>

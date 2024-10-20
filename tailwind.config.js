@@ -42,7 +42,7 @@ module.exports = {
         },
         subtlePulse: {
           '0%, 100%': { transform: 'scale(1)', opacity: 1 },
-          '50%': { transform: 'scale(1.015)', opacity: 1 },
+          '50%': { transform: 'scale(1.02)', opacity: 1 },
         },
         pendulum: {
           '0%, 100%': { transform: 'rotate(0deg)' },
