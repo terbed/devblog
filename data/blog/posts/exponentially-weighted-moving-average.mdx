@@ -3,11 +3,7 @@ title: 'Exploring Exponential Moving Average'
 date: '2024-10-20'
 lastmod: '2024-10-20'
 tags: ['fundamentals', 'quant']
-images:
-  [
-    'static/images/ema/exponential_weights_2row_barplot.png',
-    'static/images/machine-learning/algo.png',
-  ]
+images: ['static/images/ema/exponential_weights_2row_barplot.png']
 draft: false
 bibliography: references-data.bib
 summary: 'The Exponential Weighted Moving Average (EMA) is ubiquitous in signal processing, especially in the algorithmic trading scene. It serves to filter out noise from the signal and compute an average/expected value, with recent samples carrying more significant weight in the calculation. Although this is a fundamental tool, the underlying theory can be confusing. This post attempts to make things clear regarding the theory and practical usage of EMA.'
@@ -32,7 +28,7 @@ where $\hat{y}_{t+1}$ is the predicted new EMA, $\hat{y}_{t}$ is the old EMA, $y
 
 > Let $\lambda = 0.5$ and suppose at $t=0$ a process thought to be under control has a target value $\tau = 50$. To initiate the EWMA, set the initial predicted value $\hat{y}_1$ equal to the **target value** and …
 
-This makes sense because the EMA is employed here to track the deviation from the target value. Next, we will attempt to apply this method generally on a series of observations beyond this specific use case.
+This makes sense because the EMA is employed here to track the deviation from the target value<span note-ref-id="1" numbered="true" content="The assumption is that the system is under control at the starting point. This is characterized with the target value. The EMA expected to osciallate around this target."></span>. Next, we will attempt to apply this method generally on a series of observations beyond this specific use case.
 
 Let $x_0, x_1, … x_t$ be an ordered series of observations. We modify the notation to the following:
 
@@ -72,7 +68,7 @@ y_t &= (1-\alpha)^t \textcolor{orange}{y_0} + \alpha\sum_{k=1}^{t}(1-\alpha)^{t-
 \end{align*}\tag{1.3}
 $$
 
-where $\textcolor{orange}{y_0}$ is the initial condition. Remember that in the quality control application, this was set to the target value [@Hunter1986TheEW]. However, in general, it is unknown. The only thing we know at $t=0$ is the first observation $x_0$. Thus, we initialize it with the first observation $\textcolor{orange}{y_0} = x_0$, which although introduces an **initialization bias**. Keep in mind that for large $t$, the initial term loses significance as $\lim_{t\to\infty}(1-\alpha)^t \to 0$. Yet, for small $t$, the EMA might become inaccurate and biased due to the unknown initial condition. Consider this: $x_0$ might be an outlier, deviating significantly from the actual $\textcolor{orange}{y_0}$. We will examine this issue in detail later.
+where $\textcolor{orange}{y_0}$ is the initial condition, and both indexing alternatives are shown<span note-ref-id="2" numbered="true" content="In the first one, we move from the first observation forward; conversely, in the second, we move from the recent observation backward."></span>. Remember that in the quality control application, this was set to the target value [@Hunter1986TheEW]. However, in general, it is unknown. The only thing we know at $t=0$ is the first observation $x_0$. Thus, we initialize it with the first observation $\textcolor{orange}{y_0} = x_0$, which although introduces an **initialization bias**. Keep in mind that for large $t$, the initial term loses significance as $\lim_{t\to\infty}(1-\alpha)^t \to 0$. Yet, for small $t$, the EMA might become inaccurate and biased due to the unknown initial condition. Consider this: $x_0$ might be an outlier, deviating significantly from the actual $\textcolor{orange}{y_0}$ and skewing the estimate. We will examine this issue in detail later.
 
 Regardless, if $t$ is large we can approximate Eq. $(1.3)$ the following way :
 
@@ -95,7 +91,7 @@ y_t =
 \begin{pmatrix}\color{orange}{w_0/\alpha} & w_1 & w_2 & w_3 & ... &w_t\end{pmatrix}\cdot\begin{pmatrix}\color{orange}{x_0} \\ x_1 \\x_2 \\x_3 \\\vdots \\x_t\end{pmatrix} \tag{1.6}
 $$
 
-where again $w_k = \alpha(1-\alpha)^{t-k}$. **Note that the first term is differently weighted**; this is the weak point of the method. Before we address this issue, let’s plot the weight values in the function of the sample number for $\alpha=0.1$ and $\alpha = 0.2$.
+where again $w_k = \alpha(1-\alpha)^{t-k}$. **Note that the first term is differently weighted**; we'll see that this is the weak point of the method. Before we address this issue, let’s plot the weight values in the function of the sample number for $\alpha=0.1$ and $\alpha = 0.2$.
 
 <figure
   style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', margin: '1.5rem 0' }}
@@ -152,7 +148,7 @@ $\alpha$ values – corresponding to “longer memory” EMA – we get the foll
   </figcaption>
 </figure>
 
-The first weight assigned to the initial term is highlighted in orange. Additionally, the percentage of the initial weight relative to the total sum of all weights is also denoted – which tells how much influence the initial term holds in relation to the total weights. We can see that the weight of the initial term starts “spiking” as we decrease $\alpha$ – violating the exponentially decaying weighting scheme. To put it differently, the initial term $\color{orange}{y_0} = x_0$ receives greater emphasis, **which is an error**. The observed behaviour emerges from the fact that the initial term’s weight $(1-\alpha)^t$ is not multiplied by $\alpha$, see Eq. $(1.6)$. Although asymptotically $\lim_{t\to\infty}(1-\alpha)^t \to 0$, but for finite samples $(1-\alpha)^{t}$ might be much bigger than $\alpha$ for a sufficiently small $\alpha$. This the so called **initialization bias**.
+The first weight assigned to the initial term is highlighted in orange. Additionally, the percentage of the initial weight relative to the total sum of all weights is also denoted<span note-ref-id="3" numbered="true" content="This tells how much influence the initial term holds in relation to the total weights."></span>. We can see that the weight of the initial term starts “spiking” as we decrease $\alpha$ – violating the exponentially decaying weighting scheme. To put it differently, the initial term $\color{orange}{y_0} = x_0$ receives greater emphasis, **which is an error**. The observed behaviour emerges from the fact that the initial term’s weight $(1-\alpha)^t$ is not multiplied by $\alpha$, see Eq. $(1.6)$. Although asymptotically $\lim_{t\to\infty}(1-\alpha)^t \to 0$, but for finite samples $(1-\alpha)^{t}$ might be much bigger than $\alpha$ for a sufficiently small $\alpha$. This the so called **initialization bias**.
 
 Before proceeding with our current analysis, it is useful to introduce the concept and formula for the **span**, which we will examine in greater detail later. The span tells us the effective window size or memory associated with a given smoothing factor $\alpha$ in the EMA. It establishes how much historical data is taken into account. The relationship between the span $s$ and $\alpha$ is given by:
 
@@ -161,6 +157,9 @@ $$
 $$
 
 where $s$ denotes the span, representing the number of recent observations that effectively contribute to the EMA. For example, in the first row of Fig. 2., the span is set to $30$, and we can observe that the weights rapidly diminish after the $30$th observation. The last row of the figure shows the case where the span equals the number of observations – and where the initialization term holds significant influence, accounting for nearly $14\%$ of the total weight. When the span is half the number of observations, the influence of the initialization term is reduced, accounting for approximately $2\%$ of the total weight. We can see that **the initialization bias becomes more pronounced as the span size approaches the number of observations**.
+
+> [!IMPORTANT]
+> The initialization bias is prominent when the number of observations is close to or below the span size.
 
 It would be useful to determine when the influence of the initial term becomes negligible. This defines a so-called **warmup period** for the EMA, during which estimates should be discarded due to initialization bias.
 
@@ -184,7 +183,7 @@ k(s,\epsilon) = \frac{\log(\epsilon)}{\log\left(1 - \frac{2}{s+1}\right)} =
 \frac{\log(\epsilon)}{\log\left(\frac{s-1}{s+1}\right)} . \tag{1.12}
 $$
 
-This formula defines the warmup period for a give span and $\epsilon$. If we plot this with $\epsilon=0.01$ and normalize the warmup period with the given span size we get the following figure:
+This formula defines the warmup period for a give span and $\epsilon$. If we plot this with $\epsilon=0.01$ and normalize the warmup period with the given span size, we get the following figure:
 
 <figure
   style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', margin: '1.5rem 0' }}
@@ -215,7 +214,7 @@ $$
 y_t = \frac{\sum_{k=0}^{t} w_k x_{t-k}}{\sum_{i=0}^{t} w_i} \tag{2.1}
 $$
 
-where the weights sum up to $1$ by definition. Note that in this definition we sum the observations starting at the latest and going back in time: $x_t, \ x_{t-1},\dots, \ x_0$. It has a weighted sum in the numerator and the cumulative weights in the denominator. If we substitute $w_k =(1-\alpha)^k$ into the above equation we get the **adjusted EMA formula** which behaves better for small sample sizes:
+where the weights sum up to $1$ by definition. It has a weighted sum in the numerator and the cumulative weights in the denominator. Note that in this formula we sum the observations starting at the latest and going back in time: $x_t, \ x_{t-1},\dots, \ x_0$. If we substitute $w_k =(1-\alpha)^k$ into the above equation we get the **adjusted EMA formula** which behaves better for small sample sizes:
 
 $$
 \begin{align*}
@@ -262,7 +261,7 @@ where $w_k = (1-\alpha)^{t-k}$ and $W_t = \sum_{i=0}^t w_i$ is the cumulative su
 
 We can see that now the weights perfectly follow the exponentially decreasing scheme even for cases when the span size approaches the number of observations.
 
-As the final blow to the old method, we will show that the adjusted method can also be written recursively. This means that it can be implemented efficiently and is suitable for online processing, just like the traditional method. If we inspect Eq. $(2.2)$ we may realize that both the nominator and denominator can be written in recursive form:
+As the final blow to the old method, we will show that the adjusted method can also be written recursively. This means that it **can be implemented efficiently and is suitable for online processing, just like the traditional method**. If we inspect Eq. $(2.2)$ we may realize that both the nominator and denominator can be written in recursive form:
 
 $$
 \begin{align*}
@@ -282,7 +281,7 @@ y_t &= \frac{u_t}{v_t}
 \end{align*} \tag{2.6}
 $$
 
-where $u_t$ denotes the nominator and $v_t$ the denominator in Eq. $(2.2)$. A didactical Python implementation for both the traditional and the adjusted method would look like as follows:
+where $u_t$ denotes the nominator and $v_t$ the denominator. A didactical Python implementation for both the traditional and the adjusted method would look like as follows:
 
 ```python
 def ema(x, alpha):
@@ -313,7 +312,7 @@ def ema_adjusted(x, alpha):
     return y
 ```
 
-Quite straightforward, isn’t it? You can’t really argue that the unadjusted EMA is significantly simpler, more elegant, or faster. It’s time to move on from it. The adjusted EMA calculates the weighted sum `u_t` and the cumulative weights `v_t` , then simply divides the two. Note that the EMA implementation of Pandas employs the adjusted formula by default (`adjust=true`).
+Quite straightforward, isn’t it? You can’t really argue that the unadjusted EMA is significantly simpler, more elegant, or faster. It’s time to move on from it. The adjusted EMA calculates the weighted sum `u_t` and the cumulative weights`v_t`, then simply divides the two<span note-ref-id="4" numbered="true" content="In practice, if you run the adjusted EMA snippet for a long time, eventually it would cumulate into a numerical overflow. This can be easily prevented by periodical rescaling both the numerator and denominator"></span>. Note that the EMA implementation of Pandas employs the adjusted formula by default (`adjust=true`).
 
 # 3. The Span
 

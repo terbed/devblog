@@ -109,7 +109,7 @@ const MarginNoteManager = () => {
     }
   }, [isMobile])
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     // Check if all images have loaded
     const images = Array.from(document.querySelectorAll('img'))
     let imagesLoaded = 0
@@ -142,6 +142,57 @@ const MarginNoteManager = () => {
       })
     }
   }, [])
+
+  // If image render after DOM loaded
+  useEffect(() => {
+    const observer = new MutationObserver((mutationsList) => {
+      let imagesAdded = false
+
+      for (const mutation of mutationsList) {
+        if (mutation.type === 'childList') {
+          mutation.addedNodes.forEach((node) => {
+            if (node.nodeName === 'IMG') {
+              // Node is an image element
+              imagesAdded = true
+              const img = node as HTMLImageElement
+              if (img.complete) {
+                calculatePositions()
+              } else {
+                img.addEventListener('load', calculatePositions)
+              }
+            } else if (node instanceof Element) {
+              // Node is an Element that might contain images
+              const imgs = node.querySelectorAll('img')
+              if (imgs.length > 0) {
+                imagesAdded = true
+                imgs.forEach((img) => {
+                  if (img.complete) {
+                    calculatePositions()
+                  } else {
+                    img.addEventListener('load', calculatePositions)
+                  }
+                })
+              }
+            }
+          })
+        }
+      }
+
+      if (imagesAdded) {
+        // Recalculate positions after images are added
+        calculatePositions()
+      }
+    })
+
+    observer.observe(document.body, {
+      childList: true,
+      subtree: true,
+    })
+
+    return () => {
+      observer.disconnect()
+    }
+  }, [calculatePositions])
 
   useEffect(() => {
     // Add event listener for 'mermaidRendered' event
