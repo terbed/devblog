@@ -14,7 +14,6 @@ interface Note {
 const MarginNoteManager = () => {
   const [notes, setNotes] = useState<Note[]>([])
   const [isMobile, setIsMobile] = useState(false)
-  const [imagesLoaded, setImagesLoaded] = useState(false)
   const notesContainerRef = useRef<HTMLDivElement>(null)
 
   // Function to detect mobile view
@@ -102,101 +101,71 @@ const MarginNoteManager = () => {
 
   // Run calculatePositions on initial render
   useLayoutEffect(() => {
-    calculatePositions()
+    requestAnimationFrame(() => {
+      calculatePositions()
+    })
   }, [isMobile])
 
   // Recalculate positions after images have loaded
-  useLayoutEffect(() => {
-    if (imagesLoaded) {
-      calculatePositions()
+  useEffect(() => {
+    const images = Array.from(document.querySelectorAll('img'))
+
+    images.forEach((img) => {
+      img.addEventListener('load', () => {
+        requestAnimationFrame(() => {
+          calculatePositions()
+        })
+      })
+    })
+
+    // Clean up event listeners
+    return () => {
+      images.forEach((img) => {
+        img.removeEventListener('load', calculatePositions)
+      })
     }
-  }, [imagesLoaded, isMobile])
+  }, [])
 
   // Handle window resize
   useLayoutEffect(() => {
     if (!isMobile) {
       const handleResize = () => {
-        calculatePositions()
+        requestAnimationFrame(() => {
+          calculatePositions()
+        })
       }
       window.addEventListener('resize', handleResize)
       return () => {
         window.removeEventListener('resize', handleResize)
       }
     }
-  }, [isMobile, imagesLoaded])
-
-  // Image loading handling
-  useEffect(() => {
-    const images = Array.from(document.querySelectorAll('img'))
-    let loadedCount = 0
-    const totalImages = images.length
-
-    if (totalImages === 0) {
-      setImagesLoaded(true)
-      return
-    }
-
-    const onImageLoad = () => {
-      loadedCount++
-      if (loadedCount === totalImages) {
-        setImagesLoaded(true)
-      }
-    }
-
-    images.forEach((img) => {
-      if (img.complete) {
-        loadedCount++
-      } else {
-        img.addEventListener('load', onImageLoad)
-      }
-    })
-
-    if (loadedCount === totalImages) {
-      setImagesLoaded(true)
-    }
-
-    return () => {
-      images.forEach((img) => {
-        img.removeEventListener('load', onImageLoad)
-      })
-    }
-  }, [])
+  }, [isMobile])
 
   // MutationObserver for dynamically added images
   useEffect(() => {
     const observer = new MutationObserver((mutationsList) => {
-      let imagesAdded = false
-
       for (const mutation of mutationsList) {
         if (mutation.type === 'childList') {
           mutation.addedNodes.forEach((node) => {
             if (node.nodeName === 'IMG') {
-              imagesAdded = true
               const img = node as HTMLImageElement
-              if (img.complete) {
-                calculatePositions()
-              } else {
-                img.addEventListener('load', calculatePositions)
-              }
+              img.addEventListener('load', () => {
+                requestAnimationFrame(() => {
+                  calculatePositions()
+                })
+              })
             } else if (node instanceof Element) {
               const imgs = node.querySelectorAll('img')
-              if (imgs.length > 0) {
-                imagesAdded = true
-                imgs.forEach((img) => {
-                  if (img.complete) {
+              imgs.forEach((img) => {
+                img.addEventListener('load', () => {
+                  requestAnimationFrame(() => {
                     calculatePositions()
-                  } else {
-                    img.addEventListener('load', calculatePositions)
-                  }
+                  })
                 })
-              }
+              })
             }
           })
         }
-      }
-
-      if (imagesAdded) {
-        calculatePositions()
       }
     })
 
@@ -213,7 +182,9 @@ const MarginNoteManager = () => {
   // Handle mermaid diagrams rendering
   useEffect(() => {
     const handleMermaidRendered = () => {
-      calculatePositions()
+      requestAnimationFrame(() => {
+        calculatePositions()
+      })
     }
 
     window.addEventListener('mermaidRendered', handleMermaidRendered)

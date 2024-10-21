@@ -1,12 +1,12 @@
 {
-  "fundamentals": 1,
-  "quant": 1,
-  "wqu": 1,
+  "guide": 8,
+  "journal": 2,
   "pytorch": 1,
   "lightning": 1,
   "lightning-cli": 1,
   "blueprint": 1,
-  "journal": 2,
+  "fundamentals": 1,
+  "quant": 1,
   "ml": 1,
-  "guide": 8
+  "wqu": 1
 }
