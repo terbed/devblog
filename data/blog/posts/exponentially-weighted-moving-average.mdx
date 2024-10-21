@@ -28,7 +28,7 @@ where $\hat{y}_{t+1}$ is the predicted new EMA, $\hat{y}_{t}$ is the old EMA, $y
 
 > Let $\lambda = 0.5$ and suppose at $t=0$ a process thought to be under control has a target value $\tau = 50$. To initiate the EWMA, set the initial predicted value $\hat{y}_1$ equal to the **target value** and …
 
-This makes sense because the EMA is employed here to track the deviation from the target value<span note-ref-id="1" numbered="true" content="The assumption is that the system is under control at the starting point. This is characterized with the target value. The EMA expected to osciallate around this target."></span>. Next, we will attempt to apply this method generally on a series of observations beyond this specific use case.
+This makes sense because the EMA is employed here to track the deviation from the target value<span note-ref-id="1" numbered="true" content="The assumption is that the system is under control at the start. The target value defines this state. The EMA is expected to fluctuate around this target."></span>. Next, we will attempt to apply this method generally on a series of observations beyond this specific use case.
 
 Let $x_0, x_1, … x_t$ be an ordered series of observations. We modify the notation to the following:
 
@@ -312,7 +312,7 @@ def ema_adjusted(x, alpha):
     return y
 ```
 
-Quite straightforward, isn’t it? You can’t really argue that the unadjusted EMA is significantly simpler, more elegant, or faster. It’s time to move on from it. The adjusted EMA calculates the weighted sum `u_t` and the cumulative weights`v_t`, then simply divides the two<span note-ref-id="4" numbered="true" content="In practice, if you run the adjusted EMA snippet for a long time, eventually it would cumulate into a numerical overflow. This can be easily prevented by periodical rescaling both the numerator and denominator"></span>. Note that the EMA implementation of Pandas employs the adjusted formula by default (`adjust=true`).
+Quite straightforward, isn’t it? You can’t really argue that the unadjusted EMA is significantly simpler, more elegant, or faster. It’s time to move on from it. The adjusted EMA calculates the weighted sum `u_t` and the cumulative weights`v_t`, then simply divides the two<span note-ref-id="4" numbered="true" content="In practice, running the adjusted EMA snippet for an extended period may eventually cause numerical overflow. This can be easily avoided by periodically rescaling both the numerator and denominator."></span>. Note that the EMA implementation of Pandas employs the adjusted formula by default (`adjust=true`).
 
 # 3. The Span
 
