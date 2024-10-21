@@ -29,28 +29,29 @@ export default function Footer() {
           {/*<Link href="https://github.com/timlrx/tailwind-nextjs-starter-blog">*/}
           {/*  Tailwind Nextjs Theme*/}
           {/*</Link>*/}
-          <span>Just Keep Going Patiently 🚀</span>
-          <span className="mx-2">|</span>
-          <div className="flex items-center space-x-1">
-            <span>Content Licensed Under</span>
-            <a
-              href="https://creativecommons.org/licenses/by/4.0/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center space-x-1"
-            >
-              <img
-                alt="Creative Commons License"
-                className="h-6 w-6 dark:invert"
-                src="https://mirrors.creativecommons.org/presskit/icons/cc.svg"
-              />
-              <img
-                alt="Attribution"
-                className="h-6 w-6 dark:invert"
-                src="https://mirrors.creativecommons.org/presskit/icons/by.svg"
-              />
-              <span className="hover:underline">CC BY 4.0</span>
-            </a>
+          <div className="flex flex-col items-center space-y-2">
+            <span>Just Keep Going Patiently 🚀</span>
+            <div className="flex items-center space-x-1">
+              <span>Content Licensed Under</span>
+              <a
+                href="https://creativecommons.org/licenses/by/4.0/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center space-x-1"
+              >
+                <img
+                  alt="Creative Commons License"
+                  className="h-6 w-6 dark:invert"
+                  src="https://mirrors.creativecommons.org/presskit/icons/cc.svg"
+                />
+                <img
+                  alt="Attribution"
+                  className="h-6 w-6 dark:invert"
+                  src="https://mirrors.creativecommons.org/presskit/icons/by.svg"
+                />
+                <span className="hover:underline">CC BY 4.0</span>
+              </a>
+            </div>
           </div>
         </div>
       </div>

@@ -12,6 +12,7 @@
     "prepare": "husky"
   },
   "dependencies": {
+    "@fontsource-variable/inter": "^5.1.0",
     "@headlessui/react": "1.7.19",
     "@mdx-js/loader": "^3.0.1",
     "@mdx-js/react": "^3.0.1",

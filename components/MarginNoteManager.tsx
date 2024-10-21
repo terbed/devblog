@@ -14,6 +14,7 @@ interface Note {
 const MarginNoteManager = () => {
   const [notes, setNotes] = useState<Note[]>([])
   const [isMobile, setIsMobile] = useState(false)
+  const [imagesLoaded, setImagesLoaded] = useState(false)
   const notesContainerRef = useRef<HTMLDivElement>(null)
 
   // Function to detect mobile view
@@ -61,16 +62,20 @@ const MarginNoteManager = () => {
         let verticalDistance = refRect.top - containerRect.top
 
         // Ensure note is positioned below the last note, with proper spacing
-        const spacing = 20 // Minimum spacing between posts
+        const spacing = 20 // Minimum spacing between notes
         if (verticalDistance < lastNoteBottom + spacing) {
           verticalDistance = lastNoteBottom + spacing
         }
 
         // Calculate the actual height of the note content
         const tempDiv = document.createElement('div')
-        tempDiv.style.visibility = 'hidden'
-        tempDiv.style.position = 'absolute'
-        tempDiv.style.width = '350px' // Use the same width as the note
+        tempDiv.style.cssText = `
+          all: unset;
+          visibility: hidden;
+          position: absolute;
+          width: 275px; // Adjust to match note width
+          font-family: ${getComputedStyle(document.body).fontFamily};
+        `
         tempDiv.innerHTML = isNumbered ? `<sup>(${counter})</sup> ${noteContent}` : noteContent
         document.body.appendChild(tempDiv)
         const noteHeight = tempDiv.getBoundingClientRect().height
@@ -95,47 +100,61 @@ const MarginNoteManager = () => {
     setNotes(notesContent)
   }
 
+  // Run calculatePositions on initial render
   useLayoutEffect(() => {
-    // Run the initial calculation
     calculatePositions()
-
-    // Recalculate positions when the window resizes (desktop only)
-    if (!isMobile) {
-      window.addEventListener('resize', calculatePositions)
-    }
-
-    return () => {
-      window.removeEventListener('resize', calculatePositions)
-    }
   }, [isMobile])
 
+  // Recalculate positions after images have loaded
   useLayoutEffect(() => {
-    // Check if all images have loaded
+    if (imagesLoaded) {
+      calculatePositions()
+    }
+  }, [imagesLoaded, isMobile])
+
+  // Handle window resize
+  useLayoutEffect(() => {
+    if (!isMobile) {
+      const handleResize = () => {
+        calculatePositions()
+      }
+      window.addEventListener('resize', handleResize)
+      return () => {
+        window.removeEventListener('resize', handleResize)
+      }
+    }
+  }, [isMobile, imagesLoaded])
+
+  // Image loading handling
+  useEffect(() => {
     const images = Array.from(document.querySelectorAll('img'))
-    let imagesLoaded = 0
+    let loadedCount = 0
+    const totalImages = images.length
+
+    if (totalImages === 0) {
+      setImagesLoaded(true)
+      return
+    }
 
     const onImageLoad = () => {
-      imagesLoaded++
-      if (imagesLoaded === images.length) {
-        // All images are loaded, recalculate positions
-        calculatePositions()
+      loadedCount++
+      if (loadedCount === totalImages) {
+        setImagesLoaded(true)
       }
     }
 
     images.forEach((img) => {
       if (img.complete) {
-        imagesLoaded++
+        loadedCount++
       } else {
         img.addEventListener('load', onImageLoad)
       }
     })
 
-    if (imagesLoaded === images.length) {
-      // All images were already loaded
-      calculatePositions()
+    if (loadedCount === totalImages) {
+      setImagesLoaded(true)
     }
 
-    // Clean up event listeners
     return () => {
       images.forEach((img) => {
         img.removeEventListener('load', onImageLoad)
@@ -143,7 +162,7 @@ const MarginNoteManager = () => {
     }
   }, [])
 
-  // If image render after DOM loaded
+  // MutationObserver for dynamically added images
   useEffect(() => {
     const observer = new MutationObserver((mutationsList) => {
       let imagesAdded = false
@@ -152,7 +171,6 @@ const MarginNoteManager = () => {
         if (mutation.type === 'childList') {
           mutation.addedNodes.forEach((node) => {
             if (node.nodeName === 'IMG') {
-              // Node is an image element
               imagesAdded = true
               const img = node as HTMLImageElement
               if (img.complete) {
@@ -161,7 +179,6 @@ const MarginNoteManager = () => {
                 img.addEventListener('load', calculatePositions)
               }
             } else if (node instanceof Element) {
-              // Node is an Element that might contain images
               const imgs = node.querySelectorAll('img')
               if (imgs.length > 0) {
                 imagesAdded = true
@@ -179,7 +196,6 @@ const MarginNoteManager = () => {
       }
 
       if (imagesAdded) {
-        // Recalculate positions after images are added
         calculatePositions()
       }
     })
@@ -192,10 +208,10 @@ const MarginNoteManager = () => {
     return () => {
       observer.disconnect()
     }
-  }, [calculatePositions])
+  }, [])
 
+  // Handle mermaid diagrams rendering
   useEffect(() => {
-    // Add event listener for 'mermaidRendered' event
     const handleMermaidRendered = () => {
       calculatePositions()
     }
@@ -205,15 +221,15 @@ const MarginNoteManager = () => {
     return () => {
       window.removeEventListener('mermaidRendered', handleMermaidRendered)
     }
-  }, [calculatePositions])
+  }, [])
 
+  // Handle mobile view inline notes
   useEffect(() => {
     if (isMobile) {
-      // Insert posts inline after their references
+      // Insert notes inline after their references
       notes.forEach((note) => {
         const { referenceElement, content } = note
         if (referenceElement) {
-          // Check if note is already inserted
           if (!referenceElement.nextElementSibling?.classList.contains('inline-note')) {
             const noteSpan = document.createElement('span')
             noteSpan.classList.add('inline-note', 'text-sm', 'text-gray-600', 'dark:text-gray-300')
@@ -223,7 +239,7 @@ const MarginNoteManager = () => {
         }
       })
     } else {
-      // Remove inline posts when switching back to desktop
+      // Remove inline notes when switching back to desktop
       const inlineNotes = document.querySelectorAll('.inline-note')
       inlineNotes.forEach((note) => note.remove())
     }
@@ -241,8 +257,8 @@ const MarginNoteManager = () => {
         const noteStyle: React.CSSProperties = {
           position: 'absolute',
           top: `${verticalDistance}px`,
-          left: '-40px', // Adjust this value to move the posts closer to the main content
-          width: '275px', // Adjust the width to bring posts closer
+          left: '-40px', // Adjust this value as needed
+          width: '275px', // Adjust the width as needed
         }
 
         return (
@@ -251,7 +267,6 @@ const MarginNoteManager = () => {
             id={`note-${noteId}`}
             className="absolute mt-2 w-48 text-left text-sm text-gray-600 dark:text-gray-300"
             style={noteStyle}
-            // Use dangerouslySetInnerHTML to render HTML content
             dangerouslySetInnerHTML={{
               __html: `${
                 isNumbered ? `<sup class="text-primary-500">(${noteNumber})</sup> ` : ''
