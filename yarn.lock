@@ -2510,10 +2510,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@netlify/plugin-nextjs@npm:^5.7.2":
-  version: 5.7.3
-  resolution: "@netlify/plugin-nextjs@npm:5.7.3"
-  checksum: df55a55401ec63296a5c8b2510c7bf317ae3c5dbefbd0e90e3b57029494b3e3d27be1c6e8b83aa08e2473e20d0762c4adabfc75c08b14732103dce455830a565
+"@netlify/plugin-nextjs@npm:^5.8.0":
+  version: 5.8.0
+  resolution: "@netlify/plugin-nextjs@npm:5.8.0"
+  checksum: 62c228cfaa10a6d6c420c78b348a259baa2a3ff4be47c5dee7726fb4cd65fa2df5463a1f6b795328f69a0ac4e9f4689773af825c6c128c6795dbccb90a509ecd
   languageName: node
   linkType: hard
 
@@ -15605,7 +15605,7 @@ __metadata:
     "@headlessui/react": 1.7.19
     "@mdx-js/loader": ^3.0.1
     "@mdx-js/react": ^3.0.1
-    "@netlify/plugin-nextjs": ^5.7.2
+    "@netlify/plugin-nextjs": ^5.8.0
     "@next/bundle-analyzer": ^14.2.8
     "@next/mdx": ^14.2.13
     "@svgr/webpack": ^8.0.1
