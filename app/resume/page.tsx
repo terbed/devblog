@@ -358,6 +358,42 @@ const ResumePage = () => {
 
             {/* Education Items */}
             <div className="mb-2 block text-gray-500 dark:text-gray-400 md:hidden">
+              <span>January 2025 - Present</span> {/* Date for mobile view */}
+            </div>
+            <div className="mb-8 flex items-start">
+              <div className="relative hidden w-1/4 pr-4 text-right md:block">
+                <span className="block text-gray-500 dark:text-gray-400">January 2025</span>
+                <span className="block text-primary-500 dark:text-primary-400">Present</span>
+                <div className="absolute right-[-10px] top-1/2 h-4 w-4 rounded-full bg-primary-500"></div>
+              </div>
+              <div className="w-full md:w-3/4 md:pl-12">
+                <div className="milestone-item overflow-hidden">
+                  {/* Background Logo */}
+                  <Image
+                    src="/static/cv/wqu.png"
+                    alt="World Quant University Logo"
+                    width={500}
+                    height={500}
+                    className="absolute -right-28 -top-10 h-auto w-64 object-contain opacity-10"
+                  />
+
+                  {/* Foreground Content */}
+                  <div className="relative z-10">
+                    <h4 className="mb-2 text-xl font-bold text-gray-900 dark:text-gray-100">
+                      MSc in Financial Engineering
+                    </h4>
+                    <p className="mb-2 text-primary-500 dark:text-primary-400">
+                      World Quant University, New Orleans, USA
+                    </p>
+                    <p className="text-gray-700 dark:text-gray-300">
+                      <span className="font-semibold">Capstone Project:</span> ...
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="mb-2 block text-gray-500 dark:text-gray-400 md:hidden">
               <span>2017 - 2020</span>
             </div>
             <div className="mb-8 flex items-start">
