@@ -394,11 +394,11 @@ const ResumePage = () => {
             </div>
 
             <div className="mb-2 block text-gray-500 dark:text-gray-400 md:hidden">
-              <span>2017 - 2020</span>
+              <span>2017 - 2021</span>
             </div>
             <div className="mb-8 flex items-start">
               <div className="relative hidden w-1/4 pr-4 text-right md:block">
-                <span className="block text-gray-500 dark:text-gray-400">2017 – 2020</span>
+                <span className="block text-gray-500 dark:text-gray-400">2017 – 2021</span>
                 <div className="absolute right-[-10px] top-2 h-4 w-4 rounded-full bg-primary-500"></div>
               </div>
               <div className="w-full md:w-3/4 md:pl-12">
