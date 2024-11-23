@@ -300,12 +300,12 @@ const ResumePage = () => {
 
             {/* experience item */}
             <div className="mb-2 block text-gray-500 dark:text-gray-400 md:hidden">
-              <span>September 2015 - January 2025</span>
+              <span>September 2015 - January 2020</span>
             </div>
             <div className="mb-8 flex items-start">
               <div className="relative hidden w-1/4 pr-4 text-right md:block">
                 <span className="block text-gray-500 dark:text-gray-400">September 2015</span>
-                <span className="block text-gray-500 dark:text-gray-400">January 2025</span>
+                <span className="block text-gray-500 dark:text-gray-400">January 2020</span>
                 <div className="absolute right-[-10px] top-1/2 h-4 w-4 rounded-full bg-primary-500"></div>
               </div>
 
@@ -335,9 +335,10 @@ const ResumePage = () => {
                     I've started working in this role during my BSc studies, focusing on the
                     statistical inference of realistic neuron model parameters through computer
                     simulations and Bayesian statistical tools. This work formed the basis of my BSc
-                    thesis and continued for several years after my graduation, ultimately
+                    thesis and continued for several years after my graduation.{' '}
+                    {/*, ultimately
                     culminating in the publication of our research findings in a peer-reviewed
-                    paper.
+                    paper. */}
                   </p>
                 </div>
               </div>
