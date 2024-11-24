@@ -1001,6 +1001,70 @@ const ResumePage = () => {
               <p className="font-bold text-primary-500">65%</p>
             </div>
 
+            {/* Skill 7 */}
+            <div className="flex transform flex-col items-center transition-transform duration-300 ease-in-out hover:scale-110">
+              <svg className="h-24 w-24">
+                <circle cx="50%" cy="50%" r="40" stroke="gray" strokeWidth="5" fill="none"></circle>
+                <circle
+                  cx="50%"
+                  cy="50%"
+                  r="40"
+                  stroke="currentColor"
+                  strokeWidth="5"
+                  strokeDasharray="251"
+                  strokeDashoffset="45"
+                  fill="none"
+                  className="text-primary-500"
+                ></circle>
+              </svg>
+              <p className="mt-4 text-lg font-semibold text-gray-700 dark:text-gray-300">
+                Research
+              </p>
+              <p className="font-bold text-primary-500">88%</p>
+            </div>
+
+            {/* Skill 8 */}
+            <div className="flex transform flex-col items-center transition-transform duration-300 ease-in-out hover:scale-110">
+              <svg className="h-24 w-24">
+                <circle cx="50%" cy="50%" r="40" stroke="gray" strokeWidth="5" fill="none"></circle>
+                <circle
+                  cx="50%"
+                  cy="50%"
+                  r="40"
+                  stroke="currentColor"
+                  strokeWidth="5"
+                  strokeDasharray="251"
+                  strokeDashoffset="40"
+                  fill="none"
+                  className="text-primary-500"
+                ></circle>
+              </svg>
+              <p className="mt-4 text-lg font-semibold text-gray-700 dark:text-gray-300">Writing</p>
+              <p className="font-bold text-primary-500">85%</p>
+            </div>
+
+            {/* Skill 8 */}
+            <div className="flex transform flex-col items-center transition-transform duration-300 ease-in-out hover:scale-110">
+              <svg className="h-24 w-24">
+                <circle cx="50%" cy="50%" r="40" stroke="gray" strokeWidth="5" fill="none"></circle>
+                <circle
+                  cx="50%"
+                  cy="50%"
+                  r="40"
+                  stroke="currentColor"
+                  strokeWidth="5"
+                  strokeDasharray="251"
+                  strokeDashoffset="110"
+                  fill="none"
+                  className="text-primary-500"
+                ></circle>
+              </svg>
+              <p className="mt-4 text-lg font-semibold text-gray-700 dark:text-gray-300">
+                Presentation
+              </p>
+              <p className="font-bold text-primary-500">60%</p>
+            </div>
+
             {/* More skills */}
           </div>
         </div>
