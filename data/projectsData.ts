@@ -7,7 +7,7 @@ interface Project {
 
 const projectsData: Project[] = [
   {
-    title: 'Neuron-model biophysical parameter inference',
+    title: 'Bayesian Inference for Biophysical Neuron Models',
     description: `Estimating the biophysical parameters of neurons using computer simulations and probabilistic models.`,
     imgSrc: '/static/projects/neuron.png',
     href: '/blog/projects/neuron-parameter-inference',
