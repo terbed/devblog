@@ -22,7 +22,7 @@ Moreover, I've developed a real-time application that demonstrates remote pulse 
   },
   {
     title: 'Impaired Speech Correction',
-    description: `In this proof-of-concept project, I've researched and developed deep learning models to correct impaired speech of dysarthric speakers. 
+    description: `In this proof-of-concept project, I've researched and developed speech-to-speech deep-learning models to correct impaired speech of dysarthric speakers. 
     We've presented our results in the XVIII. Hungarian Conference on Computational Linguistics.`,
     imgSrc: '/static/projects/speech2.png',
     // href: '/blog/projects/impaired-speech-correction',
