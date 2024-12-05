@@ -2,7 +2,7 @@
 const siteMetadata = {
   title: 'DT Research Blog',
   author: 'Dániel Terbe',
-  headerTitle: "DT's Blog",
+  headerTitle: "dt's blog",
   description:
     'Welcome to my research blog! 👋 Here, I share my experiences, insights, and the latest updates on my projects and resume.',
   language: 'en-us',
