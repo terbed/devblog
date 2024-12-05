@@ -90,7 +90,7 @@ const ResumePage = () => {
                   href="mailto:terbed@gmail.com"
                   className="textbf text-primary-500 hover:underline dark:text-primary-400"
                 >
-                  terbed@gmail.com
+                  daniel@terbe.dev
                 </a>
               </div>
 

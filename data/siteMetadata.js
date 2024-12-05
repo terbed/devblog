@@ -1,8 +1,8 @@
 /** @type {import("pliny/config").PlinyConfig } */
 const siteMetadata = {
-  title: "t3rb3d's blog",
+  title: 'DT Research Blog',
   author: 'Dániel Terbe',
-  headerTitle: "t3rb3d's blog",
+  headerTitle: "DT's Blog",
   description:
     'Welcome to my research blog! 👋 Here, I share my experiences, insights, and the latest updates on my projects and resume.',
   language: 'en-us',

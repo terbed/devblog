@@ -20,7 +20,7 @@ const Header = () => {
             <Logo />
           </div>
           {
-            <div className="hidden h-6 text-2xl font-semibold sm:block">
+            <div className="hidden h-6 text-2xl font-semibold dark:[text-shadow:1.3px_0_0_red,-1.3px_0_0_cyan] sm:block">
               {siteMetadata.headerTitle}
             </div>
           }

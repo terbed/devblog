@@ -1,1 +1,13 @@
-{"fundamentals":1,"quant":1,"wqu":1,"pytorch":1,"lightning":1,"lightning-cli":1,"blueprint":1,"journal":2,"ml":1,"guide":8,"project":1}
+{
+  "project": 4,
+  "fundamentals": 1,
+  "quant": 1,
+  "wqu": 1,
+  "pytorch": 1,
+  "lightning": 1,
+  "lightning-cli": 1,
+  "blueprint": 1,
+  "journal": 2,
+  "ml": 1,
+  "guide": 8
+}
