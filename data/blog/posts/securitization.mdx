@@ -2,15 +2,40 @@
 title: 'The Securitization Process in Finance'
 date: '2025-02-16'
 lastmod: '2025-02-16'
-tags: ['finance', 'securitization']
-draft: true
+tags: ['finance', 'credit']
+draft: false
 bibliography: references-data.bib
 summary: 'What is securitization in finance? What is the rationale behind its existence? Mortgages and the great financial crisis.'
 ---
 
-**Securitization** is the process of pooling various interest-bearing debt instruments (like mortgages, loans, or receivables), which is then sold to investors as asset-backed securities. But what is the rationale behind this? What problem does it solve? What is its raison d'être?
+**Securitization** is the process of pooling various interest-bearing debt instruments (like mortgages, loans, or receivables), which are then sold to investors as asset-backed securities. But what is the rationale behind this? What problem does it solve? What is its raison d'être?
 
-The cornerstone of the fiat money system is dept and credit. In the fractional banking system banks are required to keep only a small fraction of the total assets as actual reserves. Thus, the lending capacity of the banks is limited by this reserve ratio<span className="reference" note-ref-id="2" numbered="true" content="In the US since March 26, 2020, the Federal Reserve has set the reserve ratio to <strong>zero percent</strong>, effectively eliminating mandatory reserve requirements for all depository institutions in the United States. This policy change was implemented to support the economy during the COVID-19 pandemic by allowing banks greater flexibility in managing their funds. Despite the absence of reserve requirements, banks are still subject to other regulatory measures, such as <strong>capital requirements</strong>, so that equity capital can act as a buffer against loss."></span>. Securitization allows banks to free up capital by offloading loans (like mortgages), thus significantly expanding their lending capacity further.
+The cornerstones of the fiat money system are debt and credit. In the fractional banking system, banks are required to keep only a small fraction of the total assets as actual reserves. Thus, the lending capacity of the banks is limited by this reserve ratio<span className="reference" note-ref-id="2" numbered="true" content="In the US since March 26, 2020, the Federal Reserve has set the reserve ratio to <strong>zero percent</strong>, effectively eliminating mandatory reserve requirements for all depository institutions in the United States. This policy change was implemented to support the economy during the COVID-19 pandemic by allowing banks greater flexibility in managing their funds. Despite the absence of reserve requirements, banks are still subject to other regulatory measures, such as <strong>capital requirements</strong>, so that equity capital can act as a buffer against loss."></span>. Securitization allows banks to **free up capital** by offloading loans (like mortgages), thus significantly expanding their lending capacity. Additionally, this **transfers the default risk** along with the loan, since both monthly cash flow and the risk of nonpayment are sold to investors. Because individual mortgages are illiquid and risky, investment banks pool many mortgages together and sell them to investors as _mortgage-backed securities (MBS)_, which are more appealing due to the diversification of individual loans. By pooling many kinds of illiquid debt instruments, these assets are transformed into tradable _collateralized debt obligations (CDO)_, which (unlike MBS) can contain not only mortgages but also corporate bonds and other debt instruments, further diversifying the security. However, pooling different kinds of debt instruments is dangerous as the credit rating of the resulting security becomes complex. In summary, securitization allows the monetization of debt instruments by pooling illiquid assets and transforming them into marketable securities.
+
+> [!NOTE]
+> Securitization allows the monetization of debt instruments by pooling illiquid assets and transforming them into marketable securities.
+
+A _Special Purpose Vehicle (SPV)_ is a legally separate entity created by an investment bank (or other originators) to hold the underlying asset being securitized. By isolating these assets from the bank’s main balance sheet, the SPV is meant to provide a so-called “bankruptcy remote” structure. The theory is that if the bank goes under, the SPV remains unaffected, which can protect investors’ interests.
+
+Securitized products are typically split into “tranches,” each representing a different level of risk and return:
+
+- _Senior Tranche_: Lower risk and lower return. This tranche has priority in receiving principal and interest payments; therefore, it absorbs losses only after the more junior tranches are wiped out. For example, a pension fund seeking steady returns might invest here.
+- _Junior (or Mezzanine) Tranche_: Moderate risk and moderate return. It lies in between the senior and equity tranches and absorbs losses after equity but before senior.
+- _Equity (or First-Loss) Tranche_: Highest risk and highest potential return. It bears the initial defaults on the underlying loans. An investor seeking high yields might prefer this tranche, accepting greater exposure to potential losses.
+
+When defaults occur on the underlying loans, losses are allocated first to the equity tranche, then to mezzanine, and only if those are depleted do they affect the senior tranche. This tiered structure helps attract a wide range of investors with varying risk appetites further increasing liquidity.
+
+Another concept we have to address to have a comprehensive idea of this matter is _Credit Default Swaps (CDS)_. A CDS is effectively a derivative contract that allows investors to swap or offset the risk of a bond or loan default. While it functions much like insurance—where the buyer pays a premium to be compensated if the underlying debt defaults—there is a critical difference: you can purchase a CDS even if you do not own the underlying bond or loan. This means multiple market participants can bet on the default risk of the same security, amplifying both liquidity and systemic risk. In the run-up to the financial crisis, CDS contracts allowed speculators to profit from perceived weaknesses in mortgage-backed securities—but also multiplied the fallout once those securities began to fail. At the climax of the crisis, certain investment banks took CDS for their own products. Basically, they shorted themselves.
+
+The 2007–2008 crisis highlighted the dangers of loose lending standards and opaque securitization practices:
+
+- Subprime Mortgages: Banks increasingly lent to borrowers with poor credit histories and scant documentation. Such “subprime” loans were riskier by definition, yet they were bundled together and often stamped with top-tier (AAA) credit ratings.
+- No Down Payment & Non-Recourse: In some regions—particularly in the United States—borrowers could get 100% financing through no-down-payment or minimal-down-payment mortgages. Many of these were non-recourse, meaning the borrower could walk away from the property if it fell in value, effectively treating the mortgage like a “long call option” on the house. If prices rose, they profited; if prices dropped, they simply handed back the keys.
+- Investors who assumed these AAA-rated securities were nearly risk-free suddenly faced massive defaults as housing prices collapsed. Because subprime loans were heavily securitized (then re-securitized in complex CDOs), defaults rippled through the financial system. Mounting confusion about who bore which risks caused liquidity to dry up and sparked widespread panic.
+
+This crisis illustrated the perils of combining high-risk assets, inadequate oversight, and opaque derivative structures. Securitization—despite its benefits in creating liquidity—can magnify systemic risks if the underlying loans are unsound and due diligence is lax. Ultimately, while securitization remains a core mechanism in modern finance, it is now better understood that transparency, strong underwriting standards, and proper regulation are critical to prevent a repeat of 2008.
+
+Unfortunately, there has been no accountability, and those responsible for the crisis remain in power. In response, Satoshi Nakamoto **launched Bitcoin**, a fair and decentralized cryptocurrency system.
 
 ## Attribution
 
