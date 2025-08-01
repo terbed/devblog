@@ -386,9 +386,23 @@ const ResumePage = () => {
                     <p className="mb-2 text-primary-500 dark:text-primary-400">
                       World Quant University, New Orleans, USA
                     </p>
-                    <p className="text-gray-700 dark:text-gray-300">
-                      <span className="font-semibold">Capstone Project:</span> ...
-                    </p>
+                    <div className="text-gray-700 dark:text-gray-300">
+                      <p>
+                        May 2025:{' '}
+                        <a
+                          href="https://www.credly.com/badges/8711de3f-a53a-4fcd-bde6-d8b48f7cb536/public_url"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-primary-500 hover:underline dark:text-primary-400"
+                        >
+                          Foundations of Financial Engineering Certificate
+                        </a>{' '}
+                        earned
+                      </p>
+                      <p>
+                        <span className="font-semibold">Capstone Project:</span> In Progress...
+                      </p>
+                    </div>
                   </div>
                 </div>
               </div>
