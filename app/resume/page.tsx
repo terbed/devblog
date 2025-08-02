@@ -990,7 +990,7 @@ const ResumePage = () => {
                 ></circle>
               </svg>
               <p className="mt-4 text-lg font-semibold text-gray-700 dark:text-gray-300">MLOps</p>
-              <p className="font-bold text-primary-500">74%</p>
+              <p className="font-bold text-primary-500">75%</p>
             </div>
 
             {/* Skill 6 */}
@@ -1004,7 +1004,7 @@ const ResumePage = () => {
                   stroke="currentColor"
                   strokeWidth="5"
                   strokeDasharray="251"
-                  strokeDashoffset="100"
+                  strokeDashoffset="55"
                   fill="none"
                   className="text-primary-500"
                 ></circle>
@@ -1012,7 +1012,7 @@ const ResumePage = () => {
               <p className="mt-4 text-lg font-semibold text-gray-700 dark:text-gray-300">
                 Financial ML
               </p>
-              <p className="font-bold text-primary-500">65%</p>
+              <p className="font-bold text-primary-500">76%</p>
             </div>
 
             {/* Skill 7 */}
@@ -1026,7 +1026,7 @@ const ResumePage = () => {
                   stroke="currentColor"
                   strokeWidth="5"
                   strokeDasharray="251"
-                  strokeDashoffset="45"
+                  strokeDashoffset="50"
                   fill="none"
                   className="text-primary-500"
                 ></circle>
