@@ -35,6 +35,15 @@ Besides project development, we have published several peer-reviewed papers in t
     imgSrc: '/static/projects/holodetect2.png',
     //href: '/blog/projects/holodetect',
   },
+  {
+    title: 'FinMLKit: A financial ML toolkit',
+    description:
+      'The main goal of this python library is to provide a solid foundation for financial machine learning,' +
+      'enabling users to process raw trades data, generate different types of bars, intra-bar features ' +
+      '(eg. footprints), bar-level features (indicators), and labels for supervised learning.',
+    imgSrc: '/static/projects/finmlkit_header.png',
+    href: '/blog/projects/finmlkit',
+  },
 ]
 
 export default projectsData
