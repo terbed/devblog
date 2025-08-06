@@ -1,15 +1,17 @@
 {
-  "journal": 2,
+  "project": 5,
+  "finance": 3,
+  "decentralized": 1,
+  "credit": 1,
+  "thoughts": 1,
+  "fundamentals": 1,
+  "quant": 1,
+  "wqu": 1,
   "pytorch": 1,
   "lightning": 1,
   "lightning-cli": 1,
   "blueprint": 1,
-  "fundamentals": 1,
-  "quant": 1,
+  "journal": 2,
   "ml": 1,
-  "wqu": 1,
-  "finance": 2,
-  "credit": 1,
-  "thoughts": 1,
-  "project": 3
+  "guide": 8
 }

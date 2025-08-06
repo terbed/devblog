@@ -7,6 +7,23 @@ interface Project {
 
 const projectsData: Project[] = [
   {
+    title: 'FinMLKit: A financial ML toolkit',
+    description:
+      'The main goal of this python library is to provide a solid foundation for financial machine learning, ' +
+      'enabling users to process raw trades data, generate different types of bars, intra-bar features ' +
+      '(eg. footprints), bar-level features (indicators), and labels for supervised learning. It tackles three chronic causes of unreliable results in the field: time-based sampling bias, weak labels, and throughput constraints that make rigorous methods hard to apply at scale.',
+    imgSrc: '/static/projects/finmlkit_header.png',
+    href: '/blog/projects/finmlkit',
+  },
+  {
+    title: 'Digital Holographic Microscopy',
+    description: `Digital holography is a technique that allows the numerical reconstruction of the 3D volume from a camera image capturing the interference pattern of coherent light scattered from the sample – called the hologram.
+In this project, I've developed deep-learning models for object detection, segmentation, classification, focusing, phase reconstruction, and more. We have founded a startup company called HoloDetect to commercialize the technology.
+Besides project development, we have published several peer-reviewed papers in top-tier journals, contributing to the field of digital holography.`,
+    imgSrc: '/static/projects/holodetect2.png',
+    //href: '/blog/projects/holodetect',
+  },
+  {
     title: 'Bayesian Inference for Biophysical Neuron Models',
     description: `Estimating the biophysical parameters of neurons using computer simulations and probabilistic models.`,
     imgSrc: '/static/projects/neuron.png',
@@ -26,23 +43,6 @@ Moreover, I've developed a real-time application that demonstrates remote pulse 
     We've presented our results in the XVIII. Hungarian Conference on Computational Linguistics.`,
     imgSrc: '/static/projects/speech2.png',
     // href: '/blog/projects/impaired-speech-correction',
-  },
-  {
-    title: 'Digital Holographic Microscopy',
-    description: `Digital holography is a technique that allows the numerical reconstruction of the 3D volume from a camera image capturing the interference pattern of coherent light scattered from the sample – called the hologram.
-In this project, I've developed deep-learning models for object detection, segmentation, classification, focusing, phase reconstruction, and more. We have founded a startup company called HoloDetect to commercialize the technology.
-Besides project development, we have published several peer-reviewed papers in top-tier journals, contributing to the field of digital holography.`,
-    imgSrc: '/static/projects/holodetect2.png',
-    //href: '/blog/projects/holodetect',
-  },
-  {
-    title: 'FinMLKit: A financial ML toolkit',
-    description:
-      'The main goal of this python library is to provide a solid foundation for financial machine learning,' +
-      'enabling users to process raw trades data, generate different types of bars, intra-bar features ' +
-      '(eg. footprints), bar-level features (indicators), and labels for supervised learning.',
-    imgSrc: '/static/projects/finmlkit_header.png',
-    href: '/blog/projects/finmlkit',
   },
 ]
 
