@@ -7,6 +7,7 @@ import CustomLink from './Link'
 import TableWrapper from './TableWrapper'
 import Mermaid from './Mermaid'
 import CitationGenerator from './CitationGenerator'
+import MarginNote from './MarginNote'
 
 export const components: MDXComponents = {
   Image,
@@ -17,4 +18,6 @@ export const components: MDXComponents = {
   BlogNewsletterForm,
   Mermaid,
   CitationGenerator,
+  // New: Allow using <MarginNote> in MDX for LaTeX/MDX-enabled margin notes
+  MarginNote,
 }

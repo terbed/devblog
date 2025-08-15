@@ -8,5 +8,6 @@
       "@/css/*": ["css/*"],
       "contentlayer/generated": ["./.contentlayer/generated"]
     }
-  }
+  },
+  "exclude": ["node_modules", ".next", "out", ".contentlayer/cache", ".contentlayer/.cache"]
 }

@@ -2,6 +2,23 @@
 
 import React, { useLayoutEffect, useEffect, useState, useRef } from 'react'
 
+/**
+ * MarginNoteManager
+ *
+ * Responsibilities:
+ * - Collect all elements with [note-ref-id] in the article.
+ * - Extract note HTML content using the following priority:
+ *   1) Preferred: hidden child .reference-content innerHTML (new MDX syntax via <MarginNote> children)
+ *   2) Fallback: legacy `content` attribute on the reference element
+ *   3) Last resort: the element's own innerHTML (with any <sup> removed)
+ * - On desktop: position notes in the margin, add numbered <sup> markers next to references when numbered.
+ * - On mobile: insert inline notes immediately after references using the same extracted HTML (no numbering).
+ * - Recalculate positions on layout/resize/image load/mermaid render.
+ *
+ * Backward compatibility:
+ * - Legacy <span class="reference" note-ref-id="..." numbered="true|false" content="..."></span> continues to work.
+ * - New syntax <MarginNote numbered>LaTeX/MDX here</MarginNote> compiles to hidden HTML that we extract.
+ */
 interface Note {
   noteId: string
   content: string
@@ -40,8 +57,21 @@ const MarginNoteManager = () => {
 
     references.forEach((ref) => {
       const noteId = ref.getAttribute('note-ref-id')
-      const noteContent = ref.getAttribute('content')
       const isNumbered = ref.getAttribute('numbered') === 'true'
+      let noteContent = ref.getAttribute('content')
+
+      // Prefer MDX/HTML content nested inside the reference element (new syntax)
+      if (!noteContent) {
+        const contentEl = (ref as Element).querySelector('.reference-content') as HTMLElement | null
+        if (contentEl) {
+          noteContent = contentEl.innerHTML
+        } else {
+          // Fallback: use the element's own innerHTML (excluding any sup markers)
+          const clone = ref.cloneNode(true) as HTMLElement
+          clone.querySelectorAll('sup').forEach((el) => el.remove())
+          noteContent = clone.innerHTML
+        }
+      }
 
       if (noteId && noteContent) {
         // Use the ref element as the reference element
