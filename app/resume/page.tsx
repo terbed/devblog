@@ -333,7 +333,7 @@ const ResumePage = () => {
 
                   {/* Location */}
                   <p className="text-primary-500">
-                    (HUN-REN SZTAKI) Optical Sensing and Processing Laboratory, Budapest, HUN
+                    (MTA SZTAKI) Optical Sensing and Processing Laboratory, Budapest, HUN
                   </p>
 
                   {/* Compressed Content Info */}
@@ -450,7 +450,7 @@ const ResumePage = () => {
 
                   {/* Location */}
                   <p className="text-primary-500">
-                    (HUN-REN KOKI) Computational Neuroscience Workgroup, Budapest, Hungary
+                    (MTA KOKI) Computational Neuroscience Workgroup, Budapest, Hungary
                   </p>
 
                   {/* Content Info */}
