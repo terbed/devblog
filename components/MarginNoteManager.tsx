@@ -19,6 +19,12 @@ import React, { useLayoutEffect, useEffect, useState, useRef } from 'react'
  * - Legacy <span class="reference" note-ref-id="..." numbered="true|false" content="..."></span> continues to work.
  * - New syntax <MarginNote numbered>LaTeX/MDX here</MarginNote> compiles to hidden HTML that we extract.
  */
+// Width of a rendered margin note. Shared with the off-screen measuring div so
+// the predicted height matches what actually gets painted.
+// Must fit inside the note rail once its padding is taken off (18rem column,
+// 2rem left + 1rem right padding = 240px of usable width).
+const NOTE_WIDTH = 236
+
 interface Note {
   noteId: string
   content: string
@@ -102,7 +108,7 @@ const MarginNoteManager = () => {
           all: unset;
           visibility: hidden;
           position: absolute;
-          width: 275px; // Adjust to match note width
+          width: ${NOTE_WIDTH}px;
           font-family: ${getComputedStyle(document.body).fontFamily};
         `
         tempDiv.innerHTML = isNumbered ? `<sup>(${counter})</sup> ${noteContent}` : noteContent
@@ -233,7 +239,7 @@ const MarginNoteManager = () => {
         if (referenceElement) {
           if (!referenceElement.nextElementSibling?.classList.contains('inline-note')) {
             const noteSpan = document.createElement('span')
-            noteSpan.classList.add('inline-note', 'text-sm', 'text-gray-600', 'dark:text-gray-300')
+            noteSpan.classList.add('inline-note', 'text-sm', 'text-ink-muted')
             noteSpan.innerHTML = ` (${content})` // Content in parentheses without numbering
             referenceElement.parentNode?.insertBefore(noteSpan, referenceElement.nextSibling)
           }
@@ -248,25 +254,21 @@ const MarginNoteManager = () => {
 
   return isMobile ? null : (
     <div id="notes-container" className="relative mt-1" ref={notesContainerRef}>
-      {notes.length > 0 && (
-        <h2 className="text-xs font-medium uppercase tracking-wide text-gray-500 dark:text-gray-400">
-          Margin Notes ↓
-        </h2>
-      )}
-
       {notes.map(({ noteId, content, isNumbered, noteNumber, verticalDistance }) => {
         const noteStyle: React.CSSProperties = {
           position: 'absolute',
           top: `${verticalDistance}px`,
-          left: '-40px', // Adjust this value as needed
-          width: '275px', // Adjust the width as needed
+          // The rail now sits to the right of the text, so notes align to its
+          // left edge instead of hanging back into the old left-hand gutter.
+          left: 0,
+          width: `${NOTE_WIDTH}px`,
         }
 
         return (
           <div
             key={noteId}
             id={`note-${noteId}`}
-            className="absolute mt-2 w-48 text-left text-sm text-gray-600 dark:text-gray-300"
+            className="absolute mt-2 text-left font-serif text-sm leading-relaxed text-ink-muted"
             style={noteStyle}
             dangerouslySetInnerHTML={{
               __html: `${

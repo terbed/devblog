@@ -1,4 +1,3 @@
-import { Inter } from 'next/font/google'
 import SectionContainer from './SectionContainer'
 import Footer from './Footer'
 import { ReactNode } from 'react'
@@ -8,14 +7,11 @@ interface Props {
   children: ReactNode
 }
 
-const inter = Inter({
-  subsets: ['latin'],
-})
-
+// Fonts are declared once on <html> in app/layout.tsx, so nothing to load here.
 const LayoutWrapper = ({ children }: Props) => {
   return (
     <SectionContainer>
-      <div className={`${inter.className} flex h-screen flex-col justify-between font-sans`}>
+      <div className="flex min-h-screen flex-col justify-between">
         <Header />
         <main className="mb-auto">{children}</main>
         <Footer />

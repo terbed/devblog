@@ -1,59 +1,69 @@
 import Link from './Link'
 import siteMetadata from '@/data/siteMetadata'
-import SocialIcon from '@/components/social-icons'
+
+// Bracketed text links instead of icon soup — fewer shapes, same affordance.
+const socials: { label: string; href?: string }[] = [
+  { label: 'mail', href: siteMetadata.email ? `mailto:${siteMetadata.email}` : undefined },
+  { label: 'github', href: siteMetadata.github },
+  { label: 'x', href: siteMetadata.x },
+  { label: 'linkedin', href: siteMetadata.linkedin },
+  { label: 'twitter', href: siteMetadata.twitter },
+  { label: 'youtube', href: siteMetadata.youtube },
+  { label: 'instagram', href: siteMetadata.instagram },
+  { label: 'threads', href: siteMetadata.threads },
+  { label: 'facebook', href: siteMetadata.facebook },
+  { label: 'mastodon', href: siteMetadata.mastodon },
+  { label: 'ko-fi', href: siteMetadata.kofi },
+]
 
 export default function Footer() {
+  const active = socials.filter((s) => s.href)
+
   return (
-    <footer>
-      <div className="mt-16 flex flex-col items-center">
-        <div className="mb-3 flex space-x-4">
-          <SocialIcon kind="mail" href={`mailto:${siteMetadata.email}`} size={7} />
-          <SocialIcon kind="github" href={siteMetadata.github} size={6} />
-          <SocialIcon kind="facebook" href={siteMetadata.facebook} size={6} />
-          <SocialIcon kind="youtube" href={siteMetadata.youtube} size={6} />
-          <SocialIcon kind="linkedin" href={siteMetadata.linkedin} size={6} />
-          <SocialIcon kind="twitter" href={siteMetadata.twitter} size={6} />
-          <SocialIcon kind="x" href={siteMetadata.x} size={6} />
-          <SocialIcon kind="instagram" href={siteMetadata.instagram} size={6} />
-          <SocialIcon kind="threads" href={siteMetadata.threads} size={6} />
-          <SocialIcon kind="kofi" href={siteMetadata.kofi} size={7} />
-        </div>
-        <div className="mb-2 flex space-x-2 text-sm text-gray-500 dark:text-gray-400">
-          <div>{siteMetadata.author}</div>
-          <div>{` • `}</div>
-          <div>{`© ${new Date().getFullYear()}`}</div>
-          <div>{` • `}</div>
-          <Link href="/">{siteMetadata.title}</Link>
-        </div>
-        <div className="mb-8 flex items-center text-sm text-gray-500 dark:text-gray-400">
-          {/*<Link href="https://github.com/timlrx/tailwind-nextjs-starter-blog">*/}
-          {/*  Tailwind Nextjs Theme*/}
-          {/*</Link>*/}
-          <div className="flex flex-col items-center space-y-2">
-            <span>Just Keep Going Patiently 🚀</span>
-            <div className="flex items-center space-x-1">
-              <span>Content Licensed Under</span>
-              <a
-                href="https://creativecommons.org/licenses/by/4.0/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center space-x-1"
-              >
-                <img
-                  alt="Creative Commons License"
-                  className="h-6 w-6 dark:invert"
-                  src="https://mirrors.creativecommons.org/presskit/icons/cc.svg"
-                />
-                <img
-                  alt="Attribution"
-                  className="h-6 w-6 dark:invert"
-                  src="https://mirrors.creativecommons.org/presskit/icons/by.svg"
-                />
-                <span className="hover:underline">CC BY 4.0</span>
-              </a>
-            </div>
+    <footer className="mt-24">
+      <div className="h-px w-full bg-rule" />
+      <div className="flex flex-col gap-4 py-8 font-mono text-xs sm:flex-row sm:items-start sm:justify-between">
+        <div className="space-y-2">
+          <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-ink-muted">
+            <span className="text-ink">{siteMetadata.author}</span>
+            <span className="text-ink-faint">·</span>
+            <span>© {new Date().getFullYear()}</span>
+            <span className="text-ink-faint">·</span>
+            <Link href="/" className="hover:text-primary-500">
+              {siteMetadata.title}
+            </Link>
+          </div>
+          <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-ink-faint">
+            <a
+              href="https://creativecommons.org/licenses/by/4.0/"
+              target="_blank"
+              rel="noopener noreferrer license"
+              className="hover:text-primary-500"
+            >
+              cc by 4.0
+            </a>
+            <span>·</span>
+            <Link href="/feed.xml" className="hover:text-primary-500">
+              rss
+            </Link>
+            <span>·</span>
+            <span>just keep going patiently 🚀</span>
           </div>
         </div>
+
+        <nav className="flex flex-wrap gap-x-3 gap-y-2 sm:justify-end" aria-label="Social links">
+          {active.map(({ label, href }) => (
+            <a
+              key={label}
+              href={href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bracket-link text-xs"
+            >
+              {label}
+            </a>
+          ))}
+        </nav>
       </div>
     </footer>
   )

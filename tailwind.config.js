@@ -1,6 +1,14 @@
 // @ts-check
-const { fontFamily } = require('tailwindcss/defaultTheme')
-const colors = require('tailwindcss/colors')
+
+/**
+ * "Terminal paper" theme.
+ *
+ * Two type layers do all the work: monospace for every piece of chrome
+ * (nav, metadata, headings, code) and a serif for anything you actually read
+ * at length. Colour is a single accent over a warm paper / true-black terminal
+ * neutral ramp. The accent steps are CSS variables that flip in dark mode, so
+ * `text-primary-500` stays legible on both grounds without a `dark:` variant.
+ */
 
 /** @type {import("tailwindcss/types").Config } */
 module.exports = {
@@ -22,12 +30,54 @@ module.exports = {
         14: '3.5rem',
       },
       fontFamily: {
-        //sans: ['var(--font-space-grotesk)', ...fontFamily.sans],
-        sans: ['var(--font-inter)', ...fontFamily.sans],
+        // Monospace is the default UI voice — the site reads as a terminal
+        // and the reading column opts into serif.
+        sans: ['var(--font-mono)', 'ui-monospace', 'SFMono-Regular', 'Menlo', 'monospace'],
+        mono: ['var(--font-mono)', 'ui-monospace', 'SFMono-Regular', 'Menlo', 'monospace'],
+        serif: ['var(--font-serif)', 'Iowan Old Style', 'Georgia', 'serif'],
       },
       colors: {
-        primary: colors.teal,
-        gray: colors.gray,
+        paper: {
+          DEFAULT: 'rgb(var(--paper) / <alpha-value>)',
+          soft: 'rgb(var(--paper-soft) / <alpha-value>)',
+        },
+        ink: {
+          DEFAULT: 'rgb(var(--ink) / <alpha-value>)',
+          muted: 'rgb(var(--ink-muted) / <alpha-value>)',
+          faint: 'rgb(var(--ink-faint) / <alpha-value>)',
+        },
+        rule: 'rgb(var(--rule) / <alpha-value>)',
+        code: {
+          bg: 'rgb(var(--code-bg) / <alpha-value>)',
+          rule: 'rgb(var(--code-rule) / <alpha-value>)',
+        },
+        primary: {
+          50: 'rgb(var(--primary-300) / 0.08)',
+          100: 'rgb(var(--primary-300) / 0.16)',
+          200: 'rgb(var(--primary-300) / 0.32)',
+          300: 'rgb(var(--primary-300) / <alpha-value>)',
+          400: 'rgb(var(--primary-400) / <alpha-value>)',
+          500: 'rgb(var(--primary-500) / <alpha-value>)',
+          600: 'rgb(var(--primary-600) / <alpha-value>)',
+          700: 'rgb(var(--primary-700) / <alpha-value>)',
+          800: 'rgb(var(--primary-700) / <alpha-value>)',
+          900: 'rgb(var(--primary-700) / <alpha-value>)',
+        },
+        // Neutral ink ramp. Kept under the `gray` key so the existing `gray-*`
+        // utilities scattered through the app inherit the new palette.
+        gray: {
+          50: 'rgb(250 250 251 / <alpha-value>)',
+          100: 'rgb(244 244 246 / <alpha-value>)',
+          200: 'rgb(228 229 232 / <alpha-value>)',
+          300: 'rgb(200 202 206 / <alpha-value>)',
+          400: 'rgb(155 160 166 / <alpha-value>)',
+          500: 'rgb(107 113 120 / <alpha-value>)',
+          600: 'rgb(76 83 89 / <alpha-value>)',
+          700: 'rgb(35 42 47 / <alpha-value>)',
+          800: 'rgb(20 24 27 / <alpha-value>)',
+          900: 'rgb(16 19 22 / <alpha-value>)',
+          950: 'rgb(11 13 15 / <alpha-value>)',
+        },
       },
       zIndex: {
         60: '60',
@@ -57,43 +107,130 @@ module.exports = {
         pendulum: 'pendulum 1s ease-in-out',
         subtlePulse: 'subtlePulse 8s ease-in-out infinite',
       },
-      typography: ({ theme }) => ({
-        DEFAULT: {
-          css: {
-            a: {
-              color: theme('colors.primary.500'),
-              '&:hover': {
-                color: `${theme('colors.primary.600')}`,
-              },
-              code: { color: theme('colors.primary.400') },
-            },
-            'h1,h2': {
-              fontWeight: '700',
-              letterSpacing: theme('letterSpacing.tight'),
-            },
-            h3: {
-              fontWeight: '600',
-            },
-            code: {
-              color: theme('colors.indigo.500'),
+      typography: ({ theme }) => {
+        // Both the default and the inverted variant resolve to the same token
+        // set, because the tokens themselves already flip in dark mode.
+        const palette = {
+          '--tw-prose-body': 'rgb(var(--ink) / 0.9)',
+          '--tw-prose-headings': 'rgb(var(--ink))',
+          '--tw-prose-lead': 'rgb(var(--ink-muted))',
+          '--tw-prose-links': 'rgb(var(--primary-500))',
+          '--tw-prose-bold': 'rgb(var(--ink))',
+          '--tw-prose-counters': 'rgb(var(--ink-faint))',
+          '--tw-prose-bullets': 'rgb(var(--primary-500) / 0.55)',
+          '--tw-prose-hr': 'rgb(var(--rule))',
+          '--tw-prose-quotes': 'rgb(var(--ink-muted))',
+          '--tw-prose-quote-borders': 'rgb(var(--primary-500) / 0.4)',
+          '--tw-prose-captions': 'rgb(var(--ink-faint))',
+          '--tw-prose-code': 'rgb(var(--ink))',
+          '--tw-prose-pre-code': 'rgb(214 222 235)',
+          '--tw-prose-pre-bg': 'rgb(var(--code-bg))',
+          '--tw-prose-th-borders': 'rgb(var(--rule))',
+          '--tw-prose-td-borders': 'rgb(var(--rule))',
+        }
+
+        const css = {
+          ...palette,
+
+          fontFamily: theme('fontFamily.serif').join(', '),
+          fontSize: '1.0625rem',
+          lineHeight: '1.78',
+          maxWidth: '72ch',
+
+          // Every heading is chrome, so every heading is monospace.
+          'h1, h2, h3, h4, h5, h6': {
+            fontFamily: theme('fontFamily.mono').join(', '),
+            fontWeight: '600',
+            letterSpacing: '-0.02em',
+          },
+          h1: { fontSize: '1.75em', lineHeight: '1.2', marginBottom: '0.7em' },
+          h2: { fontSize: '1.3em', lineHeight: '1.35', marginTop: '2.4em', marginBottom: '0.8em' },
+          h3: { fontSize: '1.08em', lineHeight: '1.45', marginTop: '2em', marginBottom: '0.6em' },
+          h4: { fontSize: '0.98em', color: 'rgb(var(--ink-muted))' },
+
+          // Links carry a faint accent underline that firms up on hover,
+          // which reads more quietly than a colour swap mid-sentence.
+          a: {
+            fontWeight: '400',
+            textDecoration: 'underline',
+            textDecorationColor: 'rgb(var(--primary-500) / 0.35)',
+            textDecorationThickness: '1px',
+            textUnderlineOffset: '0.2em',
+            transition: 'text-decoration-color 150ms, color 150ms',
+            '&:hover': {
+              textDecorationColor: 'rgb(var(--primary-500))',
             },
           },
-        },
-        invert: {
-          css: {
-            a: {
-              color: theme('colors.primary.500'),
-              '&:hover': {
-                color: `${theme('colors.primary.400')}`,
-              },
-              code: { color: theme('colors.primary.400') },
-            },
-            'h1,h2,h3,h4,h5,h6': {
-              color: theme('colors.gray.100'),
-            },
+
+          // Inline code: a tinted chip, no stray backticks.
+          code: {
+            fontFamily: theme('fontFamily.mono').join(', '),
+            fontWeight: '400',
+            fontSize: '0.86em',
+            backgroundColor: 'rgb(var(--primary-500) / 0.09)',
+            color: 'rgb(var(--primary-500))',
+            padding: '0.15em 0.4em',
+            borderRadius: '2px',
           },
-        },
-      }),
+          'code::before': { content: 'none' },
+          'code::after': { content: 'none' },
+          'a code': { color: 'rgb(var(--primary-500))' },
+
+          // Code blocks keep the terminal ground in both themes.
+          pre: {
+            fontFamily: theme('fontFamily.mono').join(', '),
+            fontSize: '0.82em',
+            lineHeight: '1.7',
+            borderRadius: '0',
+            border: '1px solid rgb(var(--code-rule))',
+            padding: '1.1em 1.25em',
+          },
+          'pre code': {
+            backgroundColor: 'transparent',
+            color: 'inherit',
+            padding: '0',
+            fontSize: 'inherit',
+          },
+
+          blockquote: {
+            fontStyle: 'normal',
+            fontWeight: '400',
+            borderLeftWidth: '2px',
+            paddingLeft: '1.2em',
+          },
+          'blockquote p:first-of-type::before': { content: 'none' },
+          'blockquote p:last-of-type::after': { content: 'none' },
+
+          hr: {
+            borderTopStyle: 'dashed',
+            marginTop: '3em',
+            marginBottom: '3em',
+          },
+
+          // Tables read as data: monospace, hairlines, no zebra.
+          'thead th': {
+            fontFamily: theme('fontFamily.mono').join(', '),
+            fontSize: '0.8em',
+            fontWeight: '600',
+            textTransform: 'lowercase',
+            letterSpacing: '0.03em',
+            color: 'rgb(var(--ink-muted))',
+          },
+          'tbody td': { fontSize: '0.9em' },
+
+          'figcaption, .footnotes': {
+            fontFamily: theme('fontFamily.mono').join(', '),
+            fontSize: '0.8em',
+          },
+
+          strong: { fontWeight: '600' },
+        }
+
+        return {
+          DEFAULT: { css },
+          invert: { css: palette },
+        }
+      },
     },
   },
   plugins: [require('@tailwindcss/forms'), require('@tailwindcss/typography')],

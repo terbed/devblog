@@ -54,7 +54,17 @@ const computedFields: ComputedFields = {
     type: 'string',
     resolve: (doc) => doc._raw.sourceFilePath,
   },
-  toc: { type: 'string', resolve: (doc) => extractTocHeadings(doc.body.raw) },
+  // `json`, not `string`: this resolves to an array of heading records, and is
+  // consumed as one by both TOCInline and FloatingToc.
+  toc: { type: 'json', resolve: (doc) => extractTocHeadings(doc.body.raw) },
+  // Whether the post uses margin notes, in either the <MarginNote> component
+  // form or the legacy note-ref-id span. The layout needs this at render time
+  // to decide if the note rail exists at all — MarginNoteManager only finds
+  // out client-side, which is too late to reserve (or skip) the column.
+  hasMarginNotes: {
+    type: 'boolean',
+    resolve: (doc) => /<MarginNote[\s>]|note-ref-id/.test(doc.body.raw),
+  },
 }
 
 /**

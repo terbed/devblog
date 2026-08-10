@@ -1,14 +1,14 @@
 import { ReactNode } from 'react'
-import { formatDate } from 'pliny/utils/formatDate'
 import { CoreContent } from 'pliny/utils/contentlayer'
 import type { Blog } from 'contentlayer/generated'
 import Comments from '@/components/Comments'
 import Link from '@/components/Link'
 import PageTitle from '@/components/PageTitle'
 import SectionContainer from '@/components/SectionContainer'
+import { isoDate } from '@/components/PostList'
 import siteMetadata from '@/data/siteMetadata'
 import ScrollTopAndComment from '@/components/ScrollTopAndComment'
-// import MarginNote from '@/components/MarginNote' // Import your MarginNote component
+import FloatingToc from '@/components/FloatingToc'
 
 interface LayoutProps {
   content: CoreContent<Blog>
@@ -19,64 +19,77 @@ interface LayoutProps {
 
 export default function PostLayout({ content, next, prev, children }: LayoutProps) {
   const { path, slug, date, title } = content
+  const basePath = path.split('/')[0]
+  const readingTime = (content as { readingTime?: { minutes?: number } }).readingTime
+  const minutes = readingTime?.minutes ? Math.max(1, Math.round(readingTime.minutes)) : null
 
   return (
     <SectionContainer>
       <ScrollTopAndComment />
+      <FloatingToc toc={content.toc} />
       <article>
-        <div>
-          <header>
-            <div className="space-y-1 border-b border-gray-200 pb-10 text-center dark:border-gray-700">
-              <dl>
-                <div>
-                  <dt className="sr-only">Published on</dt>
-                  <dd className="text-base font-medium leading-6 text-gray-500 dark:text-gray-400">
-                    <time dateTime={date}>{formatDate(date, siteMetadata.locale)}</time>
-                  </dd>
-                </div>
-              </dl>
-              <div>
-                <PageTitle>{title}</PageTitle>
-              </div>
-            </div>
-          </header>
-          <div className="grid-rows-[auto_1fr] divide-y divide-gray-200 pb-8 dark:divide-gray-700 xl:divide-y-0">
-            <div className="divide-y divide-gray-200 dark:divide-gray-700 xl:col-span-3 xl:row-span-2 xl:pb-0">
-              <div className="prose max-w-none pb-8 pt-10 dark:prose-invert">{children}</div>
-            </div>
-            {siteMetadata.comments && (
-              <div className="pb-6 pt-6 text-center text-gray-700 dark:text-gray-300" id="comment">
-                <Comments slug={slug} />
-              </div>
+        <header className="border-b border-rule pb-8 pt-10">
+          <PageTitle>{title}</PageTitle>
+          <div className="mt-4 flex flex-wrap items-center gap-x-2.5 font-mono text-xs text-ink-faint">
+            <time dateTime={date} className="tabular-nums">
+              {isoDate(date)}
+            </time>
+            {minutes && (
+              <>
+                <span aria-hidden="true">·</span>
+                <span>{minutes} min read</span>
+              </>
             )}
-            <footer>
-              <div className="flex flex-col text-sm font-medium sm:flex-row sm:justify-between sm:text-base">
-                {prev && prev.path && (
-                  <div className="pt-4 xl:pt-8">
-                    <Link
-                      href={`/${prev.path}`}
-                      className="text-primary-500 hover:text-primary-600 dark:hover:text-primary-400"
-                      aria-label={`Previous post: ${prev.title}`}
-                    >
-                      &larr; {prev.title}
-                    </Link>
-                  </div>
-                )}
-                {next && next.path && (
-                  <div className="pt-4 xl:pt-8">
-                    <Link
-                      href={`/${next.path}`}
-                      className="text-primary-500 hover:text-primary-600 dark:hover:text-primary-400"
-                      aria-label={`Next post: ${next.title}`}
-                    >
-                      {next.title} &rarr;
-                    </Link>
-                  </div>
-                )}
-              </div>
-            </footer>
           </div>
-        </div>
+        </header>
+
+        <div className="prose pb-10 pt-10 dark:prose-invert">{children}</div>
+
+        <footer className="border-t border-rule pt-8">
+          {(next?.path || prev?.path) && (
+            <nav className="grid gap-6 pb-8 sm:grid-cols-2">
+              {prev?.path ? (
+                <div className="min-w-0">
+                  <div className="mb-1.5 font-mono text-xs text-ink-faint">previous</div>
+                  <Link
+                    href={`/${prev.path}`}
+                    className="font-mono text-sm leading-snug text-ink transition-colors hover:text-primary-500"
+                    aria-label={`Previous post: ${prev.title}`}
+                  >
+                    &larr; {prev.title}
+                  </Link>
+                </div>
+              ) : (
+                <div />
+              )}
+              {next?.path && (
+                <div className="min-w-0 sm:text-right">
+                  <div className="mb-1.5 font-mono text-xs text-ink-faint">next</div>
+                  <Link
+                    href={`/${next.path}`}
+                    className="font-mono text-sm leading-snug text-ink transition-colors hover:text-primary-500"
+                    aria-label={`Next post: ${next.title}`}
+                  >
+                    {next.title} &rarr;
+                  </Link>
+                </div>
+              )}
+            </nav>
+          )}
+
+          <div className="flex flex-wrap items-center gap-x-2 pb-8 font-mono text-xs text-ink-faint">
+            <span aria-hidden="true">$</span>
+            <Link href={`/${basePath}`} className="hover:text-primary-500">
+              cd ..
+            </Link>
+          </div>
+        </footer>
+
+        {siteMetadata.comments && (
+          <div className="border-t border-rule pt-8" id="comment">
+            <Comments slug={slug} />
+          </div>
+        )}
       </article>
     </SectionContainer>
   )

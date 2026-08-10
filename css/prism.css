@@ -1,17 +1,19 @@
 /**
- * CSS Styles for code highlighting.
- * Feel free to customize token styles 
- * by copying from a prismjs compatible theme:
- * https://github.com/PrismJS/prism-themes
+ * Syntax highlighting.
+ *
+ * Code blocks keep the terminal ground in both light and dark mode, so this
+ * palette only ever sits on `--code-bg`. It is anchored on the site accent
+ * (keywords) and stays deliberately low-saturation everywhere else — six hues
+ * total, so a long listing reads as text rather than confetti.
  */
 
-/* Code title styles */
+/* Code title bar: flat, hairline, part of the same box as the block. */
 .remark-code-title {
-  @apply rounded-t bg-gray-700 px-5 py-3 font-mono text-sm font-bold text-gray-200 dark:bg-gray-800;
+  @apply border border-b-0 border-code-rule bg-code-bg px-4 py-2 font-mono text-xs text-ink-faint;
 }
 
 .remark-code-title + div > pre {
-  @apply mt-0 rounded-t-none;
+  @apply mt-0 border-t-0;
 }
 
 /* Code block styles */
@@ -20,123 +22,105 @@
 }
 
 .code-line {
-  @apply -mx-4 block border-l-4 border-transparent pl-4 pr-4;
+  @apply -mx-4 block border-l-2 border-transparent pl-4 pr-4;
 }
 
 .code-line.inserted {
-  @apply bg-green-500 bg-opacity-20;
+  background-color: rgb(79 214 160 / 0.14);
 }
 
 .code-line.deleted {
-  @apply bg-red-500 bg-opacity-20;
+  background-color: rgb(229 138 111 / 0.14);
 }
 
 .highlight-line {
-  @apply -mx-4 border-l-4 border-primary-500 bg-gray-700 bg-opacity-50;
+  @apply -mx-4 border-l-2 border-primary-500;
+  background-color: rgb(255 255 255 / 0.045);
 }
 
 .line-number::before {
-  @apply -ml-2 mr-4 inline-block w-4 text-right text-gray-400;
+  @apply -ml-2 mr-4 inline-block w-4 text-right;
+  color: rgb(92 107 115);
   content: attr(line);
 }
 
 /* Token styles */
-/**
- * MIT License
- * Copyright (c) 2018 Sarah Drasner
- * Sarah Drasner's[@sdras] Night Owl
- * Ported by Sara vieria [@SaraVieira]
- * Added by Souvik Mandal [@SimpleIndian]
- */
 .token.comment,
 .token.prolog,
 .token.cdata {
-  color: rgb(99, 119, 119);
+  color: rgb(104 120 128);
   font-style: italic;
 }
 
-.token.punctuation {
-  color: rgb(199, 146, 234);
+.token.punctuation,
+.token.operator {
+  color: rgb(126 140 149);
 }
 
 .namespace {
-  color: rgb(178, 204, 214);
+  color: rgb(154 170 180);
 }
 
 .token.deleted {
-  color: rgba(239, 83, 80, 0.56);
+  color: rgb(229 138 111);
   font-style: italic;
 }
 
-.token.symbol,
-.token.property {
-  color: rgb(128, 203, 196);
-}
-
+/* Keywords carry the site accent — the one loud colour in the block. */
+.token.keyword,
 .token.tag,
-.token.operator,
-.token.keyword {
-  color: rgb(127, 219, 202);
+.token.selector,
+.token.atrule,
+.token.important {
+  color: rgb(79 214 160);
 }
 
-.token.boolean {
-  color: rgb(255, 88, 116);
-}
-
-.token.number {
-  color: rgb(247, 140, 108);
-}
-
+.token.boolean,
+.token.number,
 .token.constant,
+.token.symbol {
+  color: rgb(229 138 111);
+}
+
 .token.function,
 .token.builtin,
-.token.char {
-  color: rgb(130, 170, 255);
-}
-
-.token.selector,
-.token.doctype {
-  color: rgb(199, 146, 234);
-  font-style: italic;
-}
-
-.token.attr-name,
-.token.inserted {
-  color: rgb(173, 219, 103);
-  font-style: italic;
+.token.class-name {
+  color: rgb(138 180 248);
 }
 
 .token.string,
+.token.char,
 .token.url,
 .token.entity,
+.token.attr-value,
 .language-css .token.string,
 .style .token.string {
-  color: rgb(173, 219, 103);
+  color: rgb(215 192 138);
 }
 
-.token.class-name,
-.token.atrule,
-.token.attr-value {
-  color: rgb(255, 203, 139);
+.token.property,
+.token.attr-name,
+.token.inserted {
+  color: rgb(164 205 190);
+}
+
+.token.doctype {
+  color: rgb(126 140 149);
+  font-style: italic;
 }
 
 .token.regex,
-.token.important,
 .token.variable {
-  color: rgb(214, 222, 235);
+  color: rgb(200 209 217);
 }
 
 .token.important,
 .token.bold {
-  font-weight: bold;
+  font-weight: 600;
 }
 
 .token.italic {
   font-style: italic;
-}
-
-.token.table {
-  display: inline;
 }
 
 .token.table {

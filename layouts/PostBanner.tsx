@@ -27,7 +27,7 @@ export default function PostMinimal({ content, next, prev, children }: LayoutPro
       <ScrollTopAndComment />
       <article>
         <div>
-          <div className="space-y-1 pb-10 text-center dark:border-gray-700">
+          <div className="space-y-1 border-b border-rule pb-8">
             <div className="w-full">
               <Bleed>
                 <div className="relative aspect-[2/1] w-full">
@@ -39,37 +39,41 @@ export default function PostMinimal({ content, next, prev, children }: LayoutPro
               <PageTitle>{title}</PageTitle>
             </div>
           </div>
-          <div className="prose max-w-none py-4 dark:prose-invert">{children}</div>
+          <div className="prose py-10 dark:prose-invert">{children}</div>
           {siteMetadata.comments && (
-            <div className="pb-6 pt-6 text-center text-gray-700 dark:text-gray-300" id="comment">
+            <div className="border-t border-rule pt-8" id="comment">
               <Comments slug={slug} />
             </div>
           )}
           <footer>
-            <div className="flex flex-col text-sm font-medium sm:flex-row sm:justify-between sm:text-base">
-              {prev && prev.path && (
-                <div className="pt-4 xl:pt-8">
+            <nav className="grid gap-4 border-t border-rule py-6 sm:grid-cols-2">
+              {prev && prev.path ? (
+                <div>
+                  <div className="rule-label mb-2">prev</div>
                   <Link
                     href={`/${prev.path}`}
-                    className="text-primary-500 hover:text-primary-600 dark:hover:text-primary-400"
+                    className="font-mono text-sm text-ink transition-colors hover:text-primary-500"
                     aria-label={`Previous post: ${prev.title}`}
                   >
                     &larr; {prev.title}
                   </Link>
                 </div>
+              ) : (
+                <div />
               )}
               {next && next.path && (
-                <div className="pt-4 xl:pt-8">
+                <div className="sm:text-right">
+                  <div className="rule-label mb-2 sm:flex-row-reverse">next</div>
                   <Link
                     href={`/${next.path}`}
-                    className="text-primary-500 hover:text-primary-600 dark:hover:text-primary-400"
+                    className="font-mono text-sm text-ink transition-colors hover:text-primary-500"
                     aria-label={`Next post: ${next.title}`}
                   >
                     {next.title} &rarr;
                   </Link>
                 </div>
               )}
-            </div>
+            </nav>
           </footer>
         </div>
       </article>

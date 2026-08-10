@@ -1,3 +1,6 @@
+'use client'
+
+import { usePathname } from 'next/navigation'
 import siteMetadata from '@/data/siteMetadata'
 import headerNavLinks from '@/data/headerNavLinks'
 import Logo from '@/data/logo.svg'
@@ -6,44 +9,78 @@ import MobileNav from './MobileNav'
 import ThemeSwitch from './ThemeSwitch'
 import SearchButton from './SearchButton'
 
+const host = siteMetadata.siteUrl.replace(/^https?:\/\//, '').replace(/\/$/, '')
+
+// The author's initials, ASCII-folded: `dt@terbed.dev` matches how the site
+// already refers to itself, and a login name with an accent in it reads wrong.
+const user = siteMetadata.author
+  .normalize('NFD')
+  .replace(/[\u0300-\u036f]/g, '')
+  .split(/\s+/)
+  .map((part) => part[0])
+  .join('')
+  .toLowerCase()
+
 const Header = () => {
-  let headerClass = 'flex items-center w-full bg-white dark:bg-gray-950 justify-between py-10'
+  const pathname = usePathname()
+
+  // The shell prompt doubles as a breadcrumb: it always shows where you are.
+  const cwd = pathname === '/' ? '~' : `~${pathname.replace(/\/$/, '')}`
+
+  let headerClass = 'w-full bg-paper'
   if (siteMetadata.stickyNav) {
     headerClass += ' sticky top-0 z-50'
   }
 
   return (
     <header className={headerClass}>
-      <Link href="/" aria-label={siteMetadata.headerTitle}>
-        <div className="flex animate-subtlePulse items-center justify-between">
-          <div className="mr-3">
-            <Logo />
+      <div className="flex items-center justify-between gap-4 py-6">
+        <Link
+          href="/"
+          aria-label={siteMetadata.headerTitle}
+          className="flex min-w-0 items-center gap-2.5 font-mono text-sm"
+        >
+          <Logo className="h-5 w-auto shrink-0" />
+          <span className="min-w-0 truncate">
+            <span className="text-primary-500">{`${user}@${host}`}</span>
+            <span className="text-ink-faint">:</span>
+            <span className="text-ink-muted">{cwd}</span>
+            <span className="text-ink-faint">$</span>
+          </span>
+          <span className="caret shrink-0" aria-hidden="true" />
+        </Link>
+
+        <div className="flex shrink-0 items-center gap-4 sm:gap-5">
+          <nav className="no-scrollbar hidden items-center gap-5 overflow-x-auto sm:flex">
+            {headerNavLinks
+              .filter((link) => link.href !== '/')
+              .map((link) => {
+                const active = pathname === link.href || pathname.startsWith(`${link.href}/`)
+                return (
+                  <Link
+                    key={link.title}
+                    href={link.href}
+                    aria-current={active ? 'page' : undefined}
+                    className={`font-mono text-sm lowercase transition-colors ${
+                      active
+                        ? 'text-primary-500'
+                        : 'text-ink-muted hover:text-ink dark:hover:text-ink'
+                    }`}
+                  >
+                    <span className={active ? 'text-primary-500' : 'text-ink-faint'}>/</span>
+                    {link.title}
+                  </Link>
+                )
+              })}
+          </nav>
+          <div className="flex items-center text-ink-muted">
+            <SearchButton />
+            <ThemeSwitch />
+            <MobileNav />
           </div>
-          {
-            <div className="hidden h-6 text-2xl font-semibold dark:[text-shadow:1.3px_0_0_red,-1.3px_0_0_cyan] sm:block">
-              {siteMetadata.headerTitle}
-            </div>
-          }
         </div>
-      </Link>
-      <div className="flex items-center space-x-4 leading-5 sm:space-x-6">
-        <div className="no-scrollbar hidden max-w-40 items-center space-x-4 overflow-x-auto sm:flex sm:space-x-6 md:max-w-72 lg:max-w-96">
-          {headerNavLinks
-            .filter((link) => link.href !== '/')
-            .map((link) => (
-              <Link
-                key={link.title}
-                href={link.href}
-                className="block font-medium text-gray-900 hover:text-primary-500 dark:text-gray-100 dark:hover:text-primary-400"
-              >
-                {link.title}
-              </Link>
-            ))}
-        </div>
-        <SearchButton />
-        <ThemeSwitch />
-        <MobileNav />
       </div>
+      <div className="h-px w-full bg-rule" />
     </header>
   )
 }
