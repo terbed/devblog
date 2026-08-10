@@ -18,7 +18,7 @@
     "@mdx-js/loader": "^3.0.1",
     "@mdx-js/react": "^3.0.1",
     "@mermaid-js/mermaid-cli": "^11.9.0",
-    "@netlify/plugin-nextjs": "latest",
+    "@netlify/plugin-nextjs": "5.12.0",
     "@next/bundle-analyzer": "^14.2.8",
     "@next/mdx": "^14.2.13",
     "@tailwindcss/forms": "^0.5.7",
