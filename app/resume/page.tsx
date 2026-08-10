@@ -5,6 +5,91 @@ import { jsPDF } from 'jspdf'
 import html2canvas from 'html2canvas'
 import Image from 'next/image'
 
+// Circumference of the progress ring (2πr for r=40), used to map a percentage
+// onto the stroke dash offset so the arc and the label can never drift apart.
+const RING_CIRCUMFERENCE = 2 * Math.PI * 40
+
+type Skill = { name: string; level: number }
+
+const SkillRing = ({ name, level }: Skill) => (
+  <div className="flex w-28 transform flex-col items-center transition-transform duration-300 ease-in-out hover:scale-110">
+    {/* viewBox lets the ring scale with the box instead of clipping */}
+    <svg viewBox="0 0 96 96" className="h-24 w-24 -rotate-90">
+      <circle cx="50%" cy="50%" r="40" stroke="gray" strokeWidth="5" fill="none"></circle>
+      <circle
+        cx="50%"
+        cy="50%"
+        r="40"
+        stroke="currentColor"
+        strokeWidth="5"
+        strokeDasharray={RING_CIRCUMFERENCE}
+        strokeDashoffset={RING_CIRCUMFERENCE * (1 - level / 100)}
+        strokeLinecap="round"
+        fill="none"
+        className="text-primary-500"
+      ></circle>
+    </svg>
+    <p className="mt-4 text-center text-base font-semibold text-gray-700 dark:text-gray-300 sm:text-lg">
+      {name}
+    </p>
+    <p className="font-bold text-primary-500">{level}%</p>
+  </div>
+)
+
+const SkillGroup = ({
+  title,
+  skills,
+  className = '',
+}: {
+  title: string
+  skills: Skill[]
+  className?: string
+}) => (
+  <div
+    className={`rounded-lg border border-gray-200 bg-gray-50/60 p-4 dark:border-gray-700 dark:bg-gray-800/40 sm:p-6 ${className}`}
+  >
+    <h4 className="text-center text-sm font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400">
+      {title}
+    </h4>
+    <div className="mt-6 flex flex-wrap justify-center gap-4 sm:gap-6">
+      {skills.map((skill) => (
+        <SkillRing key={skill.name} name={skill.name} level={skill.level} />
+      ))}
+    </div>
+  </div>
+)
+
+// Grouped so the section reads top-down: what I can investigate, what I can
+// model, and what I can build and run it on.
+const researchGroup = {
+  title: 'Research & Communication',
+  skills: [
+    { name: 'Research', level: 90 },
+    { name: 'Publication', level: 85 },
+  ],
+}
+
+const modelingGroup = {
+  title: 'Data & Modeling',
+  skills: [
+    { name: 'Python', level: 90 },
+    { name: 'ML / DL', level: 90 },
+    { name: 'Quantitative Finance', level: 85 },
+    { name: 'Bayesian Inference', level: 85 },
+  ],
+}
+
+const systemsGroup = {
+  title: 'Systems & Infrastructure',
+  skills: [
+    { name: 'Rust', level: 80 },
+    { name: 'Go', level: 65 },
+    { name: 'DevOps', level: 65 },
+    { name: 'MLOps', level: 75 },
+    { name: 'Big Data', level: 90 },
+  ],
+}
+
 const ResumePage = () => {
   // Create a reference for the resume content
   const resumeRef = useRef(null)
@@ -920,218 +1005,24 @@ const ResumePage = () => {
         <div className="mt-12">
           <h3 className="ml-8 text-3xl font-bold text-primary-500 dark:text-primary-400">Skills</h3>
 
-          <div className="mt-8 grid grid-cols-2 gap-6 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
-            {/* Skill 1 */}
-            <div className="flex transform flex-col items-center transition-transform duration-300 ease-in-out hover:scale-110">
-              <svg className="h-24 w-24">
-                <circle cx="50%" cy="50%" r="40" stroke="gray" strokeWidth="5" fill="none"></circle>
-                <circle
-                  cx="50%"
-                  cy="50%"
-                  r="40"
-                  stroke="currentColor"
-                  strokeWidth="5"
-                  strokeDasharray="251"
-                  strokeDashoffset="20"
-                  fill="none"
-                  className="text-primary-500"
-                ></circle>
-              </svg>
-              <p className="mt-4 text-lg font-semibold text-gray-700 dark:text-gray-300">Python</p>
-              <p className="font-bold text-primary-500">90%</p>
+          <div className="mt-8 space-y-6">
+            {/* Modeling holds twice the rings, so it takes twice the width at lg
+                and its row stays unbroken next to the narrower research card. */}
+            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+              <SkillGroup title={researchGroup.title} skills={researchGroup.skills} />
+              <SkillGroup
+                title={modelingGroup.title}
+                skills={modelingGroup.skills}
+                className="lg:col-span-2"
+              />
             </div>
-
-            {/* Skill 2 */}
-            <div className="flex transform flex-col items-center transition-transform duration-300 ease-in-out hover:scale-110">
-              <svg className="h-24 w-24">
-                <circle cx="50%" cy="50%" r="40" stroke="gray" strokeWidth="5" fill="none"></circle>
-                <circle
-                  cx="50%"
-                  cy="50%"
-                  r="40"
-                  stroke="currentColor"
-                  strokeWidth="5"
-                  strokeDasharray="251"
-                  strokeDashoffset="130"
-                  fill="none"
-                  className="text-primary-500"
-                ></circle>
-              </svg>
-              <p className="mt-4 text-lg font-semibold text-gray-700 dark:text-gray-300">C++</p>
-              <p className="font-bold text-primary-500">54%</p>
+            <div className="flex justify-center">
+              <SkillGroup
+                title={systemsGroup.title}
+                skills={systemsGroup.skills}
+                className="w-full"
+              />
             </div>
-
-            {/* Skill 3 */}
-            <div className="flex transform flex-col items-center transition-transform duration-300 ease-in-out hover:scale-110">
-              <svg className="h-24 w-24">
-                <circle cx="50%" cy="50%" r="40" stroke="gray" strokeWidth="5" fill="none"></circle>
-                <circle
-                  cx="50%"
-                  cy="50%"
-                  r="40"
-                  stroke="currentColor"
-                  strokeWidth="5"
-                  strokeDasharray="251"
-                  strokeDashoffset="20"
-                  fill="none"
-                  className="text-primary-500"
-                ></circle>
-              </svg>
-              <p className="mt-4 text-lg font-semibold text-gray-700 dark:text-gray-300">
-                Deep Learning
-              </p>
-              <p className="font-bold text-primary-500">90%</p>
-            </div>
-
-            {/* Skill 7 */}
-            <div className="flex transform flex-col items-center transition-transform duration-300 ease-in-out hover:scale-110">
-              <svg className="h-24 w-24">
-                <circle cx="50%" cy="50%" r="40" stroke="gray" strokeWidth="5" fill="none"></circle>
-                <circle
-                  cx="50%"
-                  cy="50%"
-                  r="40"
-                  stroke="currentColor"
-                  strokeWidth="5"
-                  strokeDasharray="251"
-                  strokeDashoffset="20"
-                  fill="none"
-                  className="text-primary-500"
-                ></circle>
-              </svg>
-              <p className="mt-4 text-lg font-semibold text-gray-700 dark:text-gray-300">PyTorch</p>
-              <p className="font-bold text-primary-500">90%</p>
-            </div>
-
-            {/* Skill 4 */}
-            <div className="flex transform flex-col items-center transition-transform duration-300 ease-in-out hover:scale-110">
-              <svg className="h-24 w-24">
-                <circle cx="50%" cy="50%" r="40" stroke="gray" strokeWidth="5" fill="none"></circle>
-                <circle
-                  cx="50%"
-                  cy="50%"
-                  r="40"
-                  stroke="currentColor"
-                  strokeWidth="5"
-                  strokeDasharray="251"
-                  strokeDashoffset="230"
-                  fill="none"
-                  className="text-primary-500"
-                ></circle>
-              </svg>
-              <p className="mt-4 text-lg font-semibold text-gray-700 dark:text-gray-300">
-                Frontend
-              </p>
-              <p className="font-bold text-primary-500">6%</p>
-            </div>
-
-            {/* Skill 5 */}
-            <div className="flex transform flex-col items-center transition-transform duration-300 ease-in-out hover:scale-110">
-              <svg className="h-24 w-24">
-                <circle cx="50%" cy="50%" r="40" stroke="gray" strokeWidth="5" fill="none"></circle>
-                <circle
-                  cx="50%"
-                  cy="50%"
-                  r="40"
-                  stroke="currentColor"
-                  strokeWidth="5"
-                  strokeDasharray="251"
-                  strokeDashoffset="50"
-                  fill="none"
-                  className="text-primary-500"
-                ></circle>
-              </svg>
-              <p className="mt-4 text-lg font-semibold text-gray-700 dark:text-gray-300">MLOps</p>
-              <p className="font-bold text-primary-500">75%</p>
-            </div>
-
-            {/* Skill 6 */}
-            <div className="flex transform flex-col items-center transition-transform duration-300 ease-in-out hover:scale-110">
-              <svg className="h-24 w-24">
-                <circle cx="50%" cy="50%" r="40" stroke="gray" strokeWidth="5" fill="none"></circle>
-                <circle
-                  cx="50%"
-                  cy="50%"
-                  r="40"
-                  stroke="currentColor"
-                  strokeWidth="5"
-                  strokeDasharray="251"
-                  strokeDashoffset="55"
-                  fill="none"
-                  className="text-primary-500"
-                ></circle>
-              </svg>
-              <p className="mt-4 text-lg font-semibold text-gray-700 dark:text-gray-300">
-                Financial ML
-              </p>
-              <p className="font-bold text-primary-500">76%</p>
-            </div>
-
-            {/* Skill 7 */}
-            <div className="flex transform flex-col items-center transition-transform duration-300 ease-in-out hover:scale-110">
-              <svg className="h-24 w-24">
-                <circle cx="50%" cy="50%" r="40" stroke="gray" strokeWidth="5" fill="none"></circle>
-                <circle
-                  cx="50%"
-                  cy="50%"
-                  r="40"
-                  stroke="currentColor"
-                  strokeWidth="5"
-                  strokeDasharray="251"
-                  strokeDashoffset="50"
-                  fill="none"
-                  className="text-primary-500"
-                ></circle>
-              </svg>
-              <p className="mt-4 text-lg font-semibold text-gray-700 dark:text-gray-300">
-                Research
-              </p>
-              <p className="font-bold text-primary-500">88%</p>
-            </div>
-
-            {/* Skill 8 */}
-            <div className="flex transform flex-col items-center transition-transform duration-300 ease-in-out hover:scale-110">
-              <svg className="h-24 w-24">
-                <circle cx="50%" cy="50%" r="40" stroke="gray" strokeWidth="5" fill="none"></circle>
-                <circle
-                  cx="50%"
-                  cy="50%"
-                  r="40"
-                  stroke="currentColor"
-                  strokeWidth="5"
-                  strokeDasharray="251"
-                  strokeDashoffset="40"
-                  fill="none"
-                  className="text-primary-500"
-                ></circle>
-              </svg>
-              <p className="mt-4 text-lg font-semibold text-gray-700 dark:text-gray-300">Writing</p>
-              <p className="font-bold text-primary-500">85%</p>
-            </div>
-
-            {/* Skill 8 */}
-            <div className="flex transform flex-col items-center transition-transform duration-300 ease-in-out hover:scale-110">
-              <svg className="h-24 w-24">
-                <circle cx="50%" cy="50%" r="40" stroke="gray" strokeWidth="5" fill="none"></circle>
-                <circle
-                  cx="50%"
-                  cy="50%"
-                  r="40"
-                  stroke="currentColor"
-                  strokeWidth="5"
-                  strokeDasharray="251"
-                  strokeDashoffset="110"
-                  fill="none"
-                  className="text-primary-500"
-                ></circle>
-              </svg>
-              <p className="mt-4 text-lg font-semibold text-gray-700 dark:text-gray-300">
-                Presentation
-              </p>
-              <p className="font-bold text-primary-500">60%</p>
-            </div>
-
-            {/* More skills */}
           </div>
         </div>
 
