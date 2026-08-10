@@ -522,6 +522,37 @@ const ResumePage = () => {
 
             {/* Publication Items */}
             <div className="mb-2 block text-gray-500 dark:text-gray-400 md:hidden">
+              <span>May 2026</span>
+            </div>
+            <div className="mb-8 flex items-start">
+              <div className="relative hidden w-1/4 pr-4 text-right md:block">
+                <span className="block text-gray-500 dark:text-gray-400">May 2026</span>
+                <div className="absolute right-[-10px] top-2 h-4 w-4 rounded-full bg-primary-500"></div>
+              </div>
+              <div className="w-full md:w-3/4 md:pl-12">
+                <div className="milestone-item">
+                  <h4 className="mb-2 text-lg font-bold text-gray-900 dark:text-gray-100">
+                    Automatic multifocusing in digital holographic microscopy
+                  </h4>
+                  <p className="text-gray-600 dark:text-gray-300">
+                    Terbe, D.; Orzó, L.; Zarándy, Á.
+                  </p>
+                  <p className="mb-1 text-primary-500 dark:text-primary-400">
+                    Optics Express 34.10 (2026): 17598. <strong>DOI:</strong>{' '}
+                    <a
+                      href="https://doi.org/10.1364/OE.586494"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-primary-500 hover:underline dark:text-primary-400"
+                    >
+                      https://doi.org/10.1364/OE.586494
+                    </a>
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div className="mb-2 block text-gray-500 dark:text-gray-400 md:hidden">
               <span>January 2024</span>
             </div>
             <div className="mb-8 flex items-start">
