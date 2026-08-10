@@ -177,50 +177,6 @@ const ResumePage = () => {
             {/* experience item */}
             {/* Date section for mobile view */}
             <div className="mb-2 block text-gray-500 dark:text-gray-400 md:hidden">
-              <span>October 2020 - January 2021</span>
-            </div>
-            <div className="mb-8 flex items-start">
-              <div className="relative hidden w-1/4 pr-4 text-right md:block">
-                <span className="block text-gray-500 dark:text-gray-400">October 2020</span>
-                <span className="block text-gray-500 dark:text-gray-400">January 2021</span>
-                <div className="absolute right-[-10px] top-1/2 h-4 w-4 rounded-full bg-primary-500"></div>
-              </div>
-
-              <div className="w-full md:w-3/4 md:pl-12">
-                <div className="milestone-item relative overflow-hidden">
-                  {/* Background Logo */}
-                  <Image
-                    src="/static/cv/szte.jpg" // Add the correct logo path for SZTE
-                    alt="University of Szeged (SZTE) Logo"
-                    height={100}
-                    width={100}
-                    className="absolute -right-24 -top-5 h-auto w-64 rounded-full object-contain opacity-5"
-                  />
-
-                  {/* Role and Organization */}
-                  <h4 className="mb-2 text-lg font-bold text-gray-900 dark:text-gray-100">
-                    Self-Employed AI Consultant – University of Szeged (SZTE)
-                  </h4>
-
-                  {/* Content Info */}
-                  <p className="text-primary-500 dark:text-primary-400">
-                    Department of Computer Algorithms and Artificial Intelligence, Szeged, Hungary
-                  </p>
-
-                  <p className="mt-2 text-gray-600 dark:text-gray-300">
-                    Involved in a project aimed at improving impaired speech using deep learning
-                    tools. The main focus was on leveraging{' '}
-                    <strong>Generative Adversarial Networks (GANs)</strong> and exploring{' '}
-                    <strong>transformer-based voice conversion models</strong> to enhance the speech
-                    quality of dysarthric patients.
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* experience item */}
-            {/* Date section for mobile view */}
-            <div className="mb-2 block text-gray-500 dark:text-gray-400 md:hidden">
               <span>August 2017 - Present</span>
             </div>
             <div className="mb-8 flex items-start">
@@ -268,6 +224,50 @@ const ResumePage = () => {
                       holodetect.com
                     </a>
                     .
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* experience item */}
+            {/* Date section for mobile view */}
+            <div className="mb-2 block text-gray-500 dark:text-gray-400 md:hidden">
+              <span>October 2020 - January 2021</span>
+            </div>
+            <div className="mb-8 flex items-start">
+              <div className="relative hidden w-1/4 pr-4 text-right md:block">
+                <span className="block text-gray-500 dark:text-gray-400">October 2020</span>
+                <span className="block text-gray-500 dark:text-gray-400">January 2021</span>
+                <div className="absolute right-[-10px] top-1/2 h-4 w-4 rounded-full bg-primary-500"></div>
+              </div>
+
+              <div className="w-full md:w-3/4 md:pl-12">
+                <div className="milestone-item relative overflow-hidden">
+                  {/* Background Logo */}
+                  <Image
+                    src="/static/cv/szte.jpg" // Add the correct logo path for SZTE
+                    alt="University of Szeged (SZTE) Logo"
+                    height={100}
+                    width={100}
+                    className="absolute -right-24 -top-5 h-auto w-64 rounded-full object-contain opacity-5"
+                  />
+
+                  {/* Role and Organization */}
+                  <h4 className="mb-2 text-lg font-bold text-gray-900 dark:text-gray-100">
+                    Self-Employed AI Consultant – University of Szeged (SZTE)
+                  </h4>
+
+                  {/* Content Info */}
+                  <p className="text-primary-500 dark:text-primary-400">
+                    Department of Computer Algorithms and Artificial Intelligence, Szeged, Hungary
+                  </p>
+
+                  <p className="mt-2 text-gray-600 dark:text-gray-300">
+                    Involved in a project aimed at improving impaired speech using deep learning
+                    tools. The main focus was on leveraging{' '}
+                    <strong>Generative Adversarial Networks (GANs)</strong> and exploring{' '}
+                    <strong>transformer-based voice conversion models</strong> to enhance the speech
+                    quality of dysarthric patients.
                   </p>
                 </div>
               </div>
