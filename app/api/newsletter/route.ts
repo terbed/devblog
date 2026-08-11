@@ -1,9 +1,14 @@
-import { NewsletterAPI } from 'pliny/newsletter'
-import siteMetadata from '@/data/siteMetadata'
+import { NextResponse } from 'next/server'
+import { subscribeToNewsletter } from '@/lib/newsletter'
 
-const handler = NewsletterAPI({
-  // @ts-ignore
-  provider: siteMetadata.newsletter.provider,
-})
+export async function POST(req: Request) {
+  let email: unknown
+  try {
+    ;({ email } = await req.json())
+  } catch {
+    return NextResponse.json({ error: true, message: 'Invalid request body.' }, { status: 400 })
+  }
 
-export { handler as GET, handler as POST }
+  const { statusCode, body } = await subscribeToNewsletter(email)
+  return NextResponse.json(body, { status: statusCode })
+}

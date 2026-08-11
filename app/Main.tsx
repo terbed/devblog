@@ -2,7 +2,7 @@ import Link from '@/components/Link'
 import PageHeader from '@/components/PageHeader'
 import PostList from '@/components/PostList'
 import siteMetadata from '@/data/siteMetadata'
-import NewsletterForm from 'pliny/ui/NewsletterForm'
+import NewsletterForm from '@/components/NewsletterForm'
 
 const MAX_DISPLAY = 5
 
@@ -34,10 +34,7 @@ export default function Home({ posts }) {
 
       {siteMetadata.newsletter?.provider && (
         <div className="border-t border-rule pt-8">
-          <NewsletterForm
-            apiUrl="/.netlify/functions/newsletter"
-            title="Subscribe to the newsletter:"
-          />
+          <NewsletterForm apiUrl="/api/newsletter" title="Subscribe to the newsletter:" />
         </div>
       )}
     </>

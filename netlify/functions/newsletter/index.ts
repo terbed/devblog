@@ -1,64 +1,23 @@
+import { subscribeToNewsletter } from '../../../lib/newsletter'
+
 export const handler = async (event) => {
   try {
-    // Parse the body to get the email
-    const { email } = JSON.parse(event.body)
+    const rawBody = event.isBase64Encoded
+      ? Buffer.from(event.body ?? '', 'base64').toString('utf8')
+      : (event.body ?? '')
 
-    // Check if email is provided
-    if (!email) {
+    let email: unknown
+    try {
+      ;({ email } = JSON.parse(rawBody))
+    } catch {
       return {
         statusCode: 400,
-        body: JSON.stringify({ error: true, message: 'Email is required' }),
+        body: JSON.stringify({ error: true, message: 'Invalid request body.' }),
       }
     }
 
-    // Prepare the data to be sent
-    const data = {
-      api_key: process.env.EMAILOCTOPUS_API_KEY,
-      email_address: email,
-    }
-
-    // Call the EmailOctopus API directly
-    const response = await fetch(
-      `https://emailoctopus.com/api/1.6/lists/${process.env.EMAILOCTOPUS_LIST_ID}/contacts`,
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      }
-    )
-
-    const responseData = await response.json()
-
-    // Log the response for debugging
-    console.log('EmailOctopus response:', responseData)
-
-    // Handle API response
-    if (responseData.error) {
-      // Check if the user is already subscribed
-      if (responseData.error.type === 'MEMBER_EXISTS_WITH_EMAIL_ADDRESS') {
-        return {
-          statusCode: 400,
-          body: JSON.stringify({ error: true, message: 'This email is already subscribed!' }),
-        }
-      }
-
-      // Handle other errors
-      return {
-        statusCode: 400,
-        body: JSON.stringify({
-          error: true,
-          message: responseData.error.message || 'Subscription failed',
-        }),
-      }
-    }
-
-    // Success
-    return {
-      statusCode: 200,
-      body: JSON.stringify({ error: false, message: 'Successfully subscribed!' }),
-    }
+    const { statusCode, body } = await subscribeToNewsletter(email)
+    return { statusCode, body: JSON.stringify(body) }
   } catch (error) {
     console.error('Error in Netlify Function:', error)
     return {
