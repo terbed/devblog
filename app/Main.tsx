@@ -34,7 +34,10 @@ export default function Home({ posts }) {
 
       {siteMetadata.newsletter?.provider && (
         <div className="border-t border-rule pt-8">
-          <NewsletterForm apiUrl="/api/newsletter" title="Subscribe to the newsletter:" />
+          <NewsletterForm
+            apiUrl="/.netlify/functions/newsletter"
+            title="Subscribe to the newsletter:"
+          />
         </div>
       )}
     </>

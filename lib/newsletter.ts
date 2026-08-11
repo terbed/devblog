@@ -1,17 +1,15 @@
 /**
- * EmailOctopus subscription logic, shared by the Next.js route handler
- * (`app/api/newsletter/route.ts`) and the Netlify function
- * (`netlify/functions/newsletter/index.ts`).
+ * EmailOctopus subscription logic, shared by the Netlify function
+ * (`netlify/functions/newsletter/index.ts`) and the Next.js route handler
+ * (`app/api/newsletter/route.ts`).
  *
- * Targets API v2 only. The legacy v1.6 API is deprecated and its error shape
- * differs incompatibly (`{error:{code,message}}` vs RFC 7807), so there is
- * deliberately no fallback: a missing v2 key fails loudly rather than quietly
- * subscribing nobody.
+ * Targets the v1.6 API. There is deliberately no fallback to another version:
+ * a missing key fails loudly rather than quietly subscribing nobody.
  *
- * Docs: https://emailoctopus.com/api-documentation/v2
+ * Docs: https://emailoctopus.com/api-documentation/lists/create-contact
  */
 
-const API_BASE = 'https://api.emailoctopus.com'
+const API_BASE = 'https://emailoctopus.com/api/1.6'
 
 /** Contact states EmailOctopus can return. PENDING = double opt-in not confirmed yet. */
 export type ContactStatus = 'SUBSCRIBED' | 'UNSUBSCRIBED' | 'PENDING'
@@ -41,14 +39,14 @@ export async function subscribeToNewsletter(email: unknown): Promise<SubscribeRe
     return fail(400, 'A valid email address is required.')
   }
 
-  const apiKey = process.env.EMAILOCTOPUS_API_KEY_V2
+  const apiKey = process.env.EMAILOCTOPUS_API_KEY
   const listId = process.env.EMAILOCTOPUS_LIST_ID
 
   // Without these the request would only be rejected by EmailOctopus, so bail
   // out loudly instead of reporting a misconfiguration as a user error.
   if (!apiKey || !listId) {
     console.error(
-      `Newsletter misconfigured: EMAILOCTOPUS_API_KEY_V2 ${apiKey ? 'set' : 'MISSING'}, ` +
+      `Newsletter misconfigured: EMAILOCTOPUS_API_KEY ${apiKey ? 'set' : 'MISSING'}, ` +
         `EMAILOCTOPUS_LIST_ID ${listId ? 'set' : 'MISSING'}`
     )
     return fail(500, 'The newsletter is not configured. Please try again later.')
@@ -58,11 +56,8 @@ export async function subscribeToNewsletter(email: unknown): Promise<SubscribeRe
   try {
     response = await fetch(`${API_BASE}/lists/${listId}/contacts`, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${apiKey}`,
-      },
-      body: JSON.stringify({ email_address: email.trim() }),
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ api_key: apiKey, email_address: email.trim() }),
     })
   } catch (err) {
     console.error('Newsletter: EmailOctopus request failed:', err)
@@ -79,21 +74,20 @@ export async function subscribeToNewsletter(email: unknown): Promise<SubscribeRe
     return fail(502, 'Unexpected response from the newsletter provider.')
   }
 
-  if (!response.ok) {
-    // v2 errors are RFC 7807: {type, title, detail, status}, where `type` is a
-    // docs URL whose fragment is the error code.
-    const code = data?.type?.split('#').pop() ?? String(response.status)
+  // Both checks matter: a non-2xx status is authoritative, and the API also
+  // returns errors that must not be mistaken for a created contact.
+  if (!response.ok || data?.error) {
+    // v1.6 errors are {error:{code,message}} — note `code`, not `type`.
+    const code = data?.error?.code ?? String(response.status)
     console.error(`Newsletter: EmailOctopus rejected the request (HTTP ${response.status})`, {
       code,
-      detail: data?.detail ?? raw.slice(0, 200),
+      detail: data?.error?.message ?? raw.slice(0, 200),
     })
 
     switch (code) {
-      case 'conflict':
-      case 'already-exists':
+      case 'MEMBER_EXISTS_WITH_EMAIL_ADDRESS':
         return fail(400, 'This email is already subscribed!')
-      case 'bad-request':
-      case 'unprocessable-content':
+      case 'INVALID_PARAMETERS':
         return fail(400, 'That email address was rejected. Please check it and try again.')
       // Everything else — bad key, wrong list, rate limits — is our problem,
       // not the subscriber's, so it must never surface as a user error.
@@ -106,8 +100,14 @@ export async function subscribeToNewsletter(email: unknown): Promise<SubscribeRe
   console.log(`Newsletter: contact created with status ${contactStatus}`)
 
   // This list has double opt-in enabled, so API-created contacts land as PENDING
-  // and only count as subscribers once they click the confirmation email.
+  // and only count as subscribers once they click the confirmation email — which
+  // is slow to arrive and frequently filtered, hence the explicit guidance.
   return contactStatus === 'PENDING'
-    ? ok('Almost there — check your inbox to confirm your subscription!', contactStatus)
+    ? ok(
+        'Almost there! Check your inbox for a confirmation email and click the link to ' +
+          'finish subscribing. It can take a few minutes to arrive — if you do not see it, ' +
+          'please check your spam or junk folder.',
+        contactStatus
+      )
     : ok('Successfully subscribed!', contactStatus)
 }
