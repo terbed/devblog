@@ -22,7 +22,7 @@ import React, { useLayoutEffect, useEffect, useState, useRef } from 'react'
 // Width of a rendered margin note. Shared with the off-screen measuring div so
 // the predicted height matches what actually gets painted.
 // Must fit inside the note rail once its padding is taken off (18rem column,
-// 2rem left + 1rem right padding = 240px of usable width).
+// 1rem on either side = 256px of usable width).
 const NOTE_WIDTH = 236
 
 interface Note {
@@ -83,12 +83,18 @@ const MarginNoteManager = () => {
         // Use the ref element as the reference element
         const referenceElement = ref
 
-        if (!isMobile) {
-          // Add <sup> only if it doesn't exist
-          if (isNumbered && !ref.querySelector('sup')) {
+        const existingMarker = ref.querySelector('.margin-note-ref')
+
+        if (isMobile) {
+          existingMarker?.remove()
+        } else {
+          // Add <sup> only if it doesn't exist. The plain number is enough to
+          // connect the text and rail without the visual noise of parentheses.
+          if (isNumbered && !existingMarker) {
             const supElement = document.createElement('sup')
-            supElement.classList.add('text-primary-500')
-            supElement.textContent = `(${counter})` // Number in parentheses
+            supElement.classList.add('margin-note-ref')
+            supElement.setAttribute('aria-label', `Margin note ${counter}`)
+            supElement.textContent = `${counter}`
             ref.appendChild(supElement)
           }
         }
@@ -102,16 +108,19 @@ const MarginNoteManager = () => {
           verticalDistance = lastNoteBottom + spacing
         }
 
-        // Calculate the actual height of the note content
+        // Measure with the note's real typography, padding, and borders so the
+        // collision spacing matches what is actually rendered in the rail.
         const tempDiv = document.createElement('div')
+        tempDiv.className = `margin-note ${isNumbered ? 'margin-note--numbered' : 'margin-note--plain'}`
         tempDiv.style.cssText = `
-          all: unset;
           visibility: hidden;
           position: absolute;
           width: ${NOTE_WIDTH}px;
-          font-family: ${getComputedStyle(document.body).fontFamily};
+          inset: auto;
         `
-        tempDiv.innerHTML = isNumbered ? `<sup>(${counter})</sup> ${noteContent}` : noteContent
+        tempDiv.innerHTML = `<div class="margin-note-chrome"><span class="margin-note-prompt">$</span><span>note</span>${
+          isNumbered ? `<span class="margin-note-index">${counter}</span>` : ''
+        }</div><div class="margin-note-content">${noteContent}</div>`
         document.body.appendChild(tempDiv)
         const noteHeight = tempDiv.getBoundingClientRect().height
         document.body.removeChild(tempDiv)
@@ -239,8 +248,8 @@ const MarginNoteManager = () => {
         if (referenceElement) {
           if (!referenceElement.nextElementSibling?.classList.contains('inline-note')) {
             const noteSpan = document.createElement('span')
-            noteSpan.classList.add('inline-note', 'text-sm', 'text-ink-muted')
-            noteSpan.innerHTML = ` (${content})` // Content in parentheses without numbering
+            noteSpan.classList.add('inline-note')
+            noteSpan.innerHTML = ` (${content})`
             referenceElement.parentNode?.insertBefore(noteSpan, referenceElement.nextSibling)
           }
         }
@@ -268,14 +277,18 @@ const MarginNoteManager = () => {
           <div
             key={noteId}
             id={`note-${noteId}`}
-            className="absolute mt-2 text-left font-serif text-sm leading-relaxed text-ink-muted"
+            className={`margin-note absolute ${
+              isNumbered ? 'margin-note--numbered' : 'margin-note--plain'
+            }`}
             style={noteStyle}
-            dangerouslySetInnerHTML={{
-              __html: `${
-                isNumbered ? `<sup class="text-primary-500">(${noteNumber})</sup> ` : ''
-              }${content}`,
-            }}
-          />
+          >
+            <div className="margin-note-chrome" aria-hidden="true">
+              <span className="margin-note-prompt">$</span>
+              <span>note</span>
+              {isNumbered && <span className="margin-note-index">{noteNumber}</span>}
+            </div>
+            <div className="margin-note-content" dangerouslySetInnerHTML={{ __html: content }} />
+          </div>
         )
       })}
     </div>

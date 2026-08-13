@@ -175,7 +175,7 @@ export default function PostLayout({ content, authorDetails, next, prev, childre
           {/* Note rail. Renders nothing below xl, where notes fall inline.
               Deliberately unruled — the text column's own lines are enough. */}
           {hasNotes && (
-            <aside className="xl:pl-8 xl:pr-4 xl:pt-10">
+            <aside className="xl:pl-4 xl:pr-4 xl:pt-10">
               <div id="notes-container" className="relative">
                 <MarginNoteManager />
               </div>
