@@ -1,45 +1,104 @@
 /**
  * Syntax highlighting.
  *
- * Code blocks keep the terminal ground in both light and dark mode, so this
- * palette only ever sits on `--code-bg`. It is anchored on the site accent
- * (keywords) and stays deliberately low-saturation everywhere else — six hues
- * total, so a long listing reads as text rather than confetti.
+ * Code blocks keep the terminal ground in both light and dark mode. The
+ * elevated panel, quiet accent glow and compact controls make them feel like
+ * part of a current editor without fighting the site's restrained palette.
  */
 
-/* Code title bar: flat, hairline, part of the same box as the block. */
+/* Filename bar. It joins the code surface below into one compact panel. */
 .remark-code-title {
-  @apply border border-b-0 border-code-rule bg-code-bg px-4 py-2 font-mono text-xs text-ink-faint;
+  @apply relative border border-b-0 border-code-rule bg-code-bg px-4 py-2.5 pr-24 font-mono text-xs font-medium text-ink-muted;
+  border-radius: 0.75rem 0.75rem 0 0;
+  background-image: linear-gradient(110deg, rgb(var(--primary-500) / 0.09), transparent 45%);
+  box-shadow: 0 16px 38px -26px rgb(0 0 0 / 0.8);
 }
 
-.remark-code-title + div > pre {
+.remark-code-title::before {
+  content: '';
+  @apply mr-2 inline-block h-1.5 w-1.5 rounded-full bg-primary-500 align-middle;
+  box-shadow: 0 0 0 3px rgb(var(--primary-500) / 0.1);
+}
+
+/* Code panel */
+.prose .code-block > pre {
+  @apply border border-code-rule bg-code-bg;
+  border-radius: 0.75rem;
+  margin-block: 2em;
+  padding: 1.35rem 1.5rem;
+  background-image: radial-gradient(
+      circle at 0 0,
+      rgb(var(--primary-500) / 0.08),
+      transparent 24rem
+    ),
+    linear-gradient(180deg, rgb(255 255 255 / 0.025), transparent 7rem);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.04),
+    0 18px 42px -30px rgb(0 0 0 / 0.9);
+  scrollbar-color: rgb(var(--code-rule)) transparent;
+  scrollbar-width: thin;
+}
+
+.prose .remark-code-title + .code-block > pre {
   @apply mt-0 border-t-0;
+  border-radius: 0 0 0.75rem 0.75rem;
 }
 
-/* Code block styles */
+.prose .code-block > pre::-webkit-scrollbar {
+  height: 0.65rem;
+}
+
+.prose .code-block > pre::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.prose .code-block > pre::-webkit-scrollbar-thumb {
+  border: 3px solid rgb(var(--code-bg));
+  border-radius: 999px;
+  background: rgb(var(--code-rule));
+}
+
+.code-copy-button {
+  @apply absolute right-3 top-3 z-10 inline-flex h-8 items-center gap-1.5 rounded-md border border-code-rule px-2.5 font-mono text-[11px] font-medium text-ink-faint shadow-lg backdrop-blur-sm transition;
+  background: rgb(var(--code-bg) / 0.86);
+}
+
+.code-copy-button:hover {
+  @apply border-primary-500/50 text-primary-400;
+  transform: translateY(-1px);
+}
+
+.code-copy-button[data-copied] {
+  @apply border-primary-500/50 text-primary-400;
+}
+
+.remark-code-title + .code-block > .code-copy-button {
+  top: -2.15rem;
+}
+
 .code-highlight {
   @apply float-left min-w-full;
 }
 
 .code-line {
-  @apply -mx-4 block border-l-2 border-transparent pl-4 pr-4;
+  @apply -mx-6 block border-l-2 border-transparent pl-6 pr-6;
 }
 
 .code-line.inserted {
-  background-color: rgb(79 214 160 / 0.14);
+  background: linear-gradient(90deg, rgb(79 214 160 / 0.15), rgb(79 214 160 / 0.04));
 }
 
 .code-line.deleted {
-  background-color: rgb(229 138 111 / 0.14);
+  background: linear-gradient(90deg, rgb(229 138 111 / 0.15), rgb(229 138 111 / 0.04));
 }
 
 .highlight-line {
-  @apply -mx-4 border-l-2 border-primary-500;
-  background-color: rgb(255 255 255 / 0.045);
+  @apply -mx-6 border-l-2 border-primary-500;
+  background: linear-gradient(90deg, rgb(var(--primary-500) / 0.12), transparent 85%);
 }
 
 .line-number::before {
-  @apply -ml-2 mr-4 inline-block w-4 text-right;
+  @apply -ml-2 mr-4 inline-block w-7 border-r border-code-rule pr-3 text-right;
   color: rgb(92 107 115);
   content: attr(line);
 }

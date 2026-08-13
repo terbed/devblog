@@ -38,7 +38,7 @@ export default function PostLayout({ content, authorDetails, next, prev, childre
       <FloatingToc toc={content.toc} />
       {/* Keep the header aligned with the ruled columns below it rather than
           letting it run to the full container width. */}
-      <article className={`xl:mx-auto ${hasNotes ? 'xl:max-w-[62rem]' : 'xl:max-w-[44rem]'}`}>
+      <article className={`xl:mx-auto ${hasNotes ? 'xl:max-w-[64rem]' : 'xl:max-w-[48rem]'}`}>
         <header className="border-b border-rule pb-8 pt-10">
           <PageTitle>{title}</PageTitle>
 
@@ -93,14 +93,14 @@ export default function PostLayout({ content, authorDetails, next, prev, childre
             without them are not paying for an empty quarter of the page. */}
         <div
           className={`pb-8 ${
-            hasNotes ? 'xl:grid xl:grid-cols-[minmax(0,44rem)_minmax(0,18rem)]' : ''
+            hasNotes ? 'xl:grid xl:grid-cols-[minmax(0,46rem)_minmax(0,18rem)]' : ''
           }`}
         >
           {/* Hairlines rule the reading measure like a ledger column. They only
               appear at xl, where there is room for them to read as margins. The
               padding is the gutter the hanging `##` markers live in. */}
-          <div className="min-w-0 xl:max-w-[44rem] xl:border-x xl:border-rule xl:px-12">
-            {/* No `max-w-none` here on purpose: the 72ch measure from the
+          <div className="min-w-0 xl:max-w-[48rem] xl:border-x xl:border-rule xl:px-12">
+            {/* No `max-w-none` here on purpose: the 76ch measure from the
                 typography config is the whole point of the reading column. */}
             <div className="prose pb-10 pt-10 dark:prose-invert">{children}</div>
 

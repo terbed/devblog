@@ -135,7 +135,7 @@ module.exports = {
           fontFamily: theme('fontFamily.serif').join(', '),
           fontSize: '1.0625rem',
           lineHeight: '1.78',
-          maxWidth: '72ch',
+          maxWidth: '76ch',
 
           // Every heading is chrome, so every heading is monospace.
           'h1, h2, h3, h4, h5, h6': {
@@ -181,9 +181,9 @@ module.exports = {
             fontFamily: theme('fontFamily.mono').join(', '),
             fontSize: '0.82em',
             lineHeight: '1.7',
-            borderRadius: '0',
+            borderRadius: '0.75rem',
             border: '1px solid rgb(var(--code-rule))',
-            padding: '1.1em 1.25em',
+            padding: '1.35rem 1.5rem',
           },
           'pre code': {
             backgroundColor: 'transparent',
