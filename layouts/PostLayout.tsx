@@ -96,13 +96,13 @@ export default function PostLayout({ content, authorDetails, next, prev, childre
             hasNotes ? 'xl:grid xl:grid-cols-[minmax(0,46rem)_minmax(0,18rem)]' : ''
           }`}
         >
-          {/* Hairlines rule the reading measure like a ledger column. They only
-              appear at xl, where there is room for them to read as margins. The
-              padding is the gutter the hanging `##` markers live in. */}
-          <div className="min-w-0 xl:max-w-[48rem] xl:border-x xl:border-rule xl:px-12">
-            {/* No `max-w-none` here on purpose: the 76ch measure from the
-                typography config is the whole point of the reading column. */}
-            <div className="prose pb-10 pt-10 dark:prose-invert">{children}</div>
+          {/* The column edge is the measure — no rules, no gutter. Text runs the
+              full width the hairlines used to bound, and the hanging `##`
+              markers now hang into the page margin instead of an inset gutter. */}
+          <div className="min-w-0 xl:max-w-[48rem]">
+            {/* `max-w-none` so the reading measure is set by this column rather
+                than the typography plugin's own 76ch cap. */}
+            <div className="prose max-w-none pb-10 pt-10 dark:prose-invert">{children}</div>
 
             {/* One footer block, one rule. Every utility link lives on a single
                 muted command line so the end of the post stays quiet. */}
@@ -172,10 +172,11 @@ export default function PostLayout({ content, authorDetails, next, prev, childre
             )}
           </div>
 
-          {/* Note rail. Renders nothing below xl, where notes fall inline.
-              Deliberately unruled — the text column's own lines are enough. */}
+          {/* Note rail. Renders nothing below xl, where notes fall inline. With
+              the column rule gone, plain whitespace is what separates the rail
+              from the text, so it needs to be wide enough to read as a margin. */}
           {hasNotes && (
-            <aside className="xl:pl-4 xl:pr-4 xl:pt-10">
+            <aside className="xl:pl-10 xl:pt-10">
               <div id="notes-container" className="relative">
                 <MarginNoteManager />
               </div>

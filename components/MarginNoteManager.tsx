@@ -22,7 +22,7 @@ import React, { useLayoutEffect, useEffect, useState, useRef } from 'react'
 // Width of a rendered margin note. Shared with the off-screen measuring div so
 // the predicted height matches what actually gets painted.
 // Must fit inside the note rail once its padding is taken off (18rem column,
-// 1rem on either side = 256px of usable width).
+// 2.5rem of left gutter = 248px of usable width).
 const NOTE_WIDTH = 236
 
 interface Note {

@@ -148,10 +148,10 @@
   content: '###';
 }
 
-/* Hang the markers in the gutter only from xl, where the reading column has the
-   padding to hold them — below that they stay inline. The marker is sized in em
-   of its own fixed step rather than the heading's, so `###` on an h3 can never
-   grow wider than the gutter and cross the column rule. */
+/* Hang the markers only from xl, where the page margin beside the reading
+   column has room to hold them — below that they stay inline. The marker is
+   sized in em of its own fixed step rather than the heading's, so `###` on an
+   h3 hangs no further out than `##` on an h2. */
 @media (min-width: 1280px) {
   .prose :where(h2, h3):not(:where([class~='not-prose'] *)) {
     position: relative;
