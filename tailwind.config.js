@@ -10,6 +10,16 @@
  * `text-primary-500` stays legible on both grounds without a `dark:` variant.
  */
 
+const STACK = [
+  'var(--font-mono)',
+  'AdwaitaMonoNerdIcons',
+  'ui-monospace',
+  'SFMono-Regular',
+  'Menlo',
+  'Consolas',
+  'monospace',
+]
+
 /** @type {import("tailwindcss/types").Config } */
 module.exports = {
   content: [
@@ -23,6 +33,25 @@ module.exports = {
   darkMode: 'class',
   theme: {
     extend: {
+      // One size ladder for the whole site, so nav, metadata, captions, cards
+      // and prose all sit on the same steps. Leading opens up as the text gets
+      // smaller and denser, and tightens as it gets larger — a 13px label and a
+      // 36px title should not share a multiplier. Adwaita Mono's x-height is
+      // 0.52em, tall enough that these read larger than the same numbers in a
+      // serif; nothing here needed inflating to stay legible, but the old
+      // 10-12px chrome did, and now bottoms out at 13px.
+      fontSize: {
+        xs: ['0.8125rem', { lineHeight: '1.5' }],
+        sm: ['0.875rem', { lineHeight: '1.55' }],
+        base: ['1rem', { lineHeight: '1.65' }],
+        lg: ['1.125rem', { lineHeight: '1.55' }],
+        xl: ['1.25rem', { lineHeight: '1.45' }],
+        '2xl': ['1.5rem', { lineHeight: '1.35' }],
+        '3xl': ['1.875rem', { lineHeight: '1.25' }],
+        '4xl': ['2.25rem', { lineHeight: '1.2' }],
+        '5xl': ['3rem', { lineHeight: '1.1' }],
+        '6xl': ['3.75rem', { lineHeight: '1.05' }],
+      },
       lineHeight: {
         11: '2.75rem',
         12: '3rem',
@@ -30,12 +59,18 @@ module.exports = {
         14: '3.5rem',
       },
       fontFamily: {
-        // Monospace is the default UI voice — the site reads as a terminal
-        // and the reading column opts into serif.
-        sans: ['var(--font-mono)', 'ui-monospace', 'SFMono-Regular', 'Menlo', 'monospace'],
-        mono: ['var(--font-mono)', 'ui-monospace', 'SFMono-Regular', 'Menlo', 'monospace'],
-        serif: ['var(--font-serif)', 'Iowan Old Style', 'Georgia', 'serif'],
+        // One typeface for the whole site. `sans`, `mono` and `serif` all
+        // resolve to it, so every existing `font-sans` / `font-mono` /
+        // `font-serif` call site keeps working and keeps speaking in the same
+        // voice. `AdwaitaMonoNerdIcons` sits behind the text faces: they
+        // carry no Private Use Area glyphs, so the browser falls through to it
+        // per character and only fetches it on a page that renders a nerd
+        // glyph. See css/tailwind.css for that @font-face.
+        sans: STACK,
+        mono: STACK,
+        serif: STACK,
       },
+
       colors: {
         paper: {
           DEFAULT: 'rgb(var(--paper) / <alpha-value>)',
@@ -132,15 +167,22 @@ module.exports = {
         const css = {
           ...palette,
 
-          fontFamily: theme('fontFamily.serif').join(', '),
-          fontSize: '1.0625rem',
-          lineHeight: '1.78',
-          maxWidth: '76ch',
+          // The reading size the rest of the ladder is built around. Adwaita
+          // Mono's 0.6em advance puts 16px at exactly 80 characters across the
+          // 768px column — the terminal measure, and comfortably inside the
+          // 66-80 range prose wants. Leading stays generous for a monospace —
+          // it runs its lines closer to full width than a proportional face
+          // does, so the eye needs help finding the next one — but 1.65 is
+          // where it stops reading airy and starts reading composed.
+          fontFamily: theme('fontFamily.mono').join(', '),
+          fontSize: '1rem',
+          lineHeight: '1.65',
+          maxWidth: '80ch',
 
           // Every heading is chrome, so every heading is monospace.
           'h1, h2, h3, h4, h5, h6': {
             fontFamily: theme('fontFamily.mono').join(', '),
-            fontWeight: '600',
+            fontWeight: '700',
             letterSpacing: '-0.02em',
           },
           h1: { fontSize: '1.75em', lineHeight: '1.2', marginBottom: '0.7em' },
@@ -166,7 +208,7 @@ module.exports = {
           code: {
             fontFamily: theme('fontFamily.mono').join(', '),
             fontWeight: '400',
-            fontSize: '0.86em',
+            fontSize: '1em',
             backgroundColor: 'rgb(var(--primary-500) / 0.09)',
             color: 'rgb(var(--primary-500))',
             padding: '0.15em 0.4em',
@@ -179,8 +221,8 @@ module.exports = {
           // Code blocks keep the terminal ground in both themes.
           pre: {
             fontFamily: theme('fontFamily.mono').join(', '),
-            fontSize: '0.82em',
-            lineHeight: '1.7',
+            fontSize: '0.875em',
+            lineHeight: '1.65',
             borderRadius: '0.75rem',
             border: '1px solid rgb(var(--code-rule))',
             padding: '1.35rem 1.5rem',
@@ -223,7 +265,7 @@ module.exports = {
             fontSize: '0.8em',
           },
 
-          strong: { fontWeight: '600' },
+          strong: { fontWeight: '700' },
         }
 
         return {

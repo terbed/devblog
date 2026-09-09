@@ -8,6 +8,20 @@
    Everything is expressed as space-separated RGB channels so Tailwind can
    apply its own alpha via `rgb(var(--token) / <alpha-value>)`.
    ========================================================================== */
+/* Nerd Font icon glyphs, as their own family. The text faces carry nothing in
+   these Private Use Area blocks, so the browser falls through to this one per
+   character — which means the file is fetched only by a page that actually
+   renders a nerd glyph, and costs nothing on every page that doesn't. */
+@font-face {
+  font-family: 'AdwaitaMonoNerdIcons';
+  src: url('../fonts/adwaita-mono-nerd-icons.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+23FB-23FE, U+2B58, U+E000-E00A, U+E0A0-E0A3, U+E0B0-E0D7, U+E200-E2A9,
+    U+E300-E3E3, U+E5FA-E6B7, U+E700-E8EF, U+EA60-EC1E, U+ED00-F2FF, U+F300-F375, U+F400-F533;
+}
+
 @layer base {
   :root {
     --paper: 255 255 255;
@@ -198,9 +212,9 @@
   width: 100%;
   padding: 0;
   color: rgb(var(--ink-muted));
-  font-family: var(--font-serif), 'Iowan Old Style', Georgia, serif;
-  font-size: 0.82rem;
-  line-height: 1.58;
+  font-family: var(--font-mono), ui-monospace, Menlo, monospace;
+  font-size: 0.8125rem;
+  line-height: 1.55;
   text-align: left;
 }
 
@@ -212,7 +226,7 @@
   padding: 0 0 0.45rem;
   color: rgb(var(--ink-faint));
   font-family: var(--font-mono), ui-monospace, SFMono-Regular, Menlo, monospace;
-  font-size: 0.62rem;
+  font-size: 0.75rem;
   font-weight: 500;
   letter-spacing: 0.035em;
   line-height: 1;
@@ -264,8 +278,46 @@
    enclosed in parentheses. */
 .inline-note {
   color: rgb(var(--ink-muted));
-  font-family: var(--font-serif), 'Iowan Old Style', Georgia, serif;
+  font-family: var(--font-mono), ui-monospace, Menlo, monospace;
   font-size: 0.92em;
+}
+
+/* ==========================================================================
+   Search palette (kbar, rendered by pliny)
+
+   Two corrections the palette needs against this theme. pliny exposes no props
+   on its modal, so both are made here; the selectors are pliny's own utility
+   classes from `pliny/search/KBarModal`, which is the only stable hook there
+   is. If the palette ever looks wrong after a pliny upgrade, check there first.
+   ========================================================================== */
+
+/* Stacking. KBarPositioner is `position: fixed` with no z-index at all, so
+   every positioned element on the page paints straight through it — the
+   post-list tags (z-10), the floating contents rail (z-40) and the sticky
+   header (z-50) all showed on top of the open palette. Lift it clear of the
+   whole z-scale, mobile nav included. */
+.backdrop-blur.backdrop-filter {
+  z-index: 90;
+}
+
+/* Active-row contrast in dark mode. kbar marks the highlighted result with
+   `bg-primary-600 text-gray-100`, which assumes primary-600 is a dark colour.
+   It is in light mode — but the dark palette deliberately inverts the accent
+   ramp so the accent stays legible as text on a dark ground, which makes
+   primary-600 a light mint and leaves kbar painting near-white on it. Put the
+   page ground back on top of the accent fill. */
+.dark .bg-primary-600.text-gray-100,
+.dark .bg-primary-600.text-gray-100 * {
+  color: rgb(var(--paper));
+}
+
+/* The date and the shortcut keycap keep their step down in the hierarchy. */
+.dark .bg-primary-600.text-gray-100 .text-xs {
+  color: rgb(var(--paper) / 0.72);
+}
+
+.dark .bg-primary-600.text-gray-100 kbd {
+  border-color: rgb(var(--paper) / 0.45);
 }
 
 .no-scrollbar::-webkit-scrollbar {
@@ -283,6 +335,23 @@ input:-webkit-autofill:focus {
   transition:
     background-color 600000s 0s,
     color 600000s 0s;
+}
+
+/* KaTeX ships everything at 1.21em. Inline, that is what made equations sit
+   proud of the line and lump the paragraph — so inline math comes down to
+   1.1em, close enough to the prose to stay in the rhythm. Display math keeps
+   the full size, where fractions and limits need the room, and gets enough
+   margin that the 1.75 leading above and below doesn't crowd it. */
+.prose .katex {
+  font-size: 1.1em;
+}
+
+.prose .katex-display {
+  margin: 1.9em 0;
+}
+
+.prose .katex-display > .katex {
+  font-size: 1.21em;
 }
 
 .katex-display {

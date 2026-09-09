@@ -59,7 +59,7 @@
 }
 
 .code-copy-button {
-  @apply absolute right-3 top-3 z-10 inline-flex h-8 items-center gap-1.5 rounded-md border border-code-rule px-2.5 font-mono text-[11px] font-medium text-ink-faint shadow-lg backdrop-blur-sm transition;
+  @apply absolute right-3 top-3 z-10 inline-flex h-8 items-center gap-1.5 rounded-md border border-code-rule px-2.5 font-mono text-xs font-medium text-ink-faint shadow-lg backdrop-blur-sm transition;
   background: rgb(var(--code-bg) / 0.86);
 }
 

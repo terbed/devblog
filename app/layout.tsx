@@ -2,8 +2,7 @@ import 'css/tailwind.css'
 import 'pliny/search/algolia.css'
 import 'remark-github-blockquote-alert/alert.css'
 
-import { JetBrains_Mono } from 'next/font/google'
-import { Source_Serif_4 } from 'next/font/google'
+import localFont from 'next/font/local'
 import { Analytics, AnalyticsConfig } from 'pliny/analytics'
 import { SearchProvider, SearchConfig } from 'pliny/search'
 import Header from '@/components/Header'
@@ -13,18 +12,28 @@ import siteMetadata from '@/data/siteMetadata'
 import { ThemeProviders } from './theme-providers'
 import { Metadata } from 'next'
 
-// The chrome voice: nav, headings, metadata, code.
-const mono = JetBrains_Mono({
-  subsets: ['latin'],
+/**
+ * The site's only typeface. Nav, headings, metadata, prose and code all speak
+ * in Adwaita Mono, so the page reads as one terminal rather than a terminal
+ * wrapped around a book.
+ *
+ * Four faces, because a terminal has one weight and one bold. The Nerd Font
+ * icon glyphs live in a separate family declared in `css/tailwind.css`, which
+ * the browser only fetches if a page actually renders one.
+ *
+ * See fonts/README.md for provenance, subsetting and licence.
+ */
+const mono = localFont({
+  src: [
+    { path: '../fonts/adwaita-mono-400.woff2', weight: '400', style: 'normal' },
+    { path: '../fonts/adwaita-mono-400-italic.woff2', weight: '400', style: 'italic' },
+    { path: '../fonts/adwaita-mono-700.woff2', weight: '700', style: 'normal' },
+    { path: '../fonts/adwaita-mono-700-italic.woff2', weight: '700', style: 'italic' },
+  ],
   display: 'swap',
   variable: '--font-mono',
-})
-
-// The reading voice: anything longer than a label.
-const serif = Source_Serif_4({
-  subsets: ['latin'],
-  display: 'swap',
-  variable: '--font-serif',
+  fallback: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'Consolas', 'monospace'],
+  adjustFontFallback: false,
 })
 
 export const metadata: Metadata = {
@@ -73,7 +82,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html
       lang={siteMetadata.language}
-      className={`${mono.variable} ${serif.variable} scroll-smooth`}
+      className={`${mono.variable} scroll-smooth`}
       suppressHydrationWarning
     >
       <link

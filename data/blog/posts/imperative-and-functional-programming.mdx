@@ -1,0 +1,178 @@
+---
+title: 'The Union of Imperative and Functional Programming'
+tags: ['coding', 'rust', 'computation']
+type: 'Blog'
+images: []
+draft: true
+date: '2026-08-16'
+summary: 'What are the main differences between imperative and functional programming? What are the pros and cons? When should be used which?'
+---
+
+Imperative and functional approaches has been competing since their inception in 1936: Turing's machine mutating a tape and Church's lambda calculus reducing an expression. These approaches are tantamount in terms of what they can compute — they differ only how they arrive at the solution. The Neuman computing architecture got widespread which is more aligned with the imperative style of thinking, thus it fostered the imperative style languages more.
+
+## The Same Sum, Twice
+
+{/* CLAIM: the whole paradigm split fits in these two snippets. */}
+
+```rust:imperative.rs
+let v = [10, 20, 30, 40];
+
+let mut total = 0;
+for i in 0..v.len() {
+    total += v[i];
+}
+// total: 100
+```
+
+```rust:functional.rs
+let v = [10, 20, 30, 40];
+
+let total = v.iter().fold(0, |acc, x| acc + x);
+
+// or, the same with reduce
+let total = v.into_iter().reduce(|acc, b| acc + b).unwrap_or(0);
+
+// or, idiomatically:
+let total: i32 = v.iter().sum();
+// total: 100
+
+// another imperative implementation, now with a closure
+let mut total = 0;
+v.iter().for_each(|x| total += x);                // FnMut — side effect
+```
+
+{/* Read the difference off the code, don't define it abstractly:
+    - Left: `total` is a mutable cell. The loop body is a statement executed
+      for effect. Time matters — `total` holds four different values.
+    - Right: `acc` is threaded through as a value and rebound each step.
+      Nothing is mutated; the expression evaluates to a result.
+    - Both are 1936 in miniature: Turing's machine mutating a tape, Church's
+      lambda calculus reducing an expression. Identical computational power —
+      this was never about what is computable, only how a human writes it.
+    - Name the property that does the work: referential transparency. The
+      right-hand version can be replaced by `100` anywhere. The left-hand
+      loop body cannot be replaced by anything. */}
+
+## What Each One Costs
+
+{/* CLAIM: derive both columns from the one difference above — don't list pros
+    and cons. Two short paragraphs.
+
+    IMPERATIVE buys a cost model you can read off the page: you see the loads,
+    the adds, the single accumulator. It pays with nonlocal state. In six lines
+    `total` is obviously safe; in a real program that cell may be reachable
+    from anywhere, so understanding the loop means knowing everything else that
+    can touch it. Aliasing bugs, data races and ordering bugs all descend from
+    that one fact.
+
+    FUNCTIONAL buys local reasoning: `|acc, x| acc + x` is understandable with
+    no context at all, trivially testable, and safe to run on many cores
+    because there is nothing to share. It pays with no cheap in-place update —
+    O(log n) instead of O(1) for persistent structures, allocation pressure,
+    and usually a GC.
+
+    One sentence of history is enough: imperative won on distribution rather
+    than merit — C was the language of UNIX — and the mainstream absorbed FP
+    features anyway (LINQ 2007, C++11 lambdas, Java 8 streams). */}
+
+## The Same Tradeoff, in Ledgers
+
+{/* CLAIM: scale the two snippets up to a global ledger and you get the two
+    families of blockchain. Not an analogy — the same decision.
+
+    - UTXO (Bitcoin, Cardano) is the fold: a transaction consumes outputs and
+      produces new ones, nothing is mutated. Validation is a pure function of
+      the transaction and its inputs, so disjoint transactions validate in
+      parallel and the fee is known before submission. Cardano's contracts are
+      literally written in Plutus, a Haskell dialect.
+    - Account-based (Ethereum, Solana) is `total += v[i]`: balances mutated in
+      place, so a transaction's effect depends on global state at execution
+      time. Hence ordering, MEV, and "reverted, gas consumed".
+    - Don't crown a winner — account-based won DeFi because stateful contracts
+      are more ergonomic there. That IS the thesis.
+    - THE HINGE (keep, it sets up the next section): Solana is account-based
+      but requires every transaction to declare its read/write set up front,
+      and that is how it parallelizes. So the load-bearing property was never
+      immutability. It was declaring your effects. */}
+
+## Rust Bans Aliasing, Not Mutation
+
+{/* CLAIM — the line worth quoting: what people wanted from immutability was
+    never about mutation, it was about ALIASING. "No shared mutable state"
+    really means "no aliased mutable state". FP gets there by banning the
+    mutation. Rust gets there by banning the aliasing: `&mut` is exclusive,
+    `&` is shared-but-frozen. Same guarantee, no GC, in-place updates intact.
+    That is Solana's rule one level down — and Solana is written in Rust.
+
+    THE PAYOFF ON THE RUNNING EXAMPLE: both versions compile to the same
+    instruction sequence — same instruction count, same operations, differing
+    only in register allocation. Verify it yourself:
+
+        rustc -O --crate-type=lib --emit=asm sum.rs
+
+    So in Rust the choice is about expressing intent, not about paying for it.
+    That is what "zero-cost abstraction" actually means, and it is why the
+    paradigm question stops being tribal here.
+
+    Then make "hybrid" concrete — what Rust took from ML:
+      expression orientation (`let x = if c { a } else { b }`), algebraic data
+      types (enum = sum, struct = product), exhaustive `match`, `Option`/
+      `Result` instead of null and exceptions, traits ≈ typeclasses, closures,
+      iterator chains, immutability by default, move semantics from linear
+      types.
+    What it deliberately refused: purity, laziness, GC, currying.
+    (Bonus: rustc was originally written in OCaml.) */}
+
+## Where This Pays Off: Agent-Based Models
+
+{/* CLAIM: in ABM, "who may change what, and when" is not plumbing — it IS the
+    model specification. One idea only, keep it tight.
+
+    The fold from the top of the post, scaled to a population:
+
+        let next: Vec<Agent> = agents.iter().map(|a| a.step(&agents)).collect();
+
+    That is synchronous updating — every agent computes its next state from the
+    current world, then all commit at once. The imperative version is
+    asynchronous updating: agents mutate one at a time, each seeing the effects
+    of those before it, so the ordering rule becomes a modelling assumption.
+
+    IT MATTERS SCIENTIFICALLY: Huberman & Glance (PNAS, 1993) showed the
+    spatial cooperation patterns in Nowak & May's spatial prisoner's dilemma
+    (Nature, 1992) were an artifact of synchronous updating.
+
+    In Python you write the wrong one by accident:
+
+        for a in agents:
+            a.state = f(a, agents)   # agents[i] already updated when i+1 reads
+
+    That is asynchronous updating with fixed ordering, written by someone who
+    meant synchronous. It runs, and it produces plausible plots.
+
+    In Rust it is a borrow error — you cannot hold `&mut agents[i]` while
+    reading `&agents`. The compiler makes you say which model you meant.
+
+    PUNCHLINE: the borrow checker is doing methodology review. And because the
+    synchronous form is the functional one, it drops into rayon's `par_iter()`
+    for free.
+
+    One honest closing sentence: Rust is slow to explore in, so the realistic
+    setup is a Rust simulation kernel with Python for analysis. */}
+
+## Wrapping Up
+
+{/* 3-4 sentences. Restate the thesis, now earned, and land the practical rule:
+    functional core, imperative shell (Gary Bernhardt, 2012) — pure logic in
+    the middle, effects at the edges. You don't pick a paradigm; you decide,
+    per layer, who is allowed to change what and when. */}
+
+## References
+
+## Attribution
+
+<CitationGenerator
+  author={'Dániel Terbe'}
+  title={'The Union of Imperative and Functional Programming'}
+  date={'2026-08-16'}
+  url={'/blog/posts/imperative-and-functional-programming'}
+/>

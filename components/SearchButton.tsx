@@ -16,7 +16,7 @@ const SearchButton = () => {
         <span className="flex items-center gap-1.5 text-ink-muted transition-colors hover:text-primary-500">
           <Search />
           {/* The shortcut is the real affordance; show it where there's room. */}
-          <kbd className="hidden border border-rule px-1.5 py-0.5 font-mono text-[10px] leading-none text-ink-faint md:inline-block">
+          <kbd className="hidden border border-rule px-1.5 py-0.5 font-mono text-xs leading-none text-ink-faint md:inline-block">
             ⌘K
           </kbd>
         </span>

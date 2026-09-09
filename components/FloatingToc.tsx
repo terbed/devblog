@@ -133,7 +133,7 @@ export default function FloatingToc({ toc }: { toc?: TocItem[] }) {
                 {/* Wrapped, never truncated: the whole heading has to be
                     readable for the list to work as a table of contents. */}
                 <span
-                  className={`hidden w-40 font-mono text-[11px] leading-snug transition-colors 2xl:block ${
+                  className={`hidden w-40 font-mono text-xs leading-snug transition-colors 2xl:block ${
                     isActive ? 'text-primary-500' : 'text-ink-faint group-hover:text-ink-muted'
                   }`}
                 >
