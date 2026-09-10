@@ -178,9 +178,9 @@
 /* Heading markers: h2 gets `##`, h3 gets `###`, hung in the left margin on
    wide screens so the text column stays flush. */
 .prose :where(h2, h3):not(:where([class~='not-prose'] *))::before {
-  @apply pointer-events-none select-none font-mono font-normal text-primary-500/45;
+  @apply pointer-events-none select-none font-serif font-normal text-primary-500/40;
   content: '##';
-  margin-right: 0.6ch;
+  margin-right: 0.45ch;
 }
 
 .prose :where(h3):not(:where([class~='not-prose'] *))::before {
@@ -213,7 +213,7 @@
 }
 
 .footnotes {
-  @apply mt-12 border-t border-rule pt-8 font-mono text-sm;
+  @apply mt-12 border-t border-rule pt-8 font-serif text-sm;
 }
 
 .data-footnote-backref {
@@ -221,7 +221,7 @@
 }
 
 .csl-entry {
-  @apply my-5 font-mono text-sm leading-relaxed;
+  @apply my-5 font-serif text-sm leading-relaxed;
 }
 
 /* A terminal-style note reduced to its useful structure: header, hairline,
@@ -237,9 +237,13 @@
   width: 100%;
   padding: 0;
   color: rgb(var(--ink-muted));
-  font-family: var(--font-mono), ui-monospace, Menlo, monospace;
-  font-size: 0.8125rem;
-  line-height: 1.55;
+  font-family: var(--font-serif), 'IBM Plex Serif', Charter, Georgia, serif;
+  /* A step under the 1rem/1.75 of the prose it annotates, and tighter with it.
+     A note is an aside — it should read as subordinate at a glance, before a
+     word of it is parsed — and its column is narrow enough that the body's
+     leading would leave the lines swimming. */
+  font-size: 0.875rem;
+  line-height: 1.5;
   text-align: left;
 }
 
@@ -248,10 +252,10 @@
   align-items: center;
   gap: 0.35rem;
   border-bottom: 1px solid rgb(var(--rule));
-  padding: 0 0 0.45rem;
+  padding: 0 0 0.4rem;
   color: rgb(var(--ink-faint));
   font-family: var(--font-mono), ui-monospace, SFMono-Regular, Menlo, monospace;
-  font-size: 0.75rem;
+  font-size: 0.6875rem;
   font-weight: 500;
   letter-spacing: 0.035em;
   line-height: 1;
@@ -270,7 +274,14 @@
 
 .margin-note-content {
   min-width: 0;
-  padding: 0.55rem 0 0;
+  padding: 0.45rem 0 0;
+}
+
+/* Notes sit outside `.prose`, so their paragraphs get preflight's zero margin
+   and would otherwise run together. 0.7em is the note's own tightened answer to
+   the 1.25em the body uses. */
+.margin-note-content p {
+  margin: 0.7em 0;
 }
 
 .margin-note-content > :first-child {
@@ -294,17 +305,49 @@
 }
 
 .margin-note-content code {
-  @apply rounded-sm font-mono text-[0.82em] text-primary-500;
+  @apply rounded-sm font-mono text-[0.85em] text-primary-500;
   padding: 0.08em 0.25em;
   background: rgb(var(--primary-500) / 0.09);
 }
 
-/* Below the desktop note rail, sidenotes return to conventional inline prose
-   enclosed in parentheses. */
+/* Below the desktop note rail, sidenotes return to inline prose, bracketed
+   rather than parenthesised — the same `[...]` idiom the nav links use, and a
+   clearer signal that the run is an aside than a parenthesis is, since prose
+   uses parentheses for its own purposes. The brackets are drawn as pseudo-
+   elements so they can take the accent colour without tinting the body text
+   between them, and they carry the note's index: the <sup> marker that numbers
+   the note beside the rail is stripped in this view, so the bracket is the only
+   place left for it. Brackets and index share the accent and the monospace of
+   `.margin-note-ref`, which is what they stand in for. */
 .inline-note {
+  margin-left: 0.3em;
   color: rgb(var(--ink-muted));
-  font-family: var(--font-mono), ui-monospace, Menlo, monospace;
-  font-size: 0.92em;
+  font-family: var(--font-serif), 'IBM Plex Serif', Charter, Georgia, serif;
+  /* Matches the rail's 0.875rem against a 1rem body. Leading cannot actually
+     tighten here — an inline run shares its paragraph's line boxes, and the
+     block's strut wins — so the size step is what has to carry it. */
+  font-size: 0.875em;
+  line-height: 1.5;
+}
+
+.inline-note::before {
+  content: '[';
+}
+
+.inline-note::after {
+  content: ']';
+}
+
+.inline-note::before,
+.inline-note::after,
+.inline-note-index {
+  @apply font-mono text-primary-500;
+  font-size: 0.95em;
+  font-weight: 500;
+}
+
+.inline-note-index {
+  margin-right: 0.45em;
 }
 
 /* ==========================================================================
@@ -364,11 +407,10 @@ input:-webkit-autofill:focus {
 
 /* KaTeX ships everything at 1.21em. Inline, that is what made equations sit
    proud of the line and lump the paragraph — so inline math comes down to
-   1.1em, close enough to the prose to stay in the rhythm. Display math keeps
-   the full size, where fractions and limits need the room, and gets enough
-   margin that the 1.75 leading above and below doesn't crowd it. */
+   1.05em, which is where Computer Modern's x-height meets PT Serif's. Display
+   math keeps the full size, where fractions and limits need the room. */
 .prose .katex {
-  font-size: 1.1em;
+  font-size: 1.05em;
 }
 
 .prose .katex-display {
@@ -411,12 +453,12 @@ input:-webkit-autofill:focus {
 }
 
 .resume-section {
-  @apply font-mono text-xl font-semibold tracking-tight text-ink;
+  @apply font-serif text-xl font-semibold text-ink;
 }
 
 .resume-section::before {
   content: '##';
-  @apply select-none pr-2 font-normal text-primary-500/45;
+  @apply select-none pr-2 font-normal text-primary-500/40;
 }
 
 /* Invert the image in light mode, keep it normal in dark mode */

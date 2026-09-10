@@ -13,15 +13,29 @@ import { ThemeProviders } from './theme-providers'
 import { Metadata } from 'next'
 
 /**
- * The site's only typeface. Nav, headings, metadata, prose and code all speak
- * in Adwaita Mono, so the page reads as one terminal rather than a terminal
- * wrapped around a book.
+ * Two faces, two jobs.
  *
- * Four faces, because a terminal has one weight and one bold. The Nerd Font
- * icon glyphs live in a separate family declared in `css/tailwind.css`, which
- * the browser only fetches if a page actually renders one.
+ * IBM Plex Serif is the reading face — body prose and every title with it, so
+ * a heading and the paragraph under it speak in one voice.
  *
- * See fonts/README.md for provenance, subsetting and licence.
+ * Adwaita Mono is what is left: navigation, post metadata, tags, footnotes,
+ * tables, code. Machine-readable things, not sentences.
+ *
+ * The split exists because a monospace distributes its whitespace evenly —
+ * every `i` and `l` is padded out to the same advance as an `m` — which is
+ * fine for a column of code and exhausting for a column of prose: the gaps
+ * inside the words are what made long-form reading here feel spread out, and
+ * no amount of tightening leading or margins reaches them.
+ *
+ * The serif ships at 400 and 600, not 400 and 700. IBM Plex Serif's Bold is a
+ * heavy, high-contrast face that turns every heading into a slab; SemiBold
+ * carries the same hierarchy without the weight blooming. A request for 700
+ * falls to 600 under CSS font matching, so `font-bold` stays safe to write.
+ *
+ * The Nerd Font icon glyphs live in a separate family declared in
+ * `css/tailwind.css`, which the browser only fetches if a page renders one.
+ *
+ * See fonts/README.md for provenance, subsetting and licences.
  */
 const mono = localFont({
   src: [
@@ -33,6 +47,19 @@ const mono = localFont({
   display: 'swap',
   variable: '--font-mono',
   fallback: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'Consolas', 'monospace'],
+  adjustFontFallback: false,
+})
+
+const serif = localFont({
+  src: [
+    { path: '../fonts/plex-serif-400.woff2', weight: '400', style: 'normal' },
+    { path: '../fonts/plex-serif-400-italic.woff2', weight: '400', style: 'italic' },
+    { path: '../fonts/plex-serif-600.woff2', weight: '600', style: 'normal' },
+    { path: '../fonts/plex-serif-600-italic.woff2', weight: '600', style: 'italic' },
+  ],
+  display: 'swap',
+  variable: '--font-serif',
+  fallback: ['IBM Plex Serif', 'Charter', 'Bitstream Charter', 'Cambria', 'Georgia', 'serif'],
   adjustFontFallback: false,
 })
 
@@ -82,7 +109,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html
       lang={siteMetadata.language}
-      className={`${mono.variable} scroll-smooth`}
+      className={`${mono.variable} ${serif.variable} scroll-smooth`}
       suppressHydrationWarning
     >
       <link

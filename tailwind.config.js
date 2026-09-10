@@ -3,14 +3,16 @@
 /**
  * "Terminal paper" theme.
  *
- * Two type layers do all the work: monospace for every piece of chrome
- * (nav, metadata, headings, code) and a serif for anything you actually read
- * at length. Colour is a single accent over a warm paper / true-black terminal
- * neutral ramp. The accent steps are CSS variables that flip in dark mode, so
- * `text-primary-500` stays legible on both grounds without a `dark:` variant.
+ * Two type layers do all the work: IBM Plex Serif for everything you read —
+ * body prose and titles alike — and Adwaita Mono for the machine-readable
+ * remainder: nav, metadata, tags, tables, code. Colour is a single accent
+ * over a warm paper /
+ * true-black terminal neutral ramp. The accent steps are CSS variables that
+ * flip in dark mode, so `text-primary-500` stays legible on both grounds
+ * without a `dark:` variant.
  */
 
-const STACK = [
+const MONO = [
   'var(--font-mono)',
   'AdwaitaMonoNerdIcons',
   'ui-monospace',
@@ -18,6 +20,16 @@ const STACK = [
   'Menlo',
   'Consolas',
   'monospace',
+]
+
+const SERIF = [
+  'var(--font-serif)',
+  'IBM Plex Serif',
+  'Charter',
+  'Bitstream Charter',
+  'Cambria',
+  'Georgia',
+  'serif',
 ]
 
 /** @type {import("tailwindcss/types").Config } */
@@ -59,16 +71,19 @@ module.exports = {
         14: '3.5rem',
       },
       fontFamily: {
-        // One typeface for the whole site. `sans`, `mono` and `serif` all
-        // resolve to it, so every existing `font-sans` / `font-mono` /
-        // `font-serif` call site keeps working and keeps speaking in the same
-        // voice. `AdwaitaMonoNerdIcons` sits behind the text faces: they
-        // carry no Private Use Area glyphs, so the browser falls through to it
-        // per character and only fetches it on a page that renders a nerd
-        // glyph. See css/tailwind.css for that @font-face.
-        sans: STACK,
-        mono: STACK,
-        serif: STACK,
+        // `sans` deliberately resolves to the monospace stack: Tailwind's
+        // preflight puts `fontFamily.sans` on <html>, so this is the document
+        // default, and the default voice of this site is the terminal. Prose
+        // and any other long-form copy opt into the reading face explicitly
+        // via `font-serif` (or the typography plugin, below).
+        //
+        // `AdwaitaMonoNerdIcons` sits behind the mono text faces: they carry no
+        // Private Use Area glyphs, so the browser falls through to it per
+        // character and only fetches it on a page that renders a nerd glyph.
+        // See css/tailwind.css for that @font-face.
+        sans: MONO,
+        mono: MONO,
+        serif: SERIF,
       },
 
       colors: {
@@ -167,28 +182,60 @@ module.exports = {
         const css = {
           ...palette,
 
-          // The reading size the rest of the ladder is built around. Adwaita
-          // Mono's 0.6em advance puts 16px at exactly 80 characters across the
-          // 768px column — the terminal measure, and comfortably inside the
-          // 66-80 range prose wants. Leading stays generous for a monospace —
-          // it runs its lines closer to full width than a proportional face
-          // does, so the eye needs help finding the next one — but 1.65 is
-          // where it stops reading airy and starts reading composed.
-          fontFamily: theme('fontFamily.mono').join(', '),
+          // Body metrics are lifted verbatim from the reference this theme was
+          // measured against (mitchellh.com, `md:prose-base`): 16px on 1.75,
+          // with 1.25em between paragraphs. The measure is the layout's call,
+          // not the plugin's — see maxWidth below.
+          fontFamily: theme('fontFamily.serif').join(', '),
           fontSize: '1rem',
-          lineHeight: '1.65',
-          maxWidth: '80ch',
+          lineHeight: '1.75',
+          // A backstop, not the measure. PostLayout sets its own 37rem column
+          // and everything in it fills that edge to edge; this is here so the
+          // layouts that drop `prose` straight into the 64rem section container
+          // — author, PostSimple, PostBanner — do not run to ~137 characters.
+          // 65ch is 624px in this face, near enough to the 592px column that
+          // the two agree rather than fight.
+          maxWidth: '65ch',
 
-          // Every heading is chrome, so every heading is monospace.
+          p: { marginTop: '1.25em', marginBottom: '1.25em' },
+
+          // Titles are the same face as the text under them, so a heading and
+          // its paragraph read as one voice rather than a label bolted onto a
+          // body. That puts the whole burden of hierarchy on weight and size,
+          // which is why the steps below are small and the weight is 600: the
+          // reference gets away with 15px headings *because* it switches to a
+          // sans there, and a same-family heading at that size would simply
+          // vanish. 600 rather than 700 because Plex Serif's Bold is a heavy,
+          // high-contrast face — at heading sizes it stops reading as emphasis
+          // and starts reading as a slab.
           'h1, h2, h3, h4, h5, h6': {
-            fontFamily: theme('fontFamily.mono').join(', '),
-            fontWeight: '700',
-            letterSpacing: '-0.02em',
+            fontFamily: theme('fontFamily.serif').join(', '),
+            fontWeight: '600',
+            letterSpacing: '0',
           },
-          h1: { fontSize: '1.75em', lineHeight: '1.2', marginBottom: '0.7em' },
-          h2: { fontSize: '1.3em', lineHeight: '1.35', marginTop: '2.4em', marginBottom: '0.8em' },
-          h3: { fontSize: '1.08em', lineHeight: '1.45', marginTop: '2em', marginBottom: '0.6em' },
-          h4: { fontSize: '0.98em', color: 'rgb(var(--ink-muted))' },
+          // Heading margins are the reference's own (h2 2em/1em, h3 1.6em/0.6em).
+          h1: { fontSize: '1.75em', fontWeight: '600', lineHeight: '1.25', marginBottom: '0.8em' },
+          h2: {
+            fontSize: '1.25em',
+            fontWeight: '600',
+            lineHeight: '1.4',
+            marginTop: '2em',
+            marginBottom: '1em',
+          },
+          h3: {
+            fontSize: '1.1em',
+            fontWeight: '600',
+            lineHeight: '1.5',
+            marginTop: '1.6em',
+            marginBottom: '0.6em',
+          },
+          h4: {
+            fontSize: '1em',
+            fontWeight: '600',
+            lineHeight: '1.5',
+            marginTop: '1.5em',
+            marginBottom: '0.5em',
+          },
 
           // Links carry a faint accent underline that firms up on hover,
           // which reads more quietly than a colour swap mid-sentence.
@@ -204,11 +251,13 @@ module.exports = {
             },
           },
 
-          // Inline code: a tinted chip, no stray backticks.
+          // Inline code: a tinted chip, no stray backticks. 0.875em is the
+          // reference's size, and it is also what keeps a monospace from
+          // out-measuring the serif around it and lumping the sentence.
           code: {
             fontFamily: theme('fontFamily.mono').join(', '),
             fontWeight: '400',
-            fontSize: '1em',
+            fontSize: '0.875em',
             backgroundColor: 'rgb(var(--primary-500) / 0.09)',
             color: 'rgb(var(--primary-500))',
             padding: '0.15em 0.4em',
@@ -218,11 +267,14 @@ module.exports = {
           'code::after': { content: 'none' },
           'a code': { color: 'rgb(var(--primary-500))' },
 
-          // Code blocks keep the terminal ground in both themes.
+          // Code blocks keep the terminal ground in both themes. 0.875em of a
+          // 16px body is 14px, the reference's size and a real terminal size.
           pre: {
             fontFamily: theme('fontFamily.mono').join(', '),
             fontSize: '0.875em',
-            lineHeight: '1.65',
+            lineHeight: '1.7',
+            marginTop: '1.6em',
+            marginBottom: '1.6em',
             borderRadius: '0.75rem',
             border: '1px solid rgb(var(--code-rule))',
             padding: '1.35rem 1.5rem',
@@ -238,7 +290,9 @@ module.exports = {
             fontStyle: 'normal',
             fontWeight: '400',
             borderLeftWidth: '2px',
-            paddingLeft: '1.2em',
+            marginTop: '1.6em',
+            marginBottom: '1.6em',
+            paddingLeft: '1em',
           },
           'blockquote p:first-of-type::before': { content: 'none' },
           'blockquote p:last-of-type::after': { content: 'none' },
@@ -258,14 +312,22 @@ module.exports = {
             letterSpacing: '0.03em',
             color: 'rgb(var(--ink-muted))',
           },
-          'tbody td': { fontSize: '0.9em' },
+          'tbody td': { fontFamily: theme('fontFamily.mono').join(', '), fontSize: '0.85rem' },
 
           'figcaption, .footnotes': {
             fontFamily: theme('fontFamily.mono').join(', '),
-            fontSize: '0.8em',
+            fontSize: '0.8125rem',
           },
 
-          strong: { fontWeight: '700' },
+          // Blockquotes are still something you read, so they keep the serif
+          // and only lose a step of colour.
+          'blockquote p': { fontFamily: theme('fontFamily.serif').join(', ') },
+
+          // 600, both because that is the reference's weight and because it is
+          // the only bold this family ships — asking for 700 would fall back to
+          // it anyway, or worse, be synthesised.
+          strong: { fontWeight: '600' },
+          'blockquote strong, thead th strong, a strong': { fontWeight: '600' },
         }
 
         return {

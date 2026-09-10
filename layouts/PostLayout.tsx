@@ -38,7 +38,7 @@ export default function PostLayout({ content, authorDetails, next, prev, childre
       <FloatingToc toc={content.toc} />
       {/* Keep the header aligned with the ruled columns below it rather than
           letting it run to the full container width. */}
-      <article className={`xl:mx-auto ${hasNotes ? 'xl:max-w-[64rem]' : 'xl:max-w-[48rem]'}`}>
+      <article className={`xl:mx-auto ${hasNotes ? 'xl:max-w-[55rem]' : 'xl:max-w-[37rem]'}`}>
         <header className="border-b border-rule pb-8 pt-10">
           <PageTitle>{title}</PageTitle>
 
@@ -93,16 +93,22 @@ export default function PostLayout({ content, authorDetails, next, prev, childre
             without them are not paying for an empty quarter of the page. */}
         <div
           className={`pb-8 ${
-            hasNotes ? 'xl:grid xl:grid-cols-[minmax(0,46rem)_minmax(0,18rem)]' : ''
+            hasNotes ? 'xl:grid xl:grid-cols-[minmax(0,37rem)_minmax(0,18rem)]' : ''
           }`}
         >
-          {/* The column edge is the measure — no rules, no gutter. Text runs the
-              full width the hairlines used to bound, and the hanging `##`
-              markers now hang into the page margin instead of an inset gutter. */}
-          <div className="min-w-0 xl:max-w-[48rem]">
-            {/* `max-w-none` so the reading measure is set by this column rather
-                than the typography plugin's own 76ch cap. */}
-            <div className="prose max-w-none pb-10 pt-10 dark:prose-invert">{children}</div>
+          {/* The column edge is the measure — no rules, no gutter. Everything
+              runs its full width: paragraphs, code, tables and figures share
+              one left and right edge, and the hanging `##` markers hang into
+              the page margin beside it.
+
+              37rem because that is where IBM Plex Serif at 16px lands on ~80
+              characters. The 48rem this started as was sized for a monospace
+              running 80 columns; a proportional face fits far more into the
+              same width — ~103 characters, long enough that the eye starts
+              losing the return sweep — so the column has to come in to hold
+              the same line length. */}
+          <div className="min-w-0 xl:max-w-[37rem]">
+            <div className="prose pb-10 pt-10 dark:prose-invert">{children}</div>
 
             {/* One footer block, one rule. Every utility link lives on a single
                 muted command line so the end of the post stays quiet. */}

@@ -12,7 +12,9 @@ import React, { useLayoutEffect, useEffect, useState, useRef } from 'react'
  *   2) Fallback: legacy `content` attribute on the reference element
  *   3) Last resort: the element's own innerHTML (with any <sup> removed)
  * - On desktop: position notes in the margin, add numbered <sup> markers next to references when numbered.
- * - On mobile: insert inline notes immediately after references using the same extracted HTML (no numbering).
+ * - On mobile: insert inline notes immediately after references using the same extracted HTML,
+ *   bracketed and carrying the note's index (the rail's superscript is removed there, so the
+ *   bracket is the only thing left to number the note).
  * - Recalculate positions on layout/resize/image load/mermaid render.
  *
  * Backward compatibility:
@@ -242,14 +244,29 @@ const MarginNoteManager = () => {
   // Handle mobile view inline notes
   useEffect(() => {
     if (isMobile) {
+      // Strip the rail's superscript markers. calculatePositions does this too,
+      // but it returns early here — the notes container it needs is not
+      // rendered in this view — so any <sup> added during the desktop pass
+      // before the breakpoint was detected would survive, and the reader would
+      // see the note's index twice: once as a superscript, once in the bracket.
+      document.querySelectorAll('.margin-note-ref').forEach((el) => el.remove())
+
       // Insert notes inline after their references
       notes.forEach((note) => {
-        const { referenceElement, content } = note
+        const { referenceElement, content, isNumbered, noteNumber } = note
         if (referenceElement) {
           if (!referenceElement.nextElementSibling?.classList.contains('inline-note')) {
             const noteSpan = document.createElement('span')
             noteSpan.classList.add('inline-note')
-            noteSpan.innerHTML = ` (${content})`
+            // The brackets themselves are drawn by CSS pseudo-elements so they
+            // can take the accent colour without wrapping the body text in it.
+            // The index goes inside them because the <sup> marker that numbers
+            // the note on desktop is stripped in this view — without it the
+            // note would arrive unnumbered.
+            noteSpan.innerHTML =
+              (isNumbered && noteNumber
+                ? `<span class="inline-note-index">${noteNumber}</span>`
+                : '') + `<span class="inline-note-body">${content}</span>`
             referenceElement.parentNode?.insertBefore(noteSpan, referenceElement.nextSibling)
           }
         }

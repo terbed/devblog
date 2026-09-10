@@ -49,7 +49,7 @@ export function PostListItem({ post, href, showSummary = true }: ItemProps) {
         </div>
 
         <div className="min-w-0 space-y-2">
-          <h2 className="font-mono text-base font-medium leading-snug tracking-tight">
+          <h2 className="font-serif text-lg font-semibold leading-snug tracking-tight">
             <Link
               href={href}
               className="text-ink decoration-primary-500/40 underline-offset-4 transition-colors hover:text-primary-500 hover:underline"
@@ -59,7 +59,7 @@ export function PostListItem({ post, href, showSummary = true }: ItemProps) {
           </h2>
 
           {showSummary && summary && (
-            <p className="font-serif text-sm leading-relaxed text-ink-muted">{summary}</p>
+            <p className="font-serif text-[0.9375rem] leading-relaxed text-ink-muted">{summary}</p>
           )}
 
           {tags?.length > 0 && (

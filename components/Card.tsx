@@ -20,7 +20,7 @@ const Card = ({ title, description, imgSrc, href, index }) => {
         </div>
       )}
       <div className="flex flex-1 flex-col gap-3 p-5">
-        <h2 className="font-mono text-sm font-medium leading-snug tracking-tight text-ink transition-colors group-hover:text-primary-500">
+        <h2 className="font-serif text-base font-semibold leading-snug text-ink transition-colors group-hover:text-primary-500">
           {title}
         </h2>
         <p className="flex-1 font-serif text-sm leading-relaxed text-ink-muted">{description}</p>
