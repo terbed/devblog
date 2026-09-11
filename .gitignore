@@ -21,10 +21,9 @@ public/sitemap.xml
 
 # production
 /build
-*.xml
-
-# rss feed
-/public/feed.xml
+# Generated XML lands in public/; scoped so it can't swallow app routes
+# whose directory names end in .xml (e.g. app/feed.xml/route.ts).
+/public/*.xml
 
 # search
 /public/search.json
