@@ -56,41 +56,38 @@ export default function NewsletterForm({
 
   return (
     <div>
-      <div className="pb-1 font-mono text-sm text-ink-muted">{title}</div>
-      <form className="flex flex-col sm:flex-row" onSubmit={subscribe}>
-        <div>
-          <label htmlFor="email-input">
-            <span className="sr-only">Email address</span>
-            <input
-              autoComplete="email"
-              className="w-72 rounded-md border border-rule bg-transparent px-4 py-2 text-ink placeholder:text-ink-faint focus:border-transparent focus:outline-none focus:ring-2 focus:ring-primary-600"
-              id="email-input"
-              name="email"
-              placeholder={done ? 'Thank you!' : 'Enter your email'}
-              ref={inputEl}
-              required
-              type="email"
-              disabled={done || state === 'submitting'}
-            />
-          </label>
-        </div>
-        <div className="mt-2 flex w-full rounded-md shadow-sm sm:ml-3 sm:mt-0">
-          <button
-            className={`w-full rounded-md bg-primary-500 px-4 py-2 font-medium text-white focus:outline-none focus:ring-2 focus:ring-primary-600 focus:ring-offset-2 dark:ring-offset-black ${
-              done || state === 'submitting'
-                ? 'cursor-default opacity-70'
-                : 'hover:bg-primary-700 dark:hover:bg-primary-400'
-            }`}
-            type="submit"
+      <div className="pb-2 font-mono text-sm text-ink-muted">{title}</div>
+      <form
+        className="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-3"
+        onSubmit={subscribe}
+      >
+        <label htmlFor="email-input" className="sm:w-72">
+          <span className="sr-only">Email address</span>
+          <input
+            autoComplete="email"
+            className="w-full rounded-md border border-rule bg-transparent px-3 py-2 font-mono text-sm text-ink placeholder:text-ink-faint focus:border-rule focus:outline-none focus:ring-2 focus:ring-primary-500/60 disabled:opacity-70"
+            id="email-input"
+            name="email"
+            placeholder={done ? 'Thank you!' : 'Enter your email'}
+            ref={inputEl}
+            required
+            type="email"
             disabled={done || state === 'submitting'}
-          >
-            {done ? 'Done' : state === 'submitting' ? 'Signing up…' : 'Sign up'}
-          </button>
-        </div>
+          />
+        </label>
+        <button
+          className={`shrink-0 rounded-md bg-primary-500 px-4 py-2 font-mono text-sm font-medium text-paper transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500/60 focus:ring-offset-2 focus:ring-offset-paper ${
+            done || state === 'submitting' ? 'cursor-default opacity-70' : 'hover:bg-primary-600'
+          }`}
+          type="submit"
+          disabled={done || state === 'submitting'}
+        >
+          {done ? 'Done' : state === 'submitting' ? 'Signing up…' : 'Sign up'}
+        </button>
       </form>
       {message && (
         <div
-          className={`w-72 pt-2 text-sm sm:w-96 ${
+          className={`max-w-sm pt-2 font-mono text-sm ${
             state === 'error' ? 'text-red-500 dark:text-red-400' : 'text-ink-muted'
           }`}
         >
