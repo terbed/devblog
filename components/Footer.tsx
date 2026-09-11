@@ -16,6 +16,10 @@ const socials: { label: string; href?: string }[] = [
   { label: 'ko-fi', href: siteMetadata.kofi },
 ]
 
+// /feed.xml is a static file in public/, not an app route — next/link would try to
+// fetch it as an RSC payload, so it needs a plain anchor.
+const basePath = process.env.BASE_PATH || ''
+
 export default function Footer() {
   const active = socials.filter((s) => s.href)
 
@@ -43,9 +47,13 @@ export default function Footer() {
               cc by 4.0
             </a>
             <span>·</span>
-            <Link href="/feed.xml" className="hover:text-primary-500">
+            <a
+              href={`${basePath}/feed.xml`}
+              type="application/rss+xml"
+              className="hover:text-primary-500"
+            >
               rss
-            </Link>
+            </a>
             <span>·</span>
             <span>just keep going patiently 🚀</span>
           </div>
