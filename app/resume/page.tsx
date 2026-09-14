@@ -206,7 +206,7 @@ const ResumePage = () => {
           <div className="flex flex-col items-center space-y-4 pb-8 pt-6 md:flex-row md:justify-between md:space-y-0">
             {/* Left: Name and Title */}
             <div className="text-center md:text-left">
-              <h1 className="text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
+              <h1 className="font-serif text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
                 Dániel Terbe
               </h1>
               <p className="mt-2 font-mono text-sm text-ink-muted">AI Researcher & Developer</p>

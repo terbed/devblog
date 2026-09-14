@@ -24,16 +24,16 @@
 
 @layer base {
   :root {
-    /* Light mode is tuned against dark mode, not against white. Dark already
-       softens both ends — its ground is 0.39% luminance rather than black, and
-       body text lands at 15.5:1 — while light was pure #FFF with near-black
-       ink at 18.6:1. That asymmetry is what made the light theme read harsh:
-       a 100%-luminance surround thins dark glyphs by irradiation and makes
-       them shimmer, and Adwaita Mono's stems are fine to begin with.
-       Ground drops to 95.5% and ink comes off black, putting body text at
-       14.7:1 — still far above WCAG AAA's 7:1, and matched to dark. */
-    --paper: 250 250 248;
-    --paper-soft: 244 244 241;
+    /* Light mode's ground is pure white — Adwaita Mono's fine stems read
+       cleaner against it than against warm paper. Ink stays off black (body
+       text at 16.2:1, well past WCAG AAA's 7:1) so the page isn't a maximum
+       contrast slab, and the surrounding tokens keep their soft steps. */
+    --paper: 255 255 255;
+    /* Light mode has one surface: white. The soft step only exists for dark,
+       where it lifts a panel off near black; in light it would be a grey patch
+       on the page, so it collapses onto the ground and borders do the
+       separating. */
+    --paper-soft: 255 255 255;
     --ink: 34 37 40;
     /* Secondary text was the opposite problem: weaker in light (4.9:1) than in
        dark (7.4:1), so the hierarchy inverted between themes. Now 7.1:1. */
@@ -445,8 +445,10 @@ input:-webkit-autofill:focus {
   @apply border border-rule bg-paper-soft p-6 transition-colors duration-200 hover:border-primary-500/40;
 }
 
-/* The résumé is chrome-heavy by nature, so only its descriptive copy drops
-   into the reading face — labels, dates and headings stay monospace. */
+/* The résumé is chrome-heavy by nature, so its titles and descriptive copy
+   both sit in the reading face, same as post titles and prose everywhere else
+   on the site; only labels and dates stay monospace. */
+.milestone-item h4,
 .milestone-item p,
 .milestone-item li {
   @apply font-serif;
